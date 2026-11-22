@@ -1,0 +1,20 @@
+{
+  "id": "c:1",
+  "jsonrpc": "2.0",
+  "result": {
+    "grant": {
+      "access": "write",
+      "available": true,
+      "botId": "bot_00000000000000000000000001",
+      "createdAt": 100,
+      "deviceId": "dev_00000000000000000000000001",
+      "id": "grt_00000000000000000000000001",
+      "path": "/Users/example/Projects/memoshi-notes",
+      "revision": 2,
+      "status": "active",
+      "updatedAt": 200
+    },
+    "replayed": false,
+    "writtenSeq": 3
+  }
+}

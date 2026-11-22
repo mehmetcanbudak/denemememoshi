@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32026,
+    "data": {
+      "kind": "pairing_failed",
+      "retryable": false
+    },
+    "message": "The pairing code expired."
+  },
+  "id": "c:51",
+  "jsonrpc": "2.0"
+}

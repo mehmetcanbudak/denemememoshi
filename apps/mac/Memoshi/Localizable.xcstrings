@@ -1,0 +1,1596 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@ (%@)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ (%2$@)"
+          }
+        }
+      }
+    },
+    "%@ (unavailable)" : {},
+    "%@ Nothing was changed." : {},
+    "%@ each way" : {},
+    "%@ for %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ for %2$@"
+          }
+        }
+      }
+    },
+    "%@ ms" : {},
+    "%@ needs you: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ needs you: %2$@"
+          }
+        }
+      }
+    },
+    "%@ wants to sign in to %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ wants to sign in to %2$@"
+          }
+        }
+      }
+    },
+    "%@ · %@ · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$@ · %3$@"
+          }
+        }
+      }
+    },
+    "%@ · %@ · completed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$@ · completed"
+          }
+        }
+      }
+    },
+    "%@ · API usage" : {},
+    "%@ · ChatGPT subscription" : {},
+    "%@ · Tasks: %lld/%lld · Attempted steps: %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · Tasks: %2$lld/%3$lld · Attempted steps: %4$lld"
+          }
+        }
+      }
+    },
+    "%@ ×%lld · trusted %lld · on target %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ ×%2$lld · trusted %3$lld · on target %4$lld"
+          }
+        }
+      }
+    },
+    "%@ → %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ → %2$@"
+          }
+        }
+      }
+    },
+    "%@'s browser, watching" : {},
+    "%@'s browser, you are in control" : {},
+    "%@, contiguous" : {},
+    "%@, not contiguous" : {},
+    "%@, outcome unresolved" : {},
+    "%@, windows closed: %lld samples, span %@ s, timer min %@ Hz, median %@ Hz" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, windows closed: %2$lld samples, span %3$@ s, timer min %4$@ Hz, median %5$@ Hz"
+          }
+        }
+      }
+    },
+    "%@. The same page keeps running; showing it here moves the view without reloading." : {},
+    "%@: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$@"
+          }
+        }
+      }
+    },
+    "%@: %@. %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$@. %3$@"
+          }
+        }
+      }
+    },
+    "%lld RPCs" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld RPC"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld RPCs"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld after baseline %@, through %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld after baseline %2$@, through %3$@"
+          }
+        }
+      }
+    },
+    "%lld approvals" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld approval"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld approvals"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld bytes · SHA-256 %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld bytes · SHA-256 %2$@"
+          }
+        }
+      }
+    },
+    "%lld data records" : {},
+    "%lld earlier events omitted from this bounded view." : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "1 earlier event omitted from this bounded view."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld earlier events omitted from this bounded view."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld elements in %lld frames · %lld ms" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld elements in %2$lld frames · %3$lld ms"
+          }
+        }
+      }
+    },
+    "%lld ms" : {},
+    "%lld of %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "%lld older entries are outside the bounded in-memory index; the files remain in their private session directory." : {},
+    "%lld pending" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld pending"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld pending"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld pending · Allow once or Deny only" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld pending · Allow once or Deny only"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld pending · Allow once or Deny only"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld pt" : {},
+    "%lld queued" : {},
+    "1 call" : {},
+    "1 minute" : {},
+    "1 second" : {},
+    "1 × 10 minutes" : {},
+    "11 minutes" : {},
+    "20 calls" : {},
+    "3 minutes" : {},
+    "30 minutes" : {},
+    "5 seconds" : {},
+    "5 × 10 minutes" : {},
+    "A ChatGPT sign-in is already in progress." : {},
+    "A POST or button needs this site's Interact permission." : {},
+    "A Python file path or linked filesystem object was refused." : {},
+    "A Python input changed while it was being copied. Nothing ran." : {},
+    "A Python output would replace an existing file. Nothing was replaced." : {},
+    "A bot" : {},
+    "A credential that a newer configuration replaced could not be removed yet. It stays in the Keychain but is not used; Memoshi tries to remove it again each time Model Settings open and after the next confirmed configuration." : {},
+    "A decision applies to one call. It does not enable production tools, standing rules or device-owner authentication." : {},
+    "A declared Python input or output file is unavailable." : {},
+    "A first enrollment of this device identity did not complete, so that identity was removed again. No enrolled identity and no earlier state was touched. Verify the signed device Keychain/CloudKit capabilities and unlock the device, then create the identity again." : {},
+    "A genuinely signed, provisioned Memoshi app and authenticated helper are required to save a model key." : {},
+    "A grant records what the Assistant may use later. In this development build no model or tool can read, list or change files in these folders." : {},
+    "A matching Apple-signed app and helper are required. This view does not bypass peer authentication." : {},
+    "A saved folder request could not be read, so it cannot be retried. New folder changes stay blocked until it is discarded after the current list loads." : {},
+    "A saved folder request could not be read. New folder changes are blocked so an uncertain request is not duplicated or widened." : {},
+    "A saved provider configuration could not be read, so it cannot be retried. Configuration and sending stay blocked until it is discarded after the current provider list loads." : {},
+    "A saved task Stop could not be read, so it cannot be retried." : {},
+    "A secure connection could not be made." : {},
+    "A signed daemon answered hello. Registration alone is not evidence that a service is running." : {},
+    "A signed daemon is already running outside this app's ownership. Stop it using its owner before enabling background service. Memoshi will not kill it or launch a duplicate." : {},
+    "A task Stop is awaiting confirmation. Retry uses its original request and target." : {},
+    "A tool may already have changed something. No new model turn or tool call can start while its outcome is unresolved." : {},
+    "API Key" : {},
+    "Access" : {},
+    "Action" : {},
+    "Actions" : {},
+    "Active" : {},
+    "Active route" : {},
+    "Active · folder unavailable" : {},
+    "Activity" : {},
+    "Actual Matplotlib Agg PNG returned by the scientific cell" : {},
+    "Actual Verified Startup & Payload" : {},
+    "Actual host state" : {},
+    "Add Exact Site" : {},
+    "Add Model Key" : {},
+    "Address" : {},
+    "Addresses with a user name or password are not used in the review lab." : {},
+    "Allow" : {},
+    "Allow once" : {},
+    "Allowed once · execution not confirmed" : {},
+    "Allowed · execution not confirmed" : {},
+    "An authenticated app Keychain host is required before saving a model key." : {},
+    "An experiment, not the S3.5 gate: a borderless window beyond every screen. Native input can be tested here." : {},
+    "Another element covers this one, so nothing was clicked." : {},
+    "Another review action is still running." : {},
+    "Another site opened in a separate, empty profile · %@" : {},
+    "Another site opened in a separate, empty profile: no cookies or storage from this profile. It is discarded when the task ends." : {},
+    "App" : {},
+    "App PID" : {},
+    "App call" : {},
+    "AppKit could not create the input events." : {},
+    "Applied events" : {},
+    "Applied seq" : {},
+    "Approval" : {},
+    "Approval State Not Loaded" : {},
+    "Approval is required in System Settings. Until then the app can own a foreground helper." : {},
+    "Approval required" : {},
+    "Approve Selected Recipe's Sites and Effects" : {},
+    "Ask" : {},
+    "Ask first" : {},
+    "Assistant" : {},
+    "Association: %@ · Purpose: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Association: %1$@ · Purpose: %2$@"
+          }
+        }
+      }
+    },
+    "Attribute Instruments peak physical footprint to WebContent, and collect device jetsam logs. A WebKit termination callback alone never proves jetsam. Measure download/install delta against the same build without the payload." : {},
+    "Authenticated" : {},
+    "Authenticated development transport supports the app Keychain broker and approval review. Production tools and Apple connectors remain off." : {},
+    "Authenticated public-site proxy" : {},
+    "Authorize Listed Sites" : {},
+    "Authorize Next Download (30 s)" : {},
+    "Authorized Browser Tasks" : {},
+    "Auto" : {},
+    "Available Models" : {},
+    "BGContinuedProcessingTask is an iPhone/iPad framework path, not a Mac measurement. Mac observations cannot pass the reference-iPhone background gate." : {},
+    "Back" : {},
+    "Background Lifecycle Probe" : {},
+    "Background Run" : {},
+    "Background execution is not enabled for this development slice." : {},
+    "Background probe returned. Inspect the lifecycle events; no continued-processing grant was used." : {},
+    "Background registration" : {},
+    "Background registration changes only when you choose Enable or Disable. Without it, a helper may run only while this app is open." : {},
+    "Background registration could not be changed. Check System Settings and the app's signature, then try the explicit action again." : {},
+    "Background run %@" : {},
+    "Background run started · %@" : {},
+    "Background service status is unavailable. No background registration was changed." : {},
+    "Begin Without Continued Processing" : {},
+    "Blocked a download without a current explicit authorization." : {},
+    "Blocked a form submission without current document/site authority." : {},
+    "Blocked a load before this session's network boundary was in place." : {},
+    "Blocked a load outside the sites this session's route admits." : {},
+    "Blocked a navigation that was not a GET." : {},
+    "Blocked a script-opened window." : {},
+    "Blocked a site not authorized for this review session." : {},
+    "Blocked by App Transport Security: this page needs HTTPS." : {},
+    "Blocked: only http and https open here, with no hand-off to other apps." : {},
+    "Bot" : {},
+    "Bot: %@" : {},
+    "Both probes run a real infinite Python cell. Success means the expected error was observed and the realm discarded, not that the cell finished." : {},
+    "Both values filled and both fields masked." : {},
+    "Bots" : {},
+    "Browser Review" : {},
+    "Browser Review Host (Off-Screen)" : {},
+    "Browser Review Host (One Point)" : {},
+    "Browser Review Unavailable" : {},
+    "Browser closed; its store stays on disk" : {},
+    "Browser fill" : {},
+    "Browser opened · scheduling %@" : {},
+    "Bundled bytes are not an app download or installed-size delta." : {},
+    "Bypass" : {},
+    "Call: %@" : {},
+    "Callback URL (optional)" : {},
+    "Camera or microphone request denied" : {},
+    "Cancel" : {},
+    "Cancel Message" : {},
+    "Cancel Run" : {},
+    "Cancel Sign-In" : {},
+    "Canceled" : {},
+    "Canceled · not authorized" : {},
+    "Canceling…" : {},
+    "Cancellation observed after the infinite cell started. The realm was discarded." : {},
+    "Cancellation requested. The interpreter will not be reused; no operation is retried automatically." : {},
+    "Cancelled" : {},
+    "Canonical domain state has not been loaded. This window still shows examples only." : {},
+    "Card: %@" : {},
+    "Change Access…" : {},
+    "Change to Read Only" : {},
+    "Change to Read and Write" : {},
+    "ChatGPT Subscription" : {},
+    "ChatGPT credentials were removed. No API key or substitute model was selected." : {},
+    "ChatGPT sign-in did not finish. Close other pending ChatGPT sign-ins and try again. No API-key fallback was selected." : {},
+    "ChatGPT sign-in requires the authenticated app host, a stable installation ID and its loopback callback." : {},
+    "ChatGPT sign-in was canceled." : {},
+    "ChatGPT · This Mac" : {},
+    "Check All Profiles" : {},
+    "Check Saved Receipt" : {},
+    "Choose Folder…" : {},
+    "Choose Long Pandas Measurement…" : {},
+    "Choose a folder for the Assistant. Nothing is granted until you review and confirm it." : {},
+    "Choose a folder on this Mac's file system. Nothing was granted." : {},
+    "Choose a folder, not a file, package, alias or symbolic link. Nothing was granted." : {},
+    "Choose a model" : {},
+    "Click" : {},
+    "Close Browser" : {},
+    "Close Interpreter" : {},
+    "Close Pairing Session" : {},
+    "Close Review" : {},
+    "Closed" : {},
+    "Closed · isolation probe set" : {},
+    "Closed. Opening creates this profile's web view with its own persistent WebKit store. Nothing loads until you navigate." : {},
+    "Code Mode" : {},
+    "Command environment" : {},
+    "Compare the original sample layout. Real chat history stays separate." : {},
+    "Complete sign-in in your browser" : {},
+    "Completed" : {},
+    "Completed downloads: %lld" : {},
+    "Component Gallery" : {},
+    "Computer: %@" : {},
+    "Computer: %@ · Refusals represented: %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Computer: %1$@ · Refusals represented: %2$lld"
+          }
+        }
+      }
+    },
+    "Configuration delivery is unconfirmed. The original request and Keychain reference are preserved; retry before changing providers or sending." : {},
+    "Confirm Next Private-data Form (30 s)" : {},
+    "Connect Local Model" : {},
+    "Connect to the authenticated local runner to load real approvals and cards. No sample request or permission is shown." : {},
+    "Connect to the authenticated local runtime to load the Assistant's folder grants. No sample folder is shown." : {},
+    "Connect to the local daemon to read task snapshots." : {},
+    "Connecting to local daemon" : {},
+    "Connecting to the local daemon…" : {},
+    "Connecting to the local text-chat runtime. Design examples are separate from this conversation." : {},
+    "Connection" : {},
+    "Connection admitted" : {},
+    "Connection admitted, not delivery confirmed" : {},
+    "Connection refused" : {},
+    "Connector event" : {},
+    "Control-plane qualification only. This lab does not transfer Chat or Session stores." : {},
+    "Conversation state is still synchronizing." : {},
+    "Conversation: %@" : {},
+    "Core ready (seconds)" : {},
+    "Could not create a private review directory. No interpreter was started." : {},
+    "Could not open pairing" : {},
+    "Create" : {},
+    "Create Device Identity" : {},
+    "Create Device Identity…" : {},
+    "Create a new device identity?" : {},
+    "Create an isolated review profile to start. It never uses Safari's data or another profile's sign-ins." : {},
+    "Created %@" : {},
+    "Creates an isolated WebKit store for review. It never uses Safari's data or another profile's sign-ins." : {},
+    "Creates device-only private keys in this app's provisioned Keychain group. It does not replace a previous identity or start a connection." : {},
+    "Creates one Chat in Ask first. Configure its profile after creation. Production tools stay disabled." : {},
+    "Creation is explicit and never replaces an existing identity. Locked, missing or unprovisioned Keychain access fails closed; there is no file or default-Keychain fallback." : {},
+    "Credential association prepared, not delivery confirmed" : {},
+    "Credential field: lab actions refuse it. Only a sign-in Card fills it." : {},
+    "Credential fields are filled only through a sign-in Card, never by lab actions." : {},
+    "Credential prepared" : {},
+    "Credentials" : {},
+    "Current access" : {},
+    "Current report snapshot saved in the private session directory." : {},
+    "Current report snapshot saved. The measurement continues." : {},
+    "DOM calls from the isolated world, not native input. Script clicks are untrusted; WebKit may report execCommand text events as trusted." : {},
+    "Daemon RPC state" : {},
+    "Daemon available" : {},
+    "Daemon not connected" : {},
+    "Daemon stopped" : {},
+    "Deadline passed · awaiting runner state" : {},
+    "Deadline: %@" : {},
+    "Decision Receipt Review" : {},
+    "Decision: %@ · Rule: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Decision: %1$@ · Rule: %2$@"
+          }
+        }
+      }
+    },
+    "Decline" : {},
+    "Declined; nothing was filled" : {},
+    "Delegation hops: %lld" : {},
+    "Delete %@ Permanently" : {},
+    "Delete Permanently" : {},
+    "Delivery is unconfirmed. Retrying sends exactly this original request to recover its answer; it never creates a second grant or asks for wider access. New folder changes wait until it is answered." : {},
+    "Delivery is unconfirmed. The exact request is saved on this Mac; Retry Original Request recovers its answer without creating another grant or asking for wider access." : {},
+    "Delivery unconfirmed · original request preserved" : {},
+    "Denied" : {},
+    "Deny" : {},
+    "Design Preview" : {},
+    "Design Preview · Models and tools not connected" : {},
+    "Detached" : {},
+    "Detached, in no window" : {},
+    "Detached: no window (S3.5 gate)" : {},
+    "Detected Lockdown Mode" : {},
+    "Development" : {},
+    "Development HUD" : {},
+    "Development chat and review · Production tools and Apple hosts off" : {},
+    "Development conversations and approval review. Production tools, Apple connectors and unattended background runs remain off." : {},
+    "Development only. Sends SIGKILL to this app's own authenticated helper, PID %@. Work in flight is interrupted; Memoshi restarts the helper and replays from the last applied event. Quit and Stop never do this." : {},
+    "Development review · not an S6 gate verdict" : {},
+    "Development · Committed metadata received by this app across the connected daemon. No argument, output or credential inspection." : {},
+    "Development · Local Sessions only. Restore within 30 days, or permanently delete their local transcripts now." : {},
+    "Development · Production tools disabled" : {},
+    "Device Pairing Review" : {},
+    "Device identity" : {},
+    "Device name" : {},
+    "Direct owned loopback / offline lab fixtures" : {},
+    "Direction" : {},
+    "Disable Background Service" : {},
+    "Disable Background Service…" : {},
+    "Disable background service?" : {},
+    "Discard" : {},
+    "Discard Refused Configuration?" : {},
+    "Discard Refused Configuration…" : {},
+    "Discard Refused Message?" : {},
+    "Discard Refused Message…" : {},
+    "Discard Unreadable Change…" : {},
+    "Discard Unreadable Configuration…" : {},
+    "Discard Unreadable Delivery Record?" : {},
+    "Discard Unreadable Record…" : {},
+    "Discard Unreadable Request…" : {},
+    "Discard Unreadable Saved Change?" : {},
+    "Discard Unreadable Saved Configuration?" : {},
+    "Discard Unreadable Saved Request?" : {},
+    "Discard Unreadable Saved Stop?" : {},
+    "Discard Unreadable Stop…" : {},
+    "Document replaced" : {},
+    "Does not match" : {},
+    "Done" : {},
+    "Down" : {},
+    "Downloads stay in this review profile's private Downloads folder, receive quarantine, and are never opened automatically. Completed files must fit the 1 GB cap." : {},
+    "Draft" : {},
+    "Driver observations" : {},
+    "Drop Connection" : {},
+    "Duration" : {},
+    "Each cell repeatedly groups and rolls a real million-row pandas frame for 600 seconds. This can consume substantial memory, battery and time. Stop discards the interpreter; there is no automatic retry." : {},
+    "Edit Address" : {},
+    "Edit Bot" : {},
+    "Edit the address (⌘L)" : {},
+    "Effort" : {},
+    "Effort applies only to models that advertise reasoning support. Local discovery uses the server's model default." : {},
+    "Empty Session Trash" : {},
+    "Enable Background Service" : {},
+    "Enabled" : {},
+    "Enabled (eligible to run)" : {},
+    "Endpoint" : {},
+    "Ends this grant permanently after confirmation." : {},
+    "Enter a web address." : {},
+    "Enter text to type." : {},
+    "Error category: %@" : {},
+    "Event %@" : {},
+    "Events the page saw" : {},
+    "Evidence class" : {},
+    "Evidence could not be saved. Existing files are retained; no operation is repeated." : {},
+    "Exact Login Origin" : {},
+    "Exact folder path" : {},
+    "Exact site origin" : {},
+    "Existing device or group history is unavailable or changed. Pairing is held; no replacement identity or empty history was created. Recover the original state before trying again." : {},
+    "Expired" : {},
+    "Expired · not authorized" : {},
+    "Expiry passed · awaiting runtime state" : {},
+    "Expiry: %@" : {},
+    "Export" : {},
+    "Export Latest Report…" : {},
+    "Export Results…" : {},
+    "Failed" : {},
+    "Fields %@ and %@ in snapshot %lld. Login: %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Fields %1$@ and %2$@ in snapshot %3$lld. Login: %4$@."
+          }
+        }
+      }
+    },
+    "File picker cancelled; the review lab has no uploads" : {},
+    "Fill Canary Login" : {},
+    "Filled the canary login%@" : {},
+    "Fills a canary login into the lab page from the isolated world, like a sign-in Card after Use saved login. It never uses a real credential or the Keychain, and it fills only the offline lab page." : {},
+    "Focused card: Return allows once · Esc denies" : {},
+    "Focused card: ⌘Return allows once · Esc denies" : {},
+    "Folder" : {},
+    "Folder Grants Not Loaded" : {},
+    "Folder Management Unavailable" : {},
+    "Folder access was changed. Tools stay disabled." : {},
+    "Folder access was granted to the Assistant. Tools stay disabled, so nothing in the folder is read or changed now." : {},
+    "Folder changes are unavailable right now, so this folder was not reviewed or granted. Choose it again when folder state is synchronized." : {},
+    "Folder grants are not synchronized. Folder changes stay disabled until the current list loads; Refresh tries again." : {},
+    "Folder grants could not be loaded: %@ Folder changes stay disabled until the current list loads." : {},
+    "Folder state is not synchronized. Folder changes are disabled." : {},
+    "Folders" : {},
+    "Foreground child" : {},
+    "Forward" : {},
+    "Frames that did not answer: %lld" : {},
+    "Full" : {},
+    "Gateway coverage (S3.6): the authenticated gateway route runs here, but its decisions show only what went through it, not that nothing bypassed it; that needs the packet capture below." : {},
+    "Gateway placeholder" : {},
+    "Go" : {},
+    "Grant Read Only" : {},
+    "Grant Read and Write" : {},
+    "Granted Folders" : {},
+    "Granted: %@" : {},
+    "Grants for %@" : {},
+    "Group turn" : {},
+    "Hand Back" : {},
+    "Handed back; navigations during takeover: %lld" : {},
+    "Handoff" : {},
+    "Helper" : {},
+    "Hold lab actions and use the page yourself. Hand back with ⌃⌘T." : {},
+    "Host call (seconds)" : {},
+    "I authorize the selected test files to be shared with this page" : {},
+    "I own and authorize this test account" : {},
+    "I selected these sites and authorize the listed test effects" : {},
+    "In progress" : {},
+    "Inject Latency" : {},
+    "Injected latency" : {},
+    "Input" : {},
+    "Inspect a Subagent" : {},
+    "Inspect recent committed policy, tool and gateway metadata for this conversation." : {},
+    "Inspector" : {},
+    "Install a matching signed Memoshi app and bundled helper. No protocol version is shared." : {},
+    "Install a matching signed Memoshi app and helper. The daemon and app have no shared protocol version." : {},
+    "Intent or Shortcut" : {},
+    "Interact: non-consequential POSTs and buttons" : {},
+    "Interactive" : {},
+    "Interpreter" : {},
+    "Interpreter closed. Saved evidence is retained; a new session needs an explicit Start." : {},
+    "Interpreter ready. This recreation is not a cold app-launch sample." : {},
+    "Interrupted" : {},
+    "Isolation and Persistence" : {},
+    "Isolation check: %lld of %lld profiles met expectations" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Isolation check: %1$lld of %2$lld profiles met expectations"
+          }
+        }
+      }
+    },
+    "Isolation probe could not be created" : {},
+    "Isolation probe set" : {},
+    "It cannot be read or retried. Discarding sends nothing and cannot undo a Stop the runtime already applied; check the task list before stopping the same work again." : {},
+    "It cannot be read or retried. Discarding sends nothing and cannot undo a change the runtime already applied; check the current bots and Sessions before making the same change again." : {},
+    "It cannot be read or retried. Discarding sends nothing and cannot undo a configuration the runtime already applied; check the provider list before configuring the same provider again." : {},
+    "It cannot be read or retried. Discarding sends nothing and cannot undo a message the runtime already accepted; check this conversation before sending the same message again." : {},
+    "It cannot be read or retried. Discarding sends nothing and cannot undo a request the runtime already applied; check the current list before granting the same folder again." : {},
+    "Its scheduling" : {},
+    "Job" : {},
+    "Keep on This Mac Only" : {},
+    "Keep the page visible to WebKit while running (one-point host window)" : {},
+    "Keychain" : {},
+    "Keys stay in Apple's data-protection Keychain. The daemon receives only a short-lived, purpose-checked release from this app." : {},
+    "Kill memoshid" : {},
+    "Kill memoshid?" : {},
+    "Kill memoshid…" : {},
+    "Lab Page" : {},
+    "Lab actions wait until you hand back. Nothing you do here is recorded." : {},
+    "Label" : {},
+    "Last sample: %@, page %@, other windows %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Last sample: %1$@, page %2$@, other windows %3$lld"
+          }
+        }
+      }
+    },
+    "Last takeover" : {},
+    "Lasted %lld s · navigations during takeover: %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Lasted %1$lld s · navigations during takeover: %2$lld"
+          }
+        }
+      }
+    },
+    "Latest Saved Scientific Return" : {},
+    "Latest observation (seconds)" : {},
+    "Latest takeSnapshot at %@; kept in memory only." : {},
+    "Latest takeSnapshot image, kept in memory only" : {},
+    "Lead bot" : {},
+    "Left" : {},
+    "Lists use script input: a native click would open a system menu." : {},
+    "Live Activity" : {},
+    "Live in Browser Review" : {},
+    "Live projection starts after snapshot sequence %lld." : {},
+    "Load Earlier Messages" : {},
+    "Loaded" : {},
+    "Loaded %@" : {},
+    "Loaded %@ in %lld ms" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Loaded %1$@ in %2$lld ms"
+          }
+        }
+      }
+    },
+    "Loaded in %lld ms" : {},
+    "Loading Trash" : {},
+    "Loading authoritative chat state before enabling Send." : {},
+    "Loading tasks…" : {},
+    "Loading…" : {},
+    "Loads the offline lab page from the app. It makes no network requests." : {},
+    "Local Daemon" : {},
+    "Local Server" : {},
+    "Local Server (Bearer Key)" : {},
+    "Local daemon transport status. Preview models and tools remain disconnected." : {},
+    "Lockdown Mode is enabled. Python needs an available, authorized Mac." : {},
+    "Log" : {},
+    "MCP" : {},
+    "Machine" : {},
+    "Main frame" : {},
+    "Mark as Done" : {},
+    "Mark as Done tells the bot that it happened." : {},
+    "Matches" : {},
+    "Measurement in progress" : {},
+    "Measurement in progress. Stop discards the realm; it never retries the operation." : {},
+    "Memoshi" : {},
+    "Message %@" : {},
+    "Messages go to %@ and may incur API usage charges." : {},
+    "Messages go to %@ using your ChatGPT subscription. Account usage limits apply." : {},
+    "Messages leave this Mac and use supported ChatGPT plan access, subject to OpenAI's availability and limits. No API-key fallback is used." : {},
+    "Messages sent to %@ leave this Mac and may incur API usage charges. No paid model is selected automatically." : {},
+    "Million-row pandas memory workload" : {},
+    "Mode" : {},
+    "Model" : {},
+    "Model API key" : {},
+    "Model Settings" : {},
+    "Model default" : {},
+    "Move Focus to Next Pane" : {},
+    "Move Focus to Previous Pane" : {},
+    "Move Session to Trash" : {},
+    "Move Session to Trash…" : {},
+    "Move check: %@" : {},
+    "Move this Session to Trash?" : {},
+    "Move to Trash" : {},
+    "Moved: %@ → %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Moved: %1$@ → %2$@"
+          }
+        }
+      }
+    },
+    "Moves the same page out of this window into the chosen parking place. It keeps running." : {},
+    "Moves without reload" : {},
+    "NSEvents go straight to this web view, and the page reports whether it saw them as trusted. A detached view has no window and can't receive them." : {},
+    "Name" : {},
+    "Native S6 Measurement" : {},
+    "Native actions completed" : {},
+    "Native clicks on lists and pickers are blocked; they open system menus. Use Select." : {},
+    "Native events" : {},
+    "Native events need a window. This view is detached, so use script input or another placement." : {},
+    "Native table · %lld total rows · %lld displayed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Native table · %1$lld total rows · %2$lld displayed"
+          }
+        }
+      }
+    },
+    "Native transport supplied" : {},
+    "Navigated during the check" : {},
+    "Network route" : {},
+    "New Bot" : {},
+    "New Review Profile" : {},
+    "New Session" : {},
+    "New-window link opened in place · %@" : {},
+    "Next Card Needing You" : {},
+    "Next Pane" : {},
+    "No Folders Granted" : {},
+    "No Live Activity Received" : {},
+    "No Review Profile" : {},
+    "No Tasks" : {},
+    "No baseline" : {},
+    "No baseline yet" : {},
+    "No continued-processing task requested." : {},
+    "No events yet." : {},
+    "No expiry" : {},
+    "No key" : {},
+    "No login form with a user name and password field is in this snapshot." : {},
+    "No matching card is present in the loaded runner state. When a saved decision exists, checking its receipt sends exactly the original opaque request, never a replacement answer." : {},
+    "No streamed delta observed" : {},
+    "No targets declared" : {},
+    "No turn yet" : {},
+    "No · offline host" : {},
+    "None (keep running)" : {},
+    "None since baseline %@" : {},
+    "Not Available in This Lab" : {},
+    "Not Measured by This View" : {},
+    "Not completed" : {},
+    "Not connected" : {},
+    "Not enabled for this startup" : {},
+    "Not found" : {},
+    "Not registered" : {},
+    "Not started" : {},
+    "Not started. No Python interpreter has been created." : {},
+    "Nothing Waiting for You" : {},
+    "Nothing loaded. Enter an address or open the lab page." : {},
+    "OK" : {},
+    "Off" : {},
+    "Off-screen window" : {},
+    "Off-screen window (experiment)" : {},
+    "Offline" : {},
+    "Offline by default. Authorize exact test sites in Proof before loading network pages; public sites use the authenticated gateway, loopback fixtures use explicit direct mode. No sends, purchases or automatic account use." : {},
+    "Offline by default. Public sites use an authenticated host-only proxy, not HTTPS method interception. Direct fixture mode admits explicitly selected loopback origins or the built-in offline lab, never real-site/gateway evidence. A grant does not approve sends or purchases; page JavaScript can send data to approved hosts." : {},
+    "Older native events omitted from the bounded event index: %lld" : {},
+    "Ollama, LM Studio or another OpenAI-compatible server on this Mac. An existing local Keychain reference is retained when changing its endpoint." : {},
+    "On this Mac" : {},
+    "One explicit exposure confirmation for the next otherwise-authorized form. It does not authorize a send or purchase." : {},
+    "One-point window" : {},
+    "One-point window (row 3 fallback)" : {},
+    "Only http and https addresses open here, not %@." : {},
+    "Only profiles created here are opened or removed. Other WebKit stores are left untouched." : {},
+    "Only these copied files can reach this exact page/input once, within 30 seconds. Unstaged pickers are cancelled; navigation revokes staged access." : {},
+    "Opaque-origin frame" : {},
+    "Open Background Settings" : {},
+    "Open Browser" : {},
+    "Open Existing Identity" : {},
+    "Open Memoshi" : {},
+    "Open a review profile before authorizing any page or task." : {},
+    "Open the selected profile's browser to take snapshots and run actions." : {},
+    "Open · %@" : {},
+    "Opening device identity…" : {},
+    "Opens the system folder panel. Choosing a folder only starts a review; nothing is granted until you confirm." : {},
+    "Operating system" : {},
+    "Option" : {},
+    "Otherwise the key uses iCloud Keychain synchronization. Access always requires this app's authorized access group and provisioning profile; no legacy Keychain fallback is used." : {},
+    "Output bytes: %lld · Redactions: %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Output bytes: %1$lld · Redactions: %2$lld"
+          }
+        }
+      }
+    },
+    "Output redacted" : {},
+    "Owned synthetic/local fixture (not a real site)" : {},
+    "PID %@, app-owned" : {},
+    "PID %@, not app-owned" : {},
+    "Packet capture over 20 sites: an external capture setup is required." : {},
+    "Page Parked" : {},
+    "Page dialog dismissed automatically" : {},
+    "Page did not answer" : {},
+    "Page script received both values: %@. Read back equal in the isolated world: %@. Fields masked afterwards: %lld of 2. Canary in the verification snapshot: %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Page script received both values: %1$@. Read back equal in the isolated world: %2$@. Fields masked afterwards: %3$lld of 2. Canary in the verification snapshot: %4$@."
+          }
+        }
+      }
+    },
+    "Pandas measurement finished. WebContent peak footprint and jetsam still require external evidence." : {},
+    "Parent call: %@" : {},
+    "Park Page" : {},
+    "Pending" : {},
+    "Per-profile memory (S3.7): measure WebContent processes externally." : {},
+    "Permanently delete the selected Sessions?" : {},
+    "Persistent background child" : {},
+    "Persona" : {},
+    "Physical Lockdown Mode, real device background suspension/expiration, app-switcher kill behavior and external gateway/no-bypass packet capture remain separate observations. This offline surface does not run a network canary or register an engine/model tool." : {},
+    "Pinned payload bytes" : {},
+    "Placement" : {},
+    "Policy decision" : {},
+    "Policy reason: %@" : {},
+    "Policy, tool and gateway events appear here after the current snapshot." : {},
+    "Previous Pane" : {},
+    "Private session directory (retained, never deleted here)" : {},
+    "Probe Cancellation After Code Starts" : {},
+    "Probe Timeout (0.5-second deadline)" : {},
+    "Probe set" : {},
+    "Production tools and Apple connectors off" : {},
+    "Proof" : {},
+    "Protocol" : {},
+    "Protocol %lld · memoshid %@ (%@)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Protocol %1$lld · memoshid %2$@ (%3$@)"
+          }
+        }
+      }
+    },
+    "Provider" : {},
+    "Provider setup did not finish. Reconnect or refresh models; if configuration is unconfirmed, retry its saved request. Key bytes are not stored in app settings." : {},
+    "Provisioning required" : {},
+    "Purges %@" : {},
+    "Pyodide payload" : {},
+    "Python Review" : {},
+    "Python S6 Review" : {},
+    "Python could not start within its start limit, so the cell did not run and nothing ran. Its interpreter was discarded; the call may be retried." : {},
+    "Python output exceeded the spike's bounded result size." : {},
+    "Python reached its session lifetime, so its interpreter was discarded. Start it again to continue." : {},
+    "Python reached its wall-time limit; its interpreter was discarded." : {},
+    "Python was idle past its limit, so its interpreter was discarded. Start it again to continue." : {},
+    "Python was stopped because the app could not keep this run active." : {},
+    "Python was stopped; its web view and in-memory interpreter were discarded." : {},
+    "Qualification boundary" : {},
+    "Queue Message" : {},
+    "Queued" : {},
+    "Queued messages" : {},
+    "Quit Memoshi" : {},
+    "Read and write" : {},
+    "Read and write also allows approved changes to files in this folder. Each change still needs policy review." : {},
+    "Read back" : {},
+    "Read only" : {},
+    "Read only never allows changes to files in this folder." : {},
+    "Read the conversation graphs and attached child's history again." : {},
+    "Read-only attachment to this child's Pi history. Stop targets this task; it does not undo completed effects or stop unrelated background work." : {},
+    "Reading child history…" : {},
+    "Ready" : {},
+    "Recent native events (up to 12)" : {},
+    "Reconnect" : {},
+    "Reconnect before retrying the saved change." : {},
+    "Recorded Decisions" : {},
+    "Recorded probe/error code: %@" : {},
+    "Recovery required · this chat is paused" : {},
+    "Redactions or withheld result: %lld" : {},
+    "Reference acceptance needs the physical iPhone 14 Pro and matching OS/build/payload. Collect at least 20 separate app-launch samples for cold p95; recreating a realm in one app launch is not cold-start evidence." : {},
+    "Refresh" : {},
+    "Refresh Models" : {},
+    "Refused (%@); nothing was filled" : {},
+    "Registered frames" : {},
+    "Related Tool Calls" : {},
+    "Releases this page. The profile's store and its data stay on disk." : {},
+    "Reload" : {},
+    "Reload Bot" : {},
+    "Reload Review" : {},
+    "Reload the Assistant's folder grants from the local runtime." : {},
+    "Reload the lab page about once a minute" : {},
+    "Remove" : {},
+    "Remove %@" : {},
+    "Remove Profile…" : {},
+    "Remove Review Profile?" : {},
+    "Removing…" : {},
+    "Reopen OpenAI Sign-In" : {},
+    "Replace existing text" : {},
+    "Reported SDK execution: %lld ms" : {},
+    "Reports are genuine content-free driver/native metadata. Scientific result JSON contains actual stdout, table values and PNG data; PNG and CSV files are also saved individually. Save or share deliberately. Exports do not assert physical/reference acceptance." : {},
+    "Request Saved-login Card" : {},
+    "Request Sign-in Card" : {},
+    "Requested access" : {},
+    "Resolved" : {},
+    "Resolved: %@" : {},
+    "Responding" : {},
+    "Responding…" : {},
+    "Response failed" : {},
+    "Restarting daemon…" : {},
+    "Restarting the app-owned helper after an unexpected exit (attempt %lld of %lld)." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Restarting the app-owned helper after an unexpected exit (attempt %1$lld of %2$lld)."
+          }
+        }
+      }
+    },
+    "Restore" : {},
+    "Restore %@" : {},
+    "Results export failed" : {},
+    "Results exported" : {},
+    "Resynchronizing clears this view. Historical audit and tamper verification are not loaded here; missing rows do not prove that no activity occurred." : {},
+    "Retry Connection" : {},
+    "Retry Original Request" : {},
+    "Retry Revocation" : {},
+    "Retry Same Decision" : {},
+    "Retry Same Message" : {},
+    "Retry Saved Change" : {},
+    "Retry Saved Configuration" : {},
+    "Retry Saved Stop" : {},
+    "Retry the saved change before starting another bot or Session change." : {},
+    "Reuses the original request. A terminal card can only return its receipt or refuse the answer; it cannot be reopened." : {},
+    "Reveal App" : {},
+    "Reveal Saved Evidence in Finder" : {},
+    "Review %@" : {},
+    "Review %lld" : {},
+    "Review Access Change" : {},
+    "Review Folder" : {},
+    "Review Folder Grant" : {},
+    "Review Lab" : {},
+    "Review Profiles" : {},
+    "Review a change between read only and read and write. Adding write access needs the folder to be available." : {},
+    "Review profile and its WebKit store removed" : {},
+    "Review profile created" : {},
+    "Review the folders the Assistant may use. Tools stay disabled." : {},
+    "Review the selected JSON's exact operations before approval. The runner executes each action once, waits for assertions, and never resumes interrupted effects. A declared real site is not proof of a real-site gate run." : {},
+    "Revocation delivery is unconfirmed. Retrying sends exactly the original revocation, never a different request." : {},
+    "Revocation delivery is unconfirmed. The exact revocation is saved on this Mac; retrying sends only that original request." : {},
+    "Revocation is unavailable right now, so nothing was sent. Revoke again when folder state is synchronized." : {},
+    "Revocation recorded. A revoked grant cannot be restored; choose the folder again to make a new grant." : {},
+    "Revoke" : {},
+    "Revoke Folder Access?" : {},
+    "Revoke Review Permissions" : {},
+    "Revoke Saved Login" : {},
+    "Revoke the saved test login before adding another. Changing pages never rebinds a credential." : {},
+    "Revoked" : {},
+    "Revoke…" : {},
+    "Rewrite" : {},
+    "Right" : {},
+    "Root source" : {},
+    "Routine" : {},
+    "Run" : {},
+    "Run %lld ten-minute cells" : {},
+    "Run Again" : {},
+    "Run Again runs the step once more." : {},
+    "Run Approved Recipe" : {},
+    "Run Scientific Bridge" : {},
+    "Run the long pandas measurement?" : {},
+    "Running" : {},
+    "Runs the real bundled offline interpreter in a hidden, nonpersistent WebKit realm. No production Python tool, network, gateway, remote-Mac fallback or user-folder access is enabled." : {},
+    "S3 row 3's fallback, not the S3.5 gate: a one-point window kept visible at the top-left of the main display." : {},
+    "SDK execution measurement unavailable" : {},
+    "Safari is compared by hand: Safari › Settings › Privacy › Manage Website Data must not list memoshi.invalid." : {},
+    "Same document, no reload" : {},
+    "Sample every" : {},
+    "Samples %lld, detached %lld, visible host %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Samples %1$lld, detached %2$lld, visible host %3$lld"
+          }
+        }
+      }
+    },
+    "Samples the selected page on a fixed cadence wherever it lives: timer rate, DOM snapshot, takeSnapshot and placement. For S3.5, start a run and close every window. With the page kept visible, it waits in the one-point host window (row 3's fallback); turn that off and choose Detached for the no-window gate case." : {},
+    "Sanitized Arguments" : {},
+    "Sanitized Targets" : {},
+    "Sanitized arguments are unavailable." : {},
+    "Save" : {},
+    "Save Current Report Snapshot" : {},
+    "Save File…" : {},
+    "Save Key" : {},
+    "Save Test Login in Keychain" : {},
+    "Saved Access Change" : {},
+    "Saved Allow once decision. Retrying preserves the exact original request." : {},
+    "Saved Configuration" : {},
+    "Saved Deny decision. Retrying preserves the exact original request." : {},
+    "Saved Evidence" : {},
+    "Saved Grant Request" : {},
+    "Saved Revocation" : {},
+    "Saved Test Login (Keychain)" : {},
+    "Saved as a local draft. Use Send or Command Return to submit to the explicitly selected model." : {},
+    "Saved files (bounded to 200 indexed entries)" : {},
+    "Saved login was not filled or verified." : {},
+    "Saved on this Mac, not added to the model's conversation. They wait for recovery to settle." : {},
+    "Saved-login qualification (S3.4): a genuinely entitled signed app, owned test account, and external transcript/log/crash canary scan are required." : {},
+    "Saves this launch's typed evidence as JSON: counts, timings, codes and page hosts. It holds no page text, typed text, screenshots or full URLs, and it is not an S3 verdict." : {},
+    "Scheduling for new pages" : {},
+    "Schema" : {},
+    "Scientific bridge calls" : {},
+    "Scientific bridge completed. Genuine text, native table, PNG and CSV evidence was saved." : {},
+    "Scientific imports (seconds)" : {},
+    "Scientific returns saved: %lld of %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Scientific returns saved: %1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "Script" : {},
+    "Scroll" : {},
+    "Scroll Into View" : {},
+    "Scroll Page" : {},
+    "Scroll between 1 and 5,000 points." : {},
+    "Select" : {},
+    "Select Task Recipe…" : {},
+    "Select a subagent in the task tree. Its own history appears here without opening a new conversation." : {},
+    "Select an element in the Snapshot tab." : {},
+    "Selected model unavailable" : {},
+    "Selects this element for the Actions tab." : {},
+    "Send" : {},
+    "Send your first message. This development conversation stores its own history and reviews bounded tool calls. Production tools and Apple connectors remain unavailable." : {},
+    "Sending this exact request…" : {},
+    "Sending this exact revocation…" : {},
+    "Sequence: %lld" : {},
+    "Session" : {},
+    "Session Trash" : {},
+    "Sessions" : {},
+    "Set Probe in %@" : {},
+    "Set a non-secret probe cookie in one profile, then check every profile. Its own profile must keep it across a normal relaunch; no other profile may see it." : {},
+    "Set before this launch: a check now tests relaunch persistence." : {},
+    "Set in this launch: quit and reopen Memoshi, then check again for persistence." : {},
+    "Share File" : {},
+    "Show HUD" : {},
+    "Show Live" : {},
+    "Show Preview Context" : {},
+    "Show Sidebar" : {},
+    "Sign Memoshi and its bundled helper with matching Apple-issued Team IDs and hardened runtime. Ad-hoc builds cannot authenticate." : {},
+    "Sign Out of ChatGPT" : {},
+    "Sign in to %@?" : {},
+    "Sign in with ChatGPT" : {},
+    "Sign in with ChatGPT or add a Keychain-backed API provider in Model Settings. A local server is optional. PiDurable stores conversation history on this Mac." : {},
+    "Sign in with your own ChatGPT account through PiAI. Credentials stay in this app's data-protection Keychain on this Mac only; iCloud credential synchronization is not qualified." : {},
+    "Sign-in Card (development review)" : {},
+    "Sign-in Card declined; nothing was filled" : {},
+    "Sign-in Card filled its canary login" : {},
+    "Sign-in Card offered for %@" : {},
+    "Sign-in Card refused (%@); nothing was filled" : {},
+    "Sign-in challenge declined; no credential is used" : {},
+    "Sign-in replaces the development workspace's OpenAI credential reference. Prompts go to OpenAI only when you explicitly send with an OpenAI model; no API key or local model is substituted." : {},
+    "Sign-in: a separately approved saved test account" : {},
+    "Signing required" : {},
+    "Skip" : {},
+    "Skip leaves it as it is and does not run it again." : {},
+    "Snapshot" : {},
+    "Snapshot Mode" : {},
+    "Snapshot failed: %@" : {},
+    "Snapshot p50" : {},
+    "Snapshot: %lld elements in %lld frames, %lld ms" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Snapshot: %1$lld elements in %2$lld frames, %3$lld ms"
+          }
+        }
+      }
+    },
+    "Snapshots" : {},
+    "Snapshots list visible elements with refs for actions. Page text appears only here; it is never logged or exported." : {},
+    "Some configured providers or their keys are unavailable. Only successfully refreshed models are offered; no substitute provider was selected." : {},
+    "Some frames had more elements than the snapshot limit." : {},
+    "Source" : {},
+    "Source ID: %@" : {},
+    "Stage Selected Files for This Input…" : {},
+    "Stage approved files for this exact input before opening its picker." : {},
+    "Staged Files and Downloads" : {},
+    "Staged files: %lld" : {},
+    "Start / Recreate Interpreter" : {},
+    "Start Daemon" : {},
+    "Start Run" : {},
+    "Start a 60-second pandas cell, send the app to the background, then return. Scene callbacks and the real result or error are saved. A process kill may deliver no callback and leaves an unknown outcome; this view does not resume or retry it." : {},
+    "Start creates a new canonical 0700 review directory only when needed. Stop, timeout, memory pressure and Close discard the realm. Restart is explicit; saved files are never deleted." : {},
+    "Starting authenticated gateway…" : {},
+    "Starting daemon…" : {},
+    "Stop" : {},
+    "Stop & Discard Realm" : {},
+    "Stop Loading" : {},
+    "Stop Run" : {},
+    "Stop Subagent" : {},
+    "Stopped" : {},
+    "Stopping…" : {},
+    "Store removal failed; the profile was kept. %@" : {},
+    "Subagent" : {},
+    "Subagent history" : {},
+    "Suspend (WebKit default)" : {},
+    "System memory pressure observed. The interpreter was discarded; this does not identify jetsam." : {},
+    "Take Over" : {},
+    "Take Snapshot" : {},
+    "Take a snapshot first; actions target snapshot refs." : {},
+    "Takeover started" : {},
+    "Task" : {},
+    "Task: %@" : {},
+    "Task: not attributed" : {},
+    "Tasks" : {},
+    "Tasks appear after a real conversation starts work. The graph includes its durable foreground and background children." : {},
+    "Tasks: %lld · Declared real sites: %lld · Owned fixtures: %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Tasks: %1$lld · Declared real sites: %2$lld · Owned fixtures: %3$lld"
+          }
+        }
+      }
+    },
+    "Test account password" : {},
+    "Test account username" : {},
+    "Text goes only to this page. Outcomes record its length, never the text." : {},
+    "Text preview is bounded. The saved result JSON retains the full returned text." : {},
+    "Text to type" : {},
+    "That frame is no longer available." : {},
+    "That is not a valid web address." : {},
+    "That option is unavailable or disabled." : {},
+    "That package is not in the pinned offline stack. No package was downloaded." : {},
+    "That ref is not in the current snapshot." : {},
+    "The 20-task suite on 5 real sites (S3.3): explicitly selected safe sites and authorized owned test accounts are still required." : {},
+    "The Assistant has no folder grants on this Mac. Choose a folder to review it before granting access." : {},
+    "The Assistant is not loaded, so no folder grants are shown." : {},
+    "The Assistant loses access to %@ on this Mac. Revocation is final: this grant cannot be restored, and choosing the folder again makes a new grant." : {},
+    "The Assistant or this grant is no longer available. Nothing was changed." : {},
+    "The Mac is offline or the connection was lost." : {},
+    "The Python cell failed. No output files were exported." : {},
+    "The Python host was closed." : {},
+    "The Python network request failed." : {},
+    "The Python request exceeds the spike's declared limits." : {},
+    "The action was cancelled." : {},
+    "The address has no host." : {},
+    "The app could not release the ChatGPT credential. Unlock the Mac or reconnect ChatGPT; no alternate credential was used." : {},
+    "The app or helper bundle is incomplete. Restore a complete signed Memoshi app, then try again." : {},
+    "The app-owned helper exited with status %d. Restore the signed helper or retry starting it." : {},
+    "The app-owned helper has not finished shutting down. Memoshi will stay open rather than leave a stray process or force-kill it. Wait and quit again." : {},
+    "The app-owned helper is still shutting down. Memoshi stayed open rather than leave it running or force-kill it. Wait, then quit again." : {},
+    "The app-owned helper stopped unexpectedly %lld times within five minutes, so automatic restarts stopped. Choose Start Daemon to try again." : {},
+    "The app-owned helper was terminated by signal %d. Memoshi is restarting it and will reconnect from the last applied event." : {},
+    "The approval details have not been loaded. This card cannot be answered until its matching approval is available." : {},
+    "The authenticated helper is owned by this app and stops when Memoshi quits." : {},
+    "The automation call failed." : {},
+    "The automation script failed in this page." : {},
+    "The automation world is not available in this document." : {},
+    "The background service is stopping. Memoshi starts its own helper once it has exited." : {},
+    "The background service's daemon has not stopped. Memoshi will not start its own helper beside it or force it to quit. Wait, then choose Start Daemon." : {},
+    "The bot could not be reloaded. The edit has not been applied." : {},
+    "The browser normally returns automatically. If it cannot, paste the final http://127.0.0.1:1455/auth/callback URL here—not in a conversation." : {},
+    "The bundled Python payload did not match its pinned manifest." : {},
+    "The card and approval do not have a consistent binding. Decisions are disabled; reload authoritative review state." : {},
+    "The connected runtime did not negotiate folder management. No list is shown, because an empty list would not mean that nothing is granted." : {},
+    "The connected runtime does not support folder management, so saved requests cannot be retried now. They stay saved on this Mac." : {},
+    "The connected runtime does not support folder management. Nothing was changed." : {},
+    "The connection changed. Reload the directory or retry the saved change; no second request was created." : {},
+    "The current report could not be saved. Existing evidence is unchanged." : {},
+    "The daemon connection changed. Reconnect to reload authoritative conversation state." : {},
+    "The daemon data directory has unsafe ownership, permissions or a symlink. Repair it before reconnecting; this app will not silently change permissions." : {},
+    "The daemon did not complete a usable connection. Retry; preview examples are not connected models or canonical state." : {},
+    "The daemon is starting. Memoshi connects as soon as it is ready." : {},
+    "The daemon is stopped. Start it without changing background registration." : {},
+    "The daemon's running-code identity could not be verified. Check that the bundled helper and app are signed by the same expected team." : {},
+    "The durable evidence file is unavailable. Task execution is disabled; existing evidence is left unchanged." : {},
+    "The durable review evidence could not be saved; no further action is authorized." : {},
+    "The element could not be scrolled into view." : {},
+    "The element does not accept typed text." : {},
+    "The element is disabled." : {},
+    "The element is no longer in the page." : {},
+    "The element is not a selection list." : {},
+    "The element is not visible." : {},
+    "The expiry has passed. The runtime ends this grant when it next checks it; it is never renewed automatically." : {},
+    "The field did not take keyboard focus." : {},
+    "The five-run choice is the existing S6.2 workload. Attach Instruments to this session's WebContent process; app RSS is not WebContent peak physical footprint." : {},
+    "The folder at this path changed after you chose it. Nothing was sent; choose it again." : {},
+    "The folder panel did not return a folder. Nothing was granted." : {},
+    "The form no longer shows the Card's fields, so nothing was filled." : {},
+    "The grant changed or ended before this request applied. Nothing was changed; review its current state." : {},
+    "The key is authorized only for the local provider and its configured loopback endpoint. It cannot be released for OpenAI or another host purpose." : {},
+    "The list's options changed since the snapshot. Take a new snapshot." : {},
+    "The load was cancelled." : {},
+    "The load was stopped by the lab's policy." : {},
+    "The navigation failed." : {},
+    "The offline Python interpreter could not start." : {},
+    "The operation could not be completed. No substitute model or reply was used." : {},
+    "The operation stopped. Inspect the recorded error; no fallback or retry was attempted." : {},
+    "The original request's receipt was recovered. No second grant or wider access was created; the list shows current state, including any later change." : {},
+    "The page changed since this snapshot. Take a new snapshot." : {},
+    "The page changed. Take a new snapshot before acting." : {},
+    "The page did not answer in time." : {},
+    "The page failed to load (%@ %lld)." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The page failed to load (%1$@ %2$lld)."
+          }
+        }
+      }
+    },
+    "The page has no scrollable document." : {},
+    "The page reported no input events." : {},
+    "The page returned an unreadable result." : {},
+    "The page started a navigation." : {},
+    "The page timed out." : {},
+    "The page's origin differs from the Card's, so nothing was filled." : {},
+    "The page's viewport scale could not be mapped to view coordinates." : {},
+    "The page's web content process ended. Reload to recover." : {},
+    "The page's web content process is gone." : {},
+    "The pinned offline Python payload is missing. Package it before running S6." : {},
+    "The profile's WebKit store did not answer in time." : {},
+    "The provider refused this configuration. You can correct its local endpoint and retry using the saved Keychain reference." : {},
+    "The provisioned device identity or encrypted group could not be opened. Verify the signed device Keychain/CloudKit capabilities and unlock the device. No alternate identity or authority was selected." : {},
+    "The refused configuration was discarded and the credential saved only for it was removed. The provider list is unchanged." : {},
+    "The refused configuration was discarded. The credential saved for it was kept, because an earlier attempt had no definite answer and may still be applied; check the provider list." : {},
+    "The refused configuration was discarded. The provider list is unchanged." : {},
+    "The registered service could not be started. Check Background Settings or restore a matching signed app bundle. No existing daemon was killed." : {},
+    "The request could not be saved on this Mac, so it was not sent." : {},
+    "The request timed out. Delivery may already have occurred; reconnect or retry the same message." : {},
+    "The returned PNG could not be decoded for display. Inspect its genuine saved file." : {},
+    "The returned table JSON could not be displayed. Inspect the saved result JSON." : {},
+    "The review harness's canary file is missing, unreadable, shared with other users or not for this page." : {},
+    "The review profile list could not be saved." : {},
+    "The revocation could not be saved on this Mac, so it was not sent." : {},
+    "The runtime answered this request, but the current folder list could not be loaded. Refresh before relying on it." : {},
+    "The runtime answered this revocation, but the current folder list could not be loaded. Refresh before relying on it." : {},
+    "The runtime refused it, so it was not delivered. Discarding removes only the saved request; your draft stays and nothing is sent." : {},
+    "The runtime refused it, so nothing was applied. Discarding clears the saved request and removes the credential that was saved only for it; the provider list stays as it is." : {},
+    "The runtime refused it, so nothing was applied. Discarding clears the saved request. No credential was saved only for it, so none is removed; the provider list stays as it is." : {},
+    "The runtime refused the latest attempt, but an earlier attempt had no definite answer and may still be applied. Discarding clears the saved request and keeps the credential saved for it in the Keychain; check the provider list afterwards." : {},
+    "The runtime refused this request: %@ Nothing was changed." : {},
+    "The runtime requires typed confirmation for this folder. Type its exact path to confirm." : {},
+    "The saved bot change could not be read. Further changes are blocked to avoid duplicating an uncertain request." : {},
+    "The saved delivery record could not be read. Sending is blocked to avoid duplicating an uncertain message." : {},
+    "The saved provider configuration could not be read. Configuration and sending are blocked until its delivery can be resolved." : {},
+    "The saved request identity was already used for a different request. Nothing else was sent, and no replacement identity was substituted." : {},
+    "The saved review profile list could not be read. It is left unchanged, and creating or removing profiles is disabled." : {},
+    "The saved task Stop could not be read. New task Stops are blocked to avoid targeting different work." : {},
+    "The scientific workload stages a genuine CSV in this session's private folder, reads it with pandas, uses NumPy and SciPy, returns a native table and Matplotlib Agg PNG, then exports a new result.csv." : {},
+    "The selected folder's identity could not be read. Choose it again; nothing was granted." : {},
+    "The server could not be found." : {},
+    "The server refused or dropped the connection." : {},
+    "The server's certificate was not trusted." : {},
+    "The sign-in browser could not be opened." : {},
+    "The store did not answer in time; nothing was concluded." : {},
+    "The submit was not authorized for this document and site." : {},
+    "The system could not export this file. The private saved evidence is unchanged." : {},
+    "The system exported the selected evidence file." : {},
+    "The task connection changed. Refresh the snapshot or retry the saved Stop; no different work was targeted." : {},
+    "The typed path does not exactly match the folder path." : {},
+    "The unreadable saved change was discarded without sending anything. Check the current bots and Sessions before making the same change again." : {},
+    "The unreadable saved delivery record was discarded without sending anything. Check this conversation before sending the same message again." : {},
+    "The unreadable saved provider configuration was discarded without sending anything. Check the provider list before configuring the same provider again." : {},
+    "The unreadable saved request was discarded without sending anything. The list shows current grants; check it before granting the same folder again." : {},
+    "The unreadable saved task Stop was discarded without sending anything. Check the task list before stopping the same work again." : {},
+    "The view is in no window and the lab keeps it alive: the case S3.5 asks about. Native input needs a window, so only script input works while detached." : {},
+    "Their local transcripts and Pi stores will be removed. This cannot be undone. Other Sessions and the daemon stay running." : {},
+    "There are no pending approval cards in the loaded runner state. Production tools and Apple connectors remain disabled." : {},
+    "This Launch" : {},
+    "This address is not one of the sites granted to this session." : {},
+    "This app launch's first interpreter is ready. This is one sample, not a p95." : {},
+    "This bot already has a Python call in flight." : {},
+    "This bot's Python interpreter is not ready." : {},
+    "This bot's model and effort. Change them in Edit Bot." : {},
+    "This bounded review session reached 100 actions. Save evidence, close it and explicitly start a new session." : {},
+    "This browser session is closed." : {},
+    "This build has no configured device identity access group. The signed app needs its team-prefixed com.mehmetcanbudak.memoshi.devices Keychain group and iCloud.com.mehmetcanbudak.memoshi CloudKit capability. Ad-hoc builds cannot qualify this path." : {},
+    "This consequential action needs a browser draft; the review lab refuses it." : {},
+    "This deletes %@'s WebKit store: its cookies, storage and caches. No other store is touched." : {},
+    "This device was removed from your devices. Data it received from them was deleted." : {},
+    "This device was removed from your devices. Some data it received from them could not be deleted yet. It is deleted the next time you open this lab." : {},
+    "This device was removed from your devices. Some data it received from them is not deleted yet; Memoshi is trying again." : {},
+    "This event is outside the live policy, tool and gateway projection." : {},
+    "This exact site has not been authorized in the review lab." : {},
+    "This folder already has an active grant for the Assistant. Change its access or revoke it in the list; nothing new was granted." : {},
+    "This folder is unavailable: it may have been moved, renamed, deleted or replaced, or its volume is not connected. Memoshi never relinks or renews a grant automatically. Restore the folder or reconnect its volume, or revoke this grant and choose the folder again. Reducing access and revoking still work; write access cannot be added." : {},
+    "This folder needs typed confirmation of its exact path. Nothing was changed; type the path and review again." : {},
+    "This frame could not be mapped for native input; use script input." : {},
+    "This grant changed while you were reviewing it. Nothing was sent; review its current access again." : {},
+    "This grant has ended and cannot be restored. Choose the folder again to make a new grant." : {},
+    "This grant is not in the loaded list." : {},
+    "This is a control-plane lab with an identity-bound in-memory conversation adapter, not a Pi-store handover or deployed-capacity qualification." : {},
+    "This is an entire personal folder. Type its exact path to confirm." : {},
+    "This isolated development helper runs only while the app is open. Production background registration is not changed." : {},
+    "This location is reached through a link or a different spelling. Choose the folder at its actual location, %@. Nothing was granted." : {},
+    "This money action needs a purchase Card; the review lab refuses it." : {},
+    "This page" : {},
+    "This page can't load until the session's network boundary is in place. Choose a route first." : {},
+    "This page holds private data. Explicitly confirm the next form before continuing." : {},
+    "This step needs the built-in lab page." : {},
+    "This tier needs device-owner authentication. This development profile cannot provide it; no authentication success is simulated." : {},
+    "This window needs the app's browser review owner." : {},
+    "Throttle" : {},
+    "Time since the bridge reported code execution:" : {},
+    "Time to first delta" : {},
+    "Timeout observed on the infinite cell. The realm was discarded; restart explicitly." : {},
+    "Timings run from Send in this app. The protocol carries no daemon-side provider request or first-byte times, so memoshid overhead cannot be separated from model time." : {},
+    "Title" : {},
+    "Tool completed" : {},
+    "Tool failure committed" : {},
+    "Tool request" : {},
+    "Tool result committed" : {},
+    "Tool: %@ · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Tool: %1$@ · %2$@"
+          }
+        }
+      }
+    },
+    "Tool: %@ · T%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Tool: %1$@ · T%2$lld"
+          }
+        }
+      }
+    },
+    "Tools stay disabled" : {},
+    "Tools stay disabled. Granting records permission only; nothing in this folder is read, listed or changed now." : {},
+    "Transport" : {},
+    "Trash" : {},
+    "Trash is Empty" : {},
+    "Trusted target events" : {},
+    "Turn" : {},
+    "Turn duration" : {},
+    "Type" : {},
+    "Typed characters" : {},
+    "Typed events only: hosts, codes and counts. Page text and typed input are never logged." : {},
+    "Typed text is limited to 500 characters." : {},
+    "Typed text must be a single line without control characters." : {},
+    "Unavailable" : {},
+    "Unavailable in development chat" : {},
+    "Unreadable Saved Configuration" : {},
+    "Unreadable Saved Request" : {},
+    "Unrecognized (%@)" : {},
+    "Unsupported access" : {},
+    "Unsupported card state · decisions disabled" : {},
+    "Unsupported mode" : {},
+    "Unsupported source" : {},
+    "Unsupported state · no actions" : {},
+    "Up" : {},
+    "Update required" : {},
+    "Updated: %@ · Revision %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Updated: %1$@ · Revision %2$lld"
+          }
+        }
+      }
+    },
+    "Use Callback URL" : {},
+    "Use Saved Test Login" : {},
+    "Use composer choice" : {},
+    "Use only an explicitly selected owned test account. The signed app's broker releases immediately before fill, for an unchanged HTTPS origin/document/form. Nothing is sent through the helper, model, transcript or report. Keychain synchronization is not qualified by this device-only lab path." : {},
+    "Use your provisioned device-only Keychain identity and the real encrypted device group. Showing or scanning a code enables local discovery; group changes use the configured iCloud authority. No model spending, credentials or tool grants are approved here." : {},
+    "User" : {},
+    "Uses %@. Saving enables authenticated model discovery; prompts go to %@ only when you explicitly send with one of its models. API usage may be billed." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Uses %1$@. Saving enables authenticated model discovery; prompts go to %2$@ only when you explicitly send with one of its models. API usage may be billed."
+          }
+        }
+      }
+    },
+    "Value could not be displayed; inspect the saved result JSON." : {},
+    "Value hidden" : {},
+    "Versions and times above come from the validated host startup, never a canned measurement. A supplied native transport proves neither a grant nor complete network confinement. Enabled Lockdown Mode fails closed instead of silently using another runtime." : {},
+    "Via: %@" : {},
+    "Visible host window" : {},
+    "Waiting" : {},
+    "Waiting for Confirm Next Private-data Form above. The page will be rechecked before its one authorized action." : {},
+    "Waiting for Local Daemon" : {},
+    "Waiting for You" : {},
+    "Waiting for You (%lld)" : {},
+    "Waiting for a decision" : {},
+    "Waiting for the native saved-login Card in Actions. No credential is auto-filled." : {},
+    "Wake" : {},
+    "Watch" : {},
+    "Web addresses are limited to 2,048 characters." : {},
+    "Web content process ended" : {},
+    "Web view to ready (seconds)" : {},
+    "WebKit could not take an image snapshot." : {},
+    "WebKit did not start the navigation." : {},
+    "WebKit refused, for example while a page still used the store." : {},
+    "WebKit terminated Python's content process. The cell was not retried." : {},
+    "WebKit's inactive scheduling policy is fixed when a browser opens, so each measurement runs under one recorded policy." : {},
+    "Webhook" : {},
+    "When not shown" : {},
+    "Working…" : {},
+    "Workloads & Interruption Probes" : {},
+    "Yes" : {},
+    "You can also queue or cancel new messages. Stop does not undo an uncertain effect." : {},
+    "You can restore it for 30 days. Stop its work and resolve pending approvals first." : {},
+    "You're in control" : {},
+    "You're in control. Hand back before running lab actions." : {},
+    "You're in control. Hand back to run lab actions." : {},
+    "You: %@" : {},
+    "Your Assistant" : {},
+    "a computer" : {},
+    "a device" : {},
+    "an outcome check" : {},
+    "an unloaded source" : {},
+    "another profile's probe visible" : {},
+    "approval" : {},
+    "authority confirmation" : {},
+    "budget" : {},
+    "canary from the review harness file" : {},
+    "canary generated in memory for this fill" : {},
+    "completed" : {},
+    "connection %lld" : {},
+    "ended %@" : {},
+    "ended when the browser closed" : {},
+    "hello head %@" : {},
+    "https://example.com" : {},
+    "iPhone and iPad rows (S3.8): outside this Mac lab." : {},
+    "kept across relaunch" : {},
+    "last exit signal %@" : {},
+    "last exit status %@" : {},
+    "loading snapshots" : {},
+    "macOS could not find the background service. A complete signed app can still run its helper while open." : {},
+    "macOS will stop the registered daemon. Memoshi can use its own helper while the app stays open." : {},
+    "memoshid overhead" : {},
+    "needs you" : {},
+    "no" : {},
+    "no other profile's probe" : {},
+    "no probe registered" : {},
+    "not checked" : {},
+    "not connected" : {},
+    "own probe missing" : {},
+    "own probe present" : {},
+    "page" : {},
+    "restarting, attempt %lld" : {},
+    "restarts stopped after %lld exits" : {},
+    "resume" : {},
+    "running" : {},
+    "send unconfirmed" : {},
+    "started %@" : {},
+    "stopped" : {},
+    "subscribed" : {},
+    "subtasks" : {},
+    "takeSnapshot succeeded %lld of %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "takeSnapshot succeeded %1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "takeover" : {},
+    "unknown" : {},
+    "unrecognized (%@)" : {},
+    "unregistered probe present" : {},
+    "yes" : {},
+    "your answer" : {},
+    "⌘Return confirms · Esc cancels the review" : {}
+  },
+  "version" : "1.0"
+}

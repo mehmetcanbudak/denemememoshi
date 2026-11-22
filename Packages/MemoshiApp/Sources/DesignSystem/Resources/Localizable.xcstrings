@@ -1,0 +1,777 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@" : {
+
+    },
+    "%@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@"
+          }
+        }
+      }
+    },
+    "%@ from %@, %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ from %2$@, %3$@"
+          }
+        }
+      }
+    },
+    "%@ from %@, %@, %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ from %2$@, %3$@, %4$@"
+          }
+        }
+      }
+    },
+    "%@ is replying" : {
+
+    },
+    "%@ · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$@"
+          }
+        }
+      }
+    },
+    "%@, %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$@"
+          }
+        }
+      }
+    },
+    "%@, %@: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$@: %3$@"
+          }
+        }
+      }
+    },
+    "%@, %lld unread" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$lld unread"
+          }
+        }
+      }
+    },
+    "%@, computer offline" : {
+
+    },
+    "%@, expires in %lld minutes" : {
+      "comment" : "Accessibility value of a pending card: its state, then the whole minutes left before it expires.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@, expires in %#@minutes@"
+          },
+          "substitutions" : {
+            "minutes" : {
+              "argNum" : 2,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg minute"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg minutes"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%@, you are in control" : {
+
+    },
+    "%@: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$@"
+          }
+        }
+      }
+    },
+    "%lld items need you" : {
+      "comment" : "VoiceOver announcement coalescing cards that need the person outside the focused conversation.",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld item needs you"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld items need you"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "A 4-point grid; every gap in Memoshi uses one." : {
+
+    },
+    "A static command-palette specimen; there is no search or command execution." : {
+
+    },
+    "A static scroll-control specimen; it does not move the gallery." : {
+
+    },
+    "A static toast specimen; it does not appear or dismiss automatically." : {
+
+    },
+    "A status change plays its entry motion once: needs-you hops, has-news cheers (once a minute per bot), error shakes, leaving asleep wakes and paused fades to its muted fill. Reduce Motion, the xs size, hidden windows and off-screen scrolling skip them." : {
+
+    },
+    "Accessibility text" : {
+
+    },
+    "Act externally" : {
+
+    },
+    "All generated levels on surface.raised. Glass supplies its own elevation; these shadows are for opaque surfaces only." : {
+
+    },
+    "All text here is original sample content. There is no tool or approval request." : {
+
+    },
+    "Animate bot avatars" : {
+
+    },
+    "App appearance and motion" : {
+
+    },
+    "App preferences only; comparison columns do not change system settings." : {
+
+    },
+    "Appearance" : {
+
+    },
+    "Append example text" : {
+
+    },
+    "Asleep" : {
+
+    },
+    "Avatar grid" : {
+
+    },
+    "Avatar playground" : {
+
+    },
+    "Badge priority is in control, then offline, then status; both stop every loop. Unread counts sit top-trailing from the md size." : {
+
+    },
+    "Badges from md; loops from sm, capped per size; xs never moves." : {
+
+    },
+    "Bot avatars" : {
+
+    },
+    "Canonical glyph inventory" : {
+
+    },
+    "Card resolution and disclosure" : {
+
+    },
+    "Change Frosted/Solid, Reduce Motion or Pause/Stop for bot avatars in this app" : {
+
+    },
+    "Change one example bot's status and overlays to review entry motion and still forms." : {
+
+    },
+    "Choose a local example state above." : {
+
+    },
+    "Chrome appearance" : {
+
+    },
+    "Chrome over content" : {
+
+    },
+    "Chrome text styles" : {
+
+    },
+    "Chrome uses native styles; generated prose and code metrics scale with accessibility text." : {
+
+    },
+    "Code, terminal and diffs; always left to right." : {
+
+    },
+    "Color" : {
+
+    },
+    "Color and fill only. Tab into the field; focus never translates a control." : {
+
+    },
+    "Color roles" : {
+
+    },
+    "Colors" : {
+
+    },
+    "Compare" : {
+
+    },
+    "Compare the original neutral palette with the newer warm ivory and amber palette." : {
+
+    },
+    "Completed" : {
+
+    },
+    "Component Gallery" : {
+
+    },
+    "Components" : {
+
+    },
+    "Computer offline" : {
+
+    },
+    "Content stays opaque; chrome material falls back to a raised surface without transparency." : {
+
+    },
+    "Content surfaces" : {
+
+    },
+    "Continuous corners; pill caps at a capsule." : {
+
+    },
+    "Corner radii" : {
+
+    },
+    "Critical" : {
+
+    },
+    "Current" : {
+
+    },
+    "Current and Warm" : {
+
+    },
+    "Current palette" : {
+
+    },
+    "Dark" : {
+
+    },
+    "Default and accessibility text" : {
+
+    },
+    "Default text" : {
+
+    },
+    "Derived native accent; opaque contrast floor met" : {
+
+    },
+    "Design Preview · Not connected" : {
+
+    },
+    "Design preview · Examples only · No services connected" : {
+
+    },
+    "Edit the text, then choose Send sample to record it below in this gallery only. No model or runtime message is sent." : {
+
+    },
+    "Eight statuses and three overlays, each a glyph plus text, never color or motion alone." : {
+
+    },
+    "Every custom recipe over busy example content. Frosted uses glass; Solid or Reduce Transparency uses surface.raised and the recipe's elevation. These are labelled gallery specimens, not connected product flows." : {
+
+    },
+    "Example bot is thinking" : {
+
+    },
+    "Example context" : {
+
+    },
+    "Example local text" : {
+
+    },
+    "Example question" : {
+
+    },
+    "Example receipt" : {
+
+    },
+    "Example: Find in sample content" : {
+
+    },
+    "Examples only · Your forecast for the weekend is ready to read" : {
+
+    },
+    "Execute" : {
+
+    },
+    "Existing JSON values, not final adoption or a competitor-motion score." : {
+
+    },
+    "Existing design-preview components under the same review settings." : {
+
+    },
+    "Failed" : {
+
+    },
+    "Fill, then the muted paused fill; the name uses the color's text variant." : {
+
+    },
+    "Floating identity" : {
+
+    },
+    "Focus and pointer feedback" : {
+
+    },
+    "Focus example field" : {
+
+    },
+    "Frosted" : {
+
+    },
+    "Frosted · local sample only" : {
+
+    },
+    "Generated native symbol mappings, with explicit custom and deferred-renderer references." : {
+
+    },
+    "Generated nominal sizes, scaled for accessibility text; M is the default." : {
+
+    },
+    "Generated roles with light, dark and increased-contrast values in the chosen palette." : {
+
+    },
+    "Glyph and text together; idle has no badge and shows its job line." : {
+
+    },
+    "Glyphs" : {
+
+    },
+    "Has news" : {
+
+    },
+    "Identity components" : {
+
+    },
+    "Idle" : {
+
+    },
+    "In control" : {
+
+    },
+    "Increase Contrast" : {
+
+    },
+    "Increased contrast" : {
+
+    },
+    "Inspect example details" : {
+
+    },
+    "Large: this setting. Small: light, dark, increased light, increased dark." : {
+
+    },
+    "Last local sample · not sent" : {
+
+    },
+    "Left to right" : {
+
+    },
+    "Left to right and right to left" : {
+
+    },
+    "Light" : {
+
+    },
+    "Light and dark" : {
+
+    },
+    "Live" : {
+
+    },
+    "Live avatar, then its Reduce Motion still form, then the status line." : {
+
+    },
+    "Local example ready" : {
+
+    },
+    "Local sample message" : {
+
+    },
+    "Local write" : {
+
+    },
+    "Material" : {
+
+    },
+    "Material and Reduce Transparency" : {
+
+    },
+    "Material chrome with a raised-surface fallback; examples, not connected." : {
+
+    },
+    "Materials" : {
+
+    },
+    "Memoshi keeps each bot's work in view" : {
+
+    },
+    "Message and context" : {
+
+    },
+    "Message prose" : {
+
+    },
+    "Mixed examples" : {
+
+    },
+    "Monospace" : {
+
+    },
+    "Motion (app preference)" : {
+
+    },
+    "Motion and Reduce Motion" : {
+
+    },
+    "Native accent contrast unresolved" : {
+
+    },
+    "Native primitives and motion" : {
+
+    },
+    "Native progress plus a label; static under Reduce Motion, Low Power or hidden." : {
+
+    },
+    "Native state, causality and progress primitives; later Aiden reveal and entrances stay deferred." : {
+
+    },
+    "Native styles follow Dynamic Type; the numbers are nominal macOS sizes." : {
+
+    },
+    "Native symbols follow adjacent text weight. Custom, composed and later-stage marks are references, not substituted artwork." : {
+
+    },
+    "Native system color" : {
+
+    },
+    "Needs attention" : {
+
+    },
+    "Needs you" : {
+
+    },
+    "No comparison" : {
+
+    },
+    "Normal %@ ms · Reduce Motion %@ ms · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Normal %1$@ ms · Reduce Motion %2$@ ms · %3$@"
+          }
+        }
+      }
+    },
+    "Off" : {
+
+    },
+    "On" : {
+
+    },
+    "Opaque elevation ladder" : {
+
+    },
+    "Opaque fallback · local sample only" : {
+
+    },
+    "Opaque fills for transcripts, cards and resources; never glass." : {
+
+    },
+    "Opaque surface.raised" : {
+
+    },
+    "Original silhouettes sharing one eye mark; shapes never mirror." : {
+
+    },
+    "Overlays" : {
+
+    },
+    "Palette" : {
+
+    },
+    "Parametric silhouettes, the palette with its muted fills, and every avatar size." : {
+
+    },
+    "Paused" : {
+
+    },
+    "Preview" : {
+
+    },
+    "Preview notice" : {
+
+    },
+    "Preview symbol identities" : {
+
+    },
+    "Progress and state" : {
+
+    },
+    "Provisional recipe bindings" : {
+
+    },
+    "Provisional tokens %@ · Example bots only, not connected · Native material/focus contrast and performance are not certified" : {
+
+    },
+    "Queued" : {
+
+    },
+    "Reach out" : {
+
+    },
+    "Read" : {
+
+    },
+    "Records the text in this gallery only. No message is sent." : {
+
+    },
+    "Reduce Motion" : {
+
+    },
+    "Reduce Motion form" : {
+
+    },
+    "Reduce Transparency" : {
+
+    },
+    "Renderer / artwork reference" : {
+
+    },
+    "Resolve example card" : {
+
+    },
+    "Responding" : {
+
+    },
+    "Responding…" : {
+
+    },
+    "Response failed" : {
+
+    },
+    "Right to left" : {
+
+    },
+    "Running" : {
+
+    },
+    "Sample command palette" : {
+
+    },
+    "Sample only. Send sample records this text below, without contacting a model or runtime." : {
+
+    },
+    "Scroll to latest sample" : {
+
+    },
+    "Send sample" : {
+
+    },
+    "Settle example message" : {
+
+    },
+    "Shape" : {
+
+    },
+    "Shapes" : {
+
+    },
+    "Shapes, colors and sizes" : {
+
+    },
+    "Show contextual panel" : {
+
+    },
+    "Show every specimen twice, side by side, under two review settings" : {
+
+    },
+    "Show example message" : {
+
+    },
+    "Size" : {
+
+    },
+    "Sizes" : {
+
+    },
+    "Solid" : {
+
+    },
+    "Spacing" : {
+
+    },
+    "Spacing and radii" : {
+
+    },
+    "Standard and increased contrast" : {
+
+    },
+    "Standard contrast" : {
+
+    },
+    "Start example stream" : {
+
+    },
+    "Start, append and settle the local message above. Text stays selectable in both states; no model, timer or reveal renderer runs." : {
+
+    },
+    "Status" : {
+
+    },
+    "Status lines" : {
+
+    },
+    "Statuses" : {
+
+    },
+    "Statuses and overlays" : {
+
+    },
+    "Stopped" : {
+
+    },
+    "Switch this app's Current or Warm palette" : {
+
+    },
+    "System" : {
+
+    },
+    "System settings apply live; change them in Settings › Accessibility." : {
+
+    },
+    "System settings apply live; change them in System Settings › Accessibility › Display." : {
+
+    },
+    "T%lld · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "T%1$lld · %2$@"
+          }
+        }
+      }
+    },
+    "The 4-point spacing scale and corner radii at their generated sizes." : {
+
+    },
+    "The design-preview shell's current original SF Symbol compositions." : {
+
+    },
+    "The example is resolved. No action was performed." : {
+
+    },
+    "The existing floating identity, with sample-only connection details." : {
+
+    },
+    "This is an example panel, not a live resource." : {
+
+    },
+    "Tokens" : {
+
+    },
+    "Twelve original shapes in twelve colors, as an avatar grid shows them." : {
+
+    },
+    "Type" : {
+
+    },
+    "Unread" : {
+
+    },
+    "Up to %lld avatars animate per window, highest priority first; the rest hold their still pose and badge." : {
+
+    },
+    "VoiceOver" : {
+
+    },
+    "Warm" : {
+
+    },
+    "Warm palette" : {
+
+    },
+    "Watching" : {
+
+    },
+    "Work state" : {
+
+    },
+    "Working" : {
+
+    },
+    "e0 · Flat content" : {
+
+    },
+    "e1 · Resting controls and cards" : {
+
+    },
+    "e2 · Hovered opaque controls" : {
+
+    },
+    "e3 · Opaque popover fallback" : {
+
+    },
+    "e4 · Toast and scroll-control fallback" : {
+
+    },
+    "e5 · Dialog and command-palette fallback" : {
+
+    },
+    "e6 · Modal fallback" : {
+
+    }
+  },
+  "version" : "1.0"
+}

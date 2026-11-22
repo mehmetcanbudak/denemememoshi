@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32600,
+    "data": {
+      "kind": "invalid_request",
+      "retryable": false
+    },
+    "message": "The frame is not a valid JSON-RPC request."
+  },
+  "id": "c:21",
+  "jsonrpc": "2.0"
+}

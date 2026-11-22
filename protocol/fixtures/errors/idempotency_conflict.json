@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32006,
+    "data": {
+      "kind": "idempotency_conflict",
+      "retryable": false
+    },
+    "message": "This requestId was already used with different parameters."
+  },
+  "id": "c:31",
+  "jsonrpc": "2.0"
+}

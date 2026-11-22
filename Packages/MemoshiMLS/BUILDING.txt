@@ -1,0 +1,137 @@
+MemoshiMLS source, payload and integration contract
+=================================================
+
+Source authority
+- RFC9420 implementation: awslabs/mls-rs0.57.0 at immutable
+  a1436f4a5433214ed62349e77835b57a0accdc42, not floating main/tag lookup.
+- CryptoKit provider0.11.0 from that revision; retained provider source and
+  narrowly hardened Swift/C-build boundary are described in Native/PROVENANCE.json.
+- UniFFI generator/runtime0.32.2 exactly, compiled from Cargo.lock by the local
+  build tool target. No downloaded executable, cargo install or global config.
+- No OpenSSL, RustCrypto or handwritten MLS fallback. Missing artifacts fail
+  SwiftPM resolution rather than changing cryptography.
+- Native/Licenses/manifest.json retains the exact complete Cargo dependency
+  source notices. It includes tooling/platform-only dependencies, not a claim
+  that every listed crate ships in the Apple runtime. r-efi uses its MIT option.
+  debug_tree0.4.0 has an MIT manifest declaration but no standalone upstream
+  license/copyright file; the exact declaration and boundary are retained.
+
+Build order (installed Apple toolchain and exact Rust1.97.0 with all three Apple targets)
+1. bash scripts/build-memoshi-mls.sh
+2. Add .package(path: "../MemoshiMLS") to the consuming package and product
+   .product(name: "MemoshiMLS", package: "MemoshiMLS") to each consuming target.
+   MemoshiDevice and the separate MemoshiDeviceApple host consume the facade;
+   no other target imports generated/native modules directly.
+3. Run the main integration owner's checks after all source slices land:
+   swift test --package-path Packages/MemoshiMLS
+   swift test --package-path Packages/MemoshiIPC
+   Then the repository's integrated CI/native build entrypoint, with its MLS
+   build prerequisite in place. Do not parallelize independent Cargo/Swift
+   builds over half-landed source edits.
+
+The source payload builder produces:
+- Artifacts/MemoshiMLSNativeFFI.xcframework: static libraries for
+  aarch64-apple-darwin, aarch64-apple-ios, aarch64-apple-ios-sim.
+- Sources/MemoshiMLSNativeBindings/MemoshiMLSNativeBindings.swift: generated,
+  not hand-authored; generator0.32.2 reads the compiled native metadata.
+- Generated/include/MemoshiMLSNativeFFI.h and module.modulemap: generated ABI.
+- Artifacts/payload-manifest.json: actual source/output digests and tool versions.
+
+MEMOSHI_MLS_BUILD_ROOT may point at a caller-owned isolated directory to place
+Cargo products, generator products and XCFramework assembly outside the source
+volume; TMPDIR may likewise be set by the integration owner. These are scoped
+build locations, not new crypto/provider or global tool configurations. A
+caller-owned generated Artifacts symlink may retain the payload on that same
+scratch volume. Keep it available for every subsequent SwiftPM/Xcode consumer.
+
+Only Apple silicon Mac and arm64 iOS/Simulator slices are requested/produced.
+An x86_64 Simulator build is not supported by this payload and must not silently
+select a stub. The consumer's native build must select arm64 or explicitly add
+and qualify a genuine additional slice. No code-signing, cloud credentials,
+account changes, signing-profile changes, APNs sends or reference-device calls
+are part of the source builder. rustup run fails if the selected toolchain or
+required targets are absent; it never installs them. Builds use --locked.
+The default rustup selector is `stable`, but the builder rejects any release
+other than exact Rust1.97.0 before compilation; it does not follow upgrades.
+MEMOSHI_MLS_RUST_TOOLCHAIN may select another existing installation of that
+same release. All three target standard libraries are checked up front.
+The selected compiler's full actual version is retained in the payload manifest.
+A successful source build is not byte-reproducibility, behavior, signing or
+physical-device evidence; retain the actual payload manifest and exercised checks.
+
+Synchronous first persistence
+- MLSGroup.createAndSnapshot(credential:groupID:signIdentityBinding:) returns
+  MLSStateTransition<MLSGroup> before the actor escapes. Encrypt/fsync that
+  exact secretState before publishing ready/group identity.
+- clientAndSnapshot creates an unjoined client with the same checkpoint seam.
+- signIdentityBinding signs a domain-separated public certificate payload with
+  the device-only Ed25519 identity key. The separate MLS signing secret remains
+  owned by the native session and its encrypted host snapshot.
+- Restoring requires both authenticated decrypted local bytes and the expected
+  current MLSCredential; another device's public identity is rejected.
+
+Pairing, commit ordering and recovery
+- generateKeyPackageAndSnapshot() atomically captures the private one-use
+  KeyPackage state. Persist before publishing the public KeyPackage via Noise.
+- stageAdd checks the exact QR/Noise-authenticated peer credential, validates
+  its signed MLS key binding, builds a real commit+Welcome and derives actual
+  prospective leaf indices and target GroupContext by applying pending state on
+  a native clone. GroupContext bytes are the library's RFC encoding, not custom
+  protocol math or an application-generated approximation.
+- stageRemove and stageUpdate likewise leave the live group at its old epoch.
+- Persist the staged snapshot and host operation identity BEFORE authority CAS.
+  The authority result must bind exact commit bytes, base/target epoch, full
+  prospective credential roster/leaf indices and exact target groupContext.
+  Constructing MLSOrderedCommit alone is not authority authentication.
+- acceptPendingCommit advances only the exact staged authority winner. apply
+  advances one valid authority-ordered commit, discarding a losing pending
+  commit only after the winner fully validates. Replays/gaps fail closed.
+- The pending commit's native secrets AND exact public output survive restart.
+  Recover uncertain CAS using the stored operation identity; never substitute
+  a newly randomized commit for a pending operation already sent to authority.
+  Only the authenticated joining device receives its Welcome. join checks the
+  expected group ID/epoch; the host must compare its active native groupContext
+  to the QR/authority anchor, since a newcomer cannot decrypt the prior commit.
+  Equal credentials/indices/epoch do not prove equal TreeKEM/transcript state.
+  The library does not make a CAS or claim a cloud acceptance.
+- A processed removal erases the native group's current/retained ratchets and
+  returns an inactive target-epoch tombstone. Its groupContext preserves only
+  the authenticated authority record: the removed client has no new epoch
+  secrets and cannot certify an active native context or Welcome anchor.
+  An offline removed member keeps whatever old information it already had,
+  but cannot decrypt a later epoch.
+
+Application data and durable ratchets
+- sealAndSnapshot/openAndSnapshot return the result plus exact next secretState
+  in one actor turn. Encrypt/fsync with the host outbox/inbox transaction before
+  sending, delivering or acknowledging the associated application item.
+- A durable inbox receipt is replayed locally after restart, never MLS-opened a
+  second time. The send generation and receive replay ratchets are restored.
+- A sender's own sealed item is replayed from its authenticated local outbox
+  receipt, not through a fake native decrypt. MLSOpenedMessage's public record
+  initializer is only for restoring authenticated host receipts/self-seal input.
+- Every private routing/envelope field belongs inside plaintext. MLS AAD is
+  authenticated but visible to the transport; do not put private envelope data
+  in authenticatedData.
+- Three old epochs are retained. Delayed traffic is verified with its epoch's
+  real sender/leaf mapping and current membership. Expired/removed-sender
+  ciphertext fails; there is no exported-key decryption fallback. Long-term
+  catch-up is the device replication host's canonical re-encryption workflow.
+- Exported secrets change per epoch. deleteExporter removes the current native
+  exporter and must also be checkpointed. Never use an exporter as a static
+  replacement for MLS group messages.
+- snapshot bytes include secret signer, unused KeyPackage private keys, current
+  and retained group state, replay ratchets and pending commit. Never log,
+  stringify, store plaintext or send them across devices. The library has no
+  filesystem/Keychain implementation: the provisioned host owns encryption.
+
+Exercised-status boundary
+The source tests cover actual three-member add/join/remove, epoch progression,
+revoked-member denial, signed device credential binding, actual leaf reuse,
+commit replay/reordering/races, current/retained receive-ratchet restart,
+pending/joining-state restart, exporter changes and malformed-message rejection
+through the Swift facade and genuine native MLS. Presence of these tests is
+not a pass: only the integration owner's executed results may be reported.
+Upstream explicitly has not received a full third-party security audit.
+No independent audit, physical Mac/iPhone/iPad/reference performance, CloudKit,
+APNs, signing, release, SDK-pin movement or previously held gate is inferred.

@@ -1,0 +1,32 @@
+{
+  "actor": {
+    "id": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+    "kind": "bot"
+  },
+  "cseq": 931,
+  "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+  "payload": {
+    "error": {
+      "code": "provider_overloaded",
+      "message": "The model provider is overloaded.",
+      "retryAfterMs": 30000,
+      "retryable": true
+    },
+    "messageId": "msg_01JB8Z6C3D4E5F6G7H8J9K0M1N",
+    "partial": true
+  },
+  "scope": {
+    "botId": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+    "conversationId": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P",
+    "taskId": "tsk_01JB8Z6A1B2C3D4E5F6G7H8J9K"
+  },
+  "seq": 184262,
+  "subject": {
+    "id": "msg_01JB8Z6C3D4E5F6G7H8J9K0M1N",
+    "kind": "message"
+  },
+  "ts": 1792497640200,
+  "type": "message.failed",
+  "typeVersion": 1,
+  "v": 1
+}

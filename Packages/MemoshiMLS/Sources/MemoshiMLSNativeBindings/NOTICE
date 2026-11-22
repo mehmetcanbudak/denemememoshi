@@ -1,0 +1,21 @@
+Generated UniFFI Swift runtime/binding module
+
+This module is generated, without hand-editing its runtime helpers, by the
+unmodified UniFFI0.32.2 generator. Its RustBuffer, call-status/error handling,
+object/handle ownership and conversion helpers originate in the upstream
+Swift templates, kept separate from Memoshi's Apache-2.0 facade source.
+
+Upstream: https://github.com/mozilla/uniffi-rs
+Immutable source revision: 7bc621ee9d0d15371d792612707ba5ed4111f950
+Template source: uniffi_bindgen/src/bindings/swift/templates/
+License: Mozilla Public License2.0, retained in
+../../Native/LicenseSources/uniffi-0.32.2/LICENSE and the dependency notices.
+No generator-output license exception is inferred. Keep the generated source
+and its source-location/terms available with any corresponding distribution.
+
+The unmodified Rust runtime dependencies are separately retained under
+Native/Licenses. uniffi_pipeline is an unconditional normal dependency of the
+uniffi facade even though its description says codegen/CLI; its actual retained
+native object membership must not be asserted without link evidence.
+Our authored MLSGroup/MLSTypes facade lives in the adjacent MemoshiMLS target;
+it is not a modified UniFFI runtime file or a blanket MPL license exception.

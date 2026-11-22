@@ -1,0 +1,42 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>S3 no-bypass service-worker probe</title>
+<body><p>S3 no-bypass control: service-worker probes (owned loopback fixture only).</p>
+<script>
+(async () => {
+  const P = JSON.parse(atob(new URLSearchParams(location.search).get('p')));
+  const base = `/${P.run}/${P.scenario}`;
+  const spec = {
+    d4: `http://127.0.0.1:${P.ports.http4}${base}/TAG-d4EXT`,
+    d6: `http://[::1]:${P.ports.http6}${base}/TAG-d6EXT`,
+    lh: `http://localhost:${P.ports.http4}${base}/TAG-lhEXT`,
+  };
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  const out = [];
+  // Persistent-store seed (`keep`): a localStorage marker and a worker left registered that fires
+  // at the http4 sink on every later navigation in its scope. No cookie, so this row measures the
+  // worker alone (before D136 a cookie made the product refuse the probe's cross-origin load, run
+  // control-owned4-b875cda3f157; the separate-profile rows now cover cookies).
+  const keep = P.keep ? `http://127.0.0.1:${P.ports.http4}${base}/swresurrect-d4` : null;
+  if (keep) {
+    try { localStorage.setItem('memoshi-s3-marker', P.run); } catch (e) { out.push({ path: 'marker', target: 'localStorage', outcome: 'err:' + e }); }
+  }
+  try {
+    out.push({ path: 'serviceworker', target: 'self', outcome: 'available:' + typeof navigator.serviceWorker + ' secure=' + isSecureContext });
+    if (!navigator.serviceWorker) throw new Error('no navigator.serviceWorker');
+    const script = keep ? '/no-bypass/sw.js?keep=' + encodeURIComponent(keep) : '/no-bypass/sw.js';
+    const registration = await navigator.serviceWorker.register(script, { scope: '/no-bypass/' });
+    await navigator.serviceWorker.ready;
+    for (let i = 0; i < 30 && !navigator.serviceWorker.controller; i++) await sleep(100);
+    const worker = registration.active || navigator.serviceWorker.controller;
+    const received = new Promise((r) => navigator.serviceWorker.addEventListener('message', (e) => r(e.data)));
+    worker.postMessage({ T: spec });
+    const rows = await Promise.race([received, sleep(15000).then(() => [{ path: 'sw', target: 'self', outcome: 'timeout' }])]);
+    out.push(...rows.map((x) => ({ ...x, path: 'serviceworker:' + x.path })));
+    try {
+      const r = await fetch(`http://127.0.0.1:${P.ports.http4}${base}/swpass-d4`);
+      out.push({ path: 'serviceworker:respondWith-fetch', target: 'd4', outcome: 'status:' + r.status });
+    } catch (e) { out.push({ path: 'serviceworker:respondWith-fetch', target: 'd4', outcome: 'err:' + e.message }); }
+    if (!keep) await registration.unregister();
+  } catch (e) { out.push({ path: 'serviceworker', target: 'self', outcome: 'err:' + e.message }); }
+  window.__probeDone = JSON.stringify({ results: out, ua: navigator.userAgent });
+})();
+</script></body></html>

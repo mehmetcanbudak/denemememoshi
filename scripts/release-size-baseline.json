@@ -1,0 +1,14 @@
+{
+  "appTreeSHA256": "7de47a1bd5d1589c63b03e4975c2d0fefd004b83debbaeebdeed7a73c2fba9c5",
+  "dmgSHA256": "68a79cd30fdb5e846208e9f9ce4b0323e357b23ef74c6906a9c7ada97879d200",
+  "measuredAt": "2026-11-21T15:46:20.523275Z",
+  "metric": "logical-file-bytes-plus-symlink-target-bytes",
+  "qualification": "Developer-ID-G2-notarized-stapled",
+  "schemaVersion": 1,
+  "sizes": {
+    "app": 92205576,
+    "dmg": 74602581,
+    "installed_total": 124650423,
+    "memoshid": 32444847
+  }
+}

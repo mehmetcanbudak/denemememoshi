@@ -1,0 +1,7 @@
+{
+  "jsonrpc": "2.0",
+  "method": "system.cancel",
+  "params": {
+    "id": "d:913"
+  }
+}

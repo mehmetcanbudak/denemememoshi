@@ -1,0 +1,43 @@
+{
+  "id": "c:9",
+  "jsonrpc": "2.0",
+  "result": {
+    "card": {
+      "botId": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+      "conversationId": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P",
+      "createdAt": 1792497602010,
+      "expiresAt": 1792499402010,
+      "id": "crd_01JB8Z7N3P4Q5R6S7T8V9W0X1Z",
+      "inbox": true,
+      "kind": "approval",
+      "messageId": "msg_01JB8Z7P4Q5R6S7T8V9W0X1Y2Z",
+      "needsYou": true,
+      "outcome": {
+        "action": "allow_once"
+      },
+      "payload": {
+        "argsPreview": {
+          "command": "npm test"
+        },
+        "tier": 2,
+        "tool": "bash"
+      },
+      "resolvedAt": 1792497605230,
+      "resolvedBy": {
+        "kind": "user"
+      },
+      "status": "resolved",
+      "subject": {
+        "id": "apr_01JB8Z7N3P4Q5R6S7T8V9W0X1Y",
+        "kind": "approval"
+      },
+      "taskId": "tsk_01JB8Z6A1B2C3D4E5F6G7H8J9K",
+      "title": "Run npm test?"
+    },
+    "effects": {
+      "approvalId": "apr_01JB8Z7N3P4Q5R6S7T8V9W0X1Y",
+      "status": "allowed"
+    },
+    "writtenSeq": 184236
+  }
+}

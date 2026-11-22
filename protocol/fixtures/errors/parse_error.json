@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32700,
+    "data": {
+      "kind": "parse_error",
+      "retryable": false
+    },
+    "message": "The frame is not valid JSON."
+  },
+  "id": null,
+  "jsonrpc": "2.0"
+}

@@ -1,0 +1,17 @@
+{
+  "from": {
+    "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+    "kind": "device"
+  },
+  "msgId": "01JB9A0B1C2D3E4F5G6H7J8K07",
+  "payload": {
+    "conversationId": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P",
+    "expectedEpoch": 7,
+    "expiresAt": 1792497780000
+  },
+  "sentAt": 1792497720000,
+  "to": {
+    "kind": "authority"
+  },
+  "type": "lease.claim"
+}

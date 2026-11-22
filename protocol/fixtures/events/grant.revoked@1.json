@@ -1,0 +1,26 @@
+{
+  "actor": {
+    "id": "usr_01JC0A1B2C3D4E5F6G7H8J9K0M",
+    "kind": "user"
+  },
+  "deviceId": "dev_01JC0D4E5F6G7H8J9K0M1N2P3Q",
+  "payload": {
+    "by": {
+      "id": "usr_01JC0A1B2C3D4E5F6G7H8J9K0M",
+      "kind": "user"
+    },
+    "grantId": "grt_01JC3G1A2B3C4D5E6F7G8H9J0K"
+  },
+  "scope": {
+    "botId": "bot_01JC3F7Q9R2M8K4T6V5W0X1Y2Z"
+  },
+  "seq": 48430,
+  "subject": {
+    "id": "grt_01JC3G1A2B3C4D5E6F7G8H9J0K",
+    "kind": "grant"
+  },
+  "ts": 1792488700000,
+  "type": "grant.revoked",
+  "typeVersion": 1,
+  "v": 1
+}

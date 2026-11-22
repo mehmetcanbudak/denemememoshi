@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+  workflow_dispatch:
+  schedule:
+    # Nightly at 03:17 UTC, on the default branch.
+    - cron: "17 3 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: Build, test and lint
+    # The runner is self-hosted on the development Mac, so this workflow runs for pushes,
+    # schedules and manual runs only (D90); a push already covers every branch of this
+    # repository. No line here can keep a fork's pull request off the runner, because a pull
+    # request brings its own workflow files: that boundary is the repository's settings
+    # (approval for outside contributors' workflows and the runner group's repository access).
+    runs-on: [self-hosted, macOS, ARM64, memoshi]
+    timeout-minutes: 180
+    env:
+      # Runner-owned local source and private POSIX scratch; no branch, tag or disk bypass.
+      MEMOSHI_PI_SWIFT_SOURCE: ${{ vars.MEMOSHI_PI_SWIFT_SOURCE }}
+      MEMOSHI_BUILD_ROOT: ${{ vars.MEMOSHI_BUILD_ROOT }}
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Every check lives in scripts/ci.sh, so local runs and CI never differ.
+      - name: Run scripts/ci.sh
+        run: scripts/ci.sh

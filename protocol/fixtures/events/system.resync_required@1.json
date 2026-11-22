@@ -1,0 +1,23 @@
+{
+  "actor": {
+    "kind": "system"
+  },
+  "after": 50140,
+  "deviceId": "dev_01JC0D4E5F6G7H8J9K0M1N2P3Q",
+  "payload": {
+    "reason": "projector_reset",
+    "scope": {
+      "conversationId": "ses_01JC3G2A7B8C9D0E1F2G3H4J5K"
+    }
+  },
+  "scope": {},
+  "seq": null,
+  "subject": {
+    "id": "memoshid",
+    "kind": "system"
+  },
+  "ts": 1792486900000,
+  "type": "system.resync_required",
+  "typeVersion": 1,
+  "v": 1
+}

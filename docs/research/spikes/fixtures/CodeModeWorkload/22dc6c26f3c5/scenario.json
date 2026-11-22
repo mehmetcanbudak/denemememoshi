@@ -1,0 +1,157 @@
+{
+  "schema": "memoshi.codemode-workload.scenario.v1",
+  "record": "docs/research/spikes/2026-11-02-code-mode-workload.md",
+  "status": "Memoshi's proposed D89/D90 workload. Limits await acceptance; no Release/device gate-protocol measurement exists. Mac Debug W1/W2 and CLI diagnostics are recorded separately in the linked record, not used as p95 or gate evidence.",
+  "head": "22dc6c26f3c530e11b8cc40443ecdce2b3c84116",
+  "consumerPin": "892585fc8d8be3093b58c34aacffcd4e68c3a8d9",
+  "guest": {
+    "package": "quickjs-wasi",
+    "version": "3.6.2",
+    "engine": "QuickJS-NG 0.17.0",
+    "wasmBytes": 637405,
+    "wasmSha256": "d4c9375f2b1ca4dc95f72c8aa2982a7a9951ac8011490d79c6582df732b4bbd9",
+    "preludeSha256AtConsumerPin": "57c8dc8c0e812117d82167fa751bc368f249d5aaee56d321066fc5280c785281"
+  },
+  "backends": [
+    { "id": "wasm2c", "role": "shipping backend and gate subject (D89)", "generator": "WABT 1.0.42" },
+    { "id": "WasmKit", "role": "reference and compatibility fallback (D89); measured and reported, held to the same limits before any fallback use" }
+  ],
+  "devices": [
+    { "id": "iPhone14Pro", "role": "binding D89/D46 gate device (D80)", "os": "iOS 27" },
+    { "id": "iPadPro12.9-5thGen-M1", "role": "second D80 reference device; same protocol and limits, reported separately", "os": "iPadOS 27" }
+  ],
+  "composition": {
+    "provider": "PiAI faux provider, model faux/faux-1, default options (no pacing). Each turn: response 1 is one codemode tool call whose `code` is the workload script, stopReason toolUse; response 2 is the text `ok`.",
+    "storage": "A fresh file-backed SQLite store in a new private directory per launch (Swift openSqliteStorage; Node openNodeSqliteStorage).",
+    "harnessSettings": "Defaults.",
+    "extensions": [
+      { "name": "fixture.tools", "contents": "The six fixture tools below, replay safe, callers [tools]." },
+      { "name": "fixture.policy", "contents": "pi.tool beforeTool returns no decision change and counts calls; afterTool returns no change. Stands in for the mandatory policy seam so every outer and nested call crosses a hook." },
+      { "name": "codemode", "contents": "createCodemodeTool(sandbox, models: false), wrapped only to read the clock around execute. Installed after Harness.open and the idle baseline; the registry is live." }
+    ],
+    "sandbox": {
+      "memoryLimitBytes": 268435456,
+      "memoryLimitSource": "docs/plan/04-architecture.md §4.7 sketch and upstream bench:codemode; the product iOS limit is not decided by this record",
+      "timeoutMs": 300000,
+      "maxStackSize": "CODEMODE_MAX_STACK_SIZE (524288)",
+      "interruptBudget": "default (unset)",
+      "acquireWorker": "unset",
+      "wasmLoader": "loadQuickJSWasm() wrapped to time module loads (WasmKit); unused by a backend with no wasm module",
+      "onWorkerStarted": "records each VM lifetime"
+    }
+  },
+  "tools": [
+    {
+      "name": "issues_list",
+      "parameters": { "repo": "string", "state": "string", "limit": "integer" },
+      "valid": "repo == \"memoshi/fixture\", state == \"open\", 1 <= limit <= 9",
+      "result": "Compact JSON {repo, state:\"open\", items:[{number, title:\"Fixture issue <number>\"}]} for number = 100+limit down to 101."
+    },
+    {
+      "name": "issue_get",
+      "parameters": { "repo": "string", "number": "integer" },
+      "valid": "repo == \"memoshi/fixture\", 101 <= number <= 109",
+      "result": "Compact JSON with keys in this order: number; title \"Fixture issue <n>\"; state \"open\"; author \"author-<(n % 3) + 1>\"; labels [\"fixture\", n even ? \"bug\" : \"feature\"] + (n % 4 == 0 ? [\"ui\"] : []); createdAt \"2026-10-<pad2(10+i)>T09:00:00Z\"; updatedAt \"2026-11-<pad2(((i*3) % 4) + 1)>T<pad2(10+i)>:00:00Z\"; comments n % 9; body. i = n - 100.",
+      "body": "Lines joined by a newline, no trailing newline: \"## Summary\"; for p in 1...24 \"Paragraph <pad2(p)> of issue <n>: the fixture text repeats until the body reaches its target size.\"; \"## Tasks\"; for t in 1...8 (t <= n % 5 ? \"- [x] \" : \"- [ ] \") + \"Task <t> for issue <n>\"."
+    },
+    {
+      "name": "code_search",
+      "parameters": { "query": "string", "path": "string", "maxResults": "integer" },
+      "valid": "query == \"TODO(memoshi)\", path == \"Sources\", 1 <= maxResults <= 10",
+      "result": "Compact JSON {query, matches:[{path:\"Sources/Module<KK>/File<KK>.swift\", line:25}]} for KK = 01 up to maxResults."
+    },
+    {
+      "name": "file_read",
+      "parameters": { "path": "string" },
+      "valid": "path == \"Sources/Module<KK>/File<KK>.swift\" with the same KK in 01...10",
+      "result": "Plain text, 1,000 lines of exactly 45 characters, each followed by a newline (46,000 bytes, under the 51,200-byte / 2,000-line default tool output limit). Line i: i % 25 == 0 ? \"// TODO(memoshi): item <KK>-<pad4(i)> review needed.\" : \"let v<KK>_<pad4(i)> = <pad4(i)> + <KK> // fixture code line\"."
+    },
+    {
+      "name": "symbols_outline",
+      "parameters": { "paths": "array of string" },
+      "valid": "1 to 10 valid file_read paths",
+      "result": "Compact JSON {files:[{path, symbols:960, firstSymbol:\"v<KK>_0001\", lastSymbol:\"v<KK>_0999\"}]} in request order."
+    },
+    {
+      "name": "probe_mark",
+      "parameters": { "phase": "string" },
+      "valid": "any phase",
+      "result": "Text \"ok\"; signals the harness that a W3 script reached its stop or limit phase."
+    }
+  ],
+  "workloads": [
+    {
+      "id": "W1",
+      "name": "issue-digest-5",
+      "role": "Gate timing workload: requirements §4's durable script with 5 nested calls and phase-0 exit-demo step 6.",
+      "script": "scripts/w1-issue-digest.js",
+      "shape": "1 issues_list, then 4 parallel issue_get; JSON parse, sort, split/regex word counts; returns a 344-byte JSON string.",
+      "nestedCalls": 5,
+      "toolsUsed": 2,
+      "nestedResultBytes": 10928
+    },
+    {
+      "id": "W2",
+      "name": "batch-read-12",
+      "role": "Gate timing and memory-ceiling workload: 07-coding §10.1 batch search/read/summarize at the inline tool-output limit; 12 calls across 3 tools as in the CodeModeCard header example.",
+      "script": "scripts/w2-batch-read.js",
+      "shape": "1 code_search, then 10 parallel file_read and 1 symbols_outline; multiline regex over 460,000 characters; returns a 150-byte JSON string.",
+      "nestedCalls": 12,
+      "toolsUsed": 3,
+      "nestedResultBytes": 461598
+    },
+    {
+      "id": "W3a",
+      "name": "stop-polling-loop",
+      "role": "Interruption: Stop during an interrupt-polling JavaScript loop.",
+      "script": "scripts/w3a-stop-loop.js"
+    },
+    {
+      "id": "W3b",
+      "name": "stop-native-sort",
+      "role": "Interruption: Stop during a long native built-in (default Array.prototype.sort of 262,144 numbers), the P05-04 case.",
+      "script": "scripts/w3b-stop-builtin.js"
+    },
+    {
+      "id": "W3c",
+      "name": "memory-limit",
+      "role": "Limit: allocation until the configured QuickJS memory limit fails the script.",
+      "script": "scripts/w3c-memory-limit.js"
+    }
+  ],
+  "protocol": {
+    "build": "Release, no debugger attached (EnvironmentReading.debuggerAttached false), installed signed host app on the device.",
+    "environmentGates": "Before each launch: device unlocked, host in the foreground, Low Power Mode off, thermalState nominal (wait and record otherwise), no other measured host running. Charging state and OS build recorded.",
+    "launchesPerConfiguration": 10,
+    "configuration": "device × backend × workload; every launch is a fresh process started by the driver, which enforces a per-launch deadline (120 s for W1/W2, 300 s for W3*) and records a missed deadline as a failed launch.",
+    "launchW1W2": [
+      "Open a fresh store, the faux provider, fixture.tools and fixture.policy, Harness.open, configure faux/faux-1 (unmeasured).",
+      "Idle 2,000 ms; read the idle baseline footprint.",
+      "Code Mode initialisation (measured, codemodeInitMs): construct CodemodeSandbox, install the codemode extension. No VM may have started.",
+      "Cold turn: submit, wait. Sample mode cold.",
+      "Idle 1,500 ms; warm-up turn (recorded, not a sample).",
+      "Idle 1,500 ms; warm turn. Sample mode warm.",
+      "Idle 1,500 ms; read the final footprint (retained warm state, pool included)."
+    ],
+    "launchW3": [
+      "Same composition, idle baseline and initialisation.",
+      "Warm-up W1 turn, verified.",
+      "Idle 1,500 ms; the W3 turn. W3a/W3b: after probe_mark fires, wait 100 ms, press Stop through Conversation.abort(), wait for the submission's terminal state and for the VM lifetime's exit. W3c: run to completion.",
+      "Idle 1,500 ms; isolation W1 turn, verified.",
+      "Idle 1,500 ms; read the final footprint."
+    ],
+    "statistic": "Nearest-rank p95: sort the 10 samples ascending and take sample ceil(0.95 × 10) = 10, the maximum. Report every raw sample, median and maximum.",
+    "validity": "A launch counts only when every turn verifies against expected.json, no VM started before the cold turn, the build is Release without a debugger, and the environment gates held. A verification failure fails the configuration; a root-caused harness defect may be fixed and the whole configuration rerun."
+  },
+  "limits": {
+    "W1": { "coldP95Ms": 600, "warmP95Ms": 100, "boundary": "codemode tool execute entry to return (TurnSample.codemodeMs)" },
+    "W2": { "coldP95Ms": 1500, "warmP95Ms": 1000, "boundary": "codemode tool execute entry to return (TurnSample.codemodeMs)" },
+    "incrementalFootprintCeilingBytes": 100000000,
+    "incrementalFootprintRule": "Per W1/W2 launch: max(final ledger_phys_footprint_peak, final phys_footprint) - idle baseline phys_footprint, warm pool and retained VMs included; the maximum over the 10 launches must not exceed the ceiling. W3 launches: the final phys_footprint after the isolation turn minus the idle baseline must not exceed the ceiling.",
+    "W3a": { "stopSettledP95Ms": 1000, "also": "probe phase loop; no nested call after probe_mark; worker exit observed; isolation W1 verified" },
+    "W3b": { "stopSettledP95Ms": 1000, "also": "as W3a; workerExitedMs is recorded, not limited by this record (P05-04); a script that completed before Stop is not exercised" },
+    "W3c": { "also": "script fails naming the limit (out of memory or a sandbox failure), the host process survives, isolation W1 verified" },
+    "gateSubject": "wasm2c must meet every limit on the iPhone 14 Pro for the D89/D46 Code Mode criterion. WasmKit results are always reported; WasmKit may serve as a fallback only after meeting the same limits."
+  },
+  "results": "One harness LaunchResult JSON line per launch (schema memoshi.codemode-workload.result.v1), retained with device, OS build, backend identity evidence, Pi_Swift revision, guest SHA-256 and, for wasm2c, generated-source digest and compiler settings."
+}

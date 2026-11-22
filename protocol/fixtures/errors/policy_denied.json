@@ -1,0 +1,13 @@
+{
+  "error": {
+    "code": -32009,
+    "data": {
+      "kind": "policy_denied",
+      "retryable": false,
+      "ruleId": "hard_deny.spend_cap"
+    },
+    "message": "Policy denies this request."
+  },
+  "id": "c:34",
+  "jsonrpc": "2.0"
+}

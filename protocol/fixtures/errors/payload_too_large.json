@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32015,
+    "data": {
+      "kind": "payload_too_large",
+      "retryable": false
+    },
+    "message": "The message is larger than 1 MiB."
+  },
+  "id": "c:40",
+  "jsonrpc": "2.0"
+}

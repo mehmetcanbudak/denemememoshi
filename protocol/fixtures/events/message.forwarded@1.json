@@ -1,0 +1,25 @@
+{
+  "actor": {
+    "kind": "user"
+  },
+  "cseq": 935,
+  "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+  "payload": {
+    "fromDeviceId": "dev_01JB8Z1F2G3H4J5K6M7N8P9Q0R",
+    "messageId": "msg_01JB8ZE5F6G7H8J9K0M1N2P3Q4"
+  },
+  "scope": {
+    "botId": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+    "conversationId": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P",
+    "taskId": "tsk_01JB9B2E3F4G5H6J7K8M9N0P1Q"
+  },
+  "seq": 184270,
+  "subject": {
+    "id": "msg_01JB8ZE5F6G7H8J9K0M1N2P3Q4",
+    "kind": "message"
+  },
+  "ts": 1792497650400,
+  "type": "message.forwarded",
+  "typeVersion": 1,
+  "v": 1
+}

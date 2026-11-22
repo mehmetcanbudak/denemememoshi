@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32013,
+    "data": {
+      "kind": "provider_error",
+      "retryable": true
+    },
+    "message": "The model provider returned an error."
+  },
+  "id": "c:38",
+  "jsonrpc": "2.0"
+}

@@ -1,0 +1,8 @@
+{
+  "id": "d:1",
+  "jsonrpc": "2.0",
+  "result": {
+    "ttlMs": 60000,
+    "value": "fixture-only-not-a-secret"
+  }
+}

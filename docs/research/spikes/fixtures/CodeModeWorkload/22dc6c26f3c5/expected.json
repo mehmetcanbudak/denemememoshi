@@ -1,0 +1,56 @@
+{
+  "schema": "memoshi.codemode-workload.expected.v1",
+  "derivation": "Derived analytically from the generator rules in scenario.json and cross-checked at authoring time by an independent reimplementation of those rules and script semantics. Not yet produced by an upstream Node, Pi_Swift or device run; see provenance.json.",
+  "workloads": {
+    "W1": {
+      "script": "scripts/w1-issue-digest.js",
+      "outcome": "completed",
+      "result": "{\"repo\":\"memoshi/fixture\",\"count\":4,\"rows\":[{\"n\":101,\"labels\":\"fixture,feature\",\"words\":451,\"tasks\":\"1/8\",\"comments\":2},{\"n\":102,\"labels\":\"fixture,bug\",\"words\":450,\"tasks\":\"2/8\",\"comments\":3},{\"n\":103,\"labels\":\"fixture,feature\",\"words\":449,\"tasks\":\"3/8\",\"comments\":4},{\"n\":104,\"labels\":\"fixture,bug,ui\",\"words\":448,\"tasks\":\"4/8\",\"comments\":5}]}",
+      "resultBytes": 344,
+      "nestedCalls": 5,
+      "callsByTool": { "issues_list": 1, "issue_get": 4 },
+      "hookDecisions": 6,
+      "inputBytes": {
+        "script": 855,
+        "issues_list": 223,
+        "issue_get": { "101": 2677, "102": 2673, "103": 2677, "104": 2678 },
+        "nestedTotal": 10928
+      }
+    },
+    "W2": {
+      "script": "scripts/w2-batch-read.js",
+      "outcome": "completed",
+      "result": "{\"files\":10,\"bytes\":460000,\"todos\":400,\"lineSum\":205000,\"perFile\":[40,40,40,40,40,40,40,40,40,40],\"symbols\":9600,\"first\":\"v01_0001\",\"last\":\"v10_0999\"}",
+      "resultBytes": 150,
+      "nestedCalls": 12,
+      "callsByTool": { "code_search": 1, "file_read": 10, "symbols_outline": 1 },
+      "hookDecisions": 13,
+      "inputBytes": {
+        "script": 974,
+        "code_search": 547,
+        "file_read": 46000,
+        "file_read_lines": 1000,
+        "symbols_outline": 1051,
+        "nestedTotal": 461598
+      }
+    },
+    "W3a": {
+      "script": "scripts/w3a-stop-loop.js",
+      "outcome": "stopped",
+      "probePhase": "loop"
+    },
+    "W3b": {
+      "script": "scripts/w3b-stop-builtin.js",
+      "outcome": "stopped",
+      "probePhase": "builtin",
+      "completedValueIfNotStopped": "262144"
+    },
+    "W3c": {
+      "script": "scripts/w3c-memory-limit.js",
+      "outcome": "scriptFailure",
+      "probePhase": "memory",
+      "hookDecisions": 2,
+      "errorTextAnyOf": ["out of memory", "Script sandbox failed"]
+    }
+  }
+}

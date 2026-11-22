@@ -1,0 +1,19 @@
+{
+  "from": {
+    "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+    "kind": "device"
+  },
+  "msgId": "01JB9A0B1C2D3E4F5G6H7J8K01",
+  "payload": {
+    "change": "add",
+    "commit": "AAEAAQADAgAgc29tZSBNTFMgY29tbWl0IGJ5dGVz",
+    "fromEpoch": 3,
+    "groupId": "bWVtb3NoaS1kZXZpY2UtZ3JvdXA",
+    "subjectDeviceId": "dev_01JB8Z1F2G3H4J5K6M7N8P9Q0R"
+  },
+  "sentAt": 1792497700400,
+  "to": {
+    "kind": "authority"
+  },
+  "type": "group.commit"
+}

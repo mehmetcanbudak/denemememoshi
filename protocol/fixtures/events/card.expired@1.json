@@ -1,0 +1,31 @@
+{
+  "actor": {
+    "kind": "system"
+  },
+  "cseq": 353,
+  "deviceId": "dev_01JC0D4E5F6G7H8J9K0M1N2P3Q",
+  "origin": {
+    "hops": 0,
+    "id": "usr_01JC0A1B2C3D4E5F6G7H8J9K0M",
+    "kind": "user",
+    "rootKind": "user"
+  },
+  "payload": {
+    "cardId": "crd_01JC3G5Y6Z7A8B9C0D1E2F3G4J"
+  },
+  "scope": {
+    "botId": "bot_01JC3F7Q9R2M8K4T6V5W0X1Y2Z",
+    "conversationId": "ses_01JC3G2A7B8C9D0E1F2G3H4J5K",
+    "projectId": "prj_01JC1A2B3C4D5E6F7G8H9J0K1M",
+    "taskId": "tsk_01JC3G4M5N6P7Q8R9S0T1V2W3X"
+  },
+  "seq": 48413,
+  "subject": {
+    "id": "crd_01JC3G5Y6Z7A8B9C0D1E2F3G4J",
+    "kind": "card"
+  },
+  "ts": 1792488612401,
+  "type": "card.expired",
+  "typeVersion": 1,
+  "v": 1
+}

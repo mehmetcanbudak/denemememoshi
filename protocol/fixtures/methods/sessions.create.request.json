@@ -1,0 +1,10 @@
+{
+  "id": "c:1",
+  "jsonrpc": "2.0",
+  "method": "sessions.create",
+  "params": {
+    "leadBotId": "bot_00000000000000000000000002",
+    "requestId": "00000000000000000000000006",
+    "title": "Trip plan"
+  }
+}

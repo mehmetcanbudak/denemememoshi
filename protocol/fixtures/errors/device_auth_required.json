@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32029,
+    "data": {
+      "kind": "device_auth_required",
+      "retryable": false
+    },
+    "message": "Confirm with Face ID, Touch ID or your passcode first."
+  },
+  "id": "c:54",
+  "jsonrpc": "2.0"
+}

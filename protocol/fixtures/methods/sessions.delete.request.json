@@ -1,0 +1,9 @@
+{
+  "id": "c:1",
+  "jsonrpc": "2.0",
+  "method": "sessions.delete",
+  "params": {
+    "requestId": "00000000000000000000000007",
+    "sessionId": "ses_00000000000000000000000001"
+  }
+}

@@ -1,0 +1,19 @@
+.DS_Store
+__pycache__/
+*.pyc
+
+# Generated Xcode projects (scripts/generate-project.sh writes them from project.yml).
+*.xcodeproj/
+
+# Build output: Xcode derived data and SwiftPM build and checkout directories.
+build/
+.build/
+DerivedData/
+.swiftpm/
+
+# Generated payloads. scripts/package-pyodide.py recreates the Pyodide runtime from pinned,
+# hash-checked downloads; its committed manifest.json is the lock. scripts/build-memoshi-mls.sh
+# writes (or symlinks) the native MLS XCFramework.
+/Packages/MemoshiApp/Sources/PyodideSpike/Resources/Runtime/*
+!/Packages/MemoshiApp/Sources/PyodideSpike/Resources/Runtime/manifest.json
+/Packages/MemoshiMLS/Artifacts

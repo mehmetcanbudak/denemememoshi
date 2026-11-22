@@ -1,0 +1,10 @@
+{
+  "id": "c:2",
+  "jsonrpc": "2.0",
+  "result": {
+    "head": 184230,
+    "headTs": 1792497599050,
+    "minRetainedSeq": 120001,
+    "mode": "replay"
+  }
+}

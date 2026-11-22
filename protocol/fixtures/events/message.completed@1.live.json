@@ -1,0 +1,40 @@
+{
+  "actor": {
+    "id": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+    "kind": "bot"
+  },
+  "cseq": 918,
+  "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+  "payload": {
+    "content": [
+      {
+        "text": "CI is red because auth.spec.ts times out after the token change.",
+        "type": "text"
+      }
+    ],
+    "messageId": "msg_01JB8Z6A1B2C3D4E5F6G7H8J9M",
+    "stopReason": "stop",
+    "usage": {
+      "cacheReadTokens": 1536,
+      "cacheWriteTokens": 0,
+      "costKnown": true,
+      "costMicroUsd": 4120,
+      "inputTokens": 1840,
+      "outputTokens": 212
+    }
+  },
+  "scope": {
+    "botId": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+    "conversationId": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P",
+    "taskId": "tsk_01JB8Z6A1B2C3D4E5F6G7H8J9K"
+  },
+  "seq": 184238,
+  "subject": {
+    "id": "msg_01JB8Z6A1B2C3D4E5F6G7H8J9M",
+    "kind": "message"
+  },
+  "ts": 1792497603400,
+  "type": "message.completed",
+  "typeVersion": 1,
+  "v": 1
+}

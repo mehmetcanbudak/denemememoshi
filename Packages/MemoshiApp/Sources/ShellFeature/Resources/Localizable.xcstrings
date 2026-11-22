@@ -1,0 +1,325 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@, %@, %@" : {
+      "comment" : "Accessibility label and Large Content Viewer text of a conversation's header: the bot's name, its badge (Development or Preview) and its connection detail."
+    },
+    "Appearance" : {
+
+    },
+    "Bot" : {
+
+    },
+    "Bot conversation" : {
+
+    },
+    "Bot conversation: %@" : {
+
+    },
+    "Bots" : {
+      "comment" : "Roster section and mobile navigation title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bots"
+          }
+        }
+      }
+    },
+    "Choose Current or Warm colors and inspect sample Activity." : {
+
+    },
+    "Choose Current or Warm colors for the local preview." : {
+
+    },
+    "Choose a bot or inspect its example activity." : {
+
+    },
+    "Choose example Activity, sample resource details or a bot conversation" : {
+
+    },
+    "Choose preview bot" : {
+
+    },
+    "Clear Search" : {
+      "comment" : "Restores the roster after a search with no results.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear Search"
+          }
+        }
+      }
+    },
+    "Close Context" : {
+
+    },
+    "Close the context pane (⌃⌘I)" : {
+
+    },
+    "Compare Current and Warm palettes without changing your workspace" : {
+
+    },
+    "Context" : {
+
+    },
+    "Design Preview" : {
+      "comment" : "Identifies the local visual review mode, not an active agent connection.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Design Preview"
+          }
+        }
+      }
+    },
+    "Design Preview · Not connected" : {
+      "comment" : "Mac window subtitle disclosing example-only content.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Design Preview · Not connected"
+          }
+        }
+      }
+    },
+    "Design Preview · Not connected. Search names and descriptions, then open a local example chat." : {
+
+    },
+    "Design review" : {
+
+    },
+    "Development" : {
+
+    },
+    "Development chat and review" : {
+
+    },
+    "Development chat · Engine on this device" : {
+      "comment" : "Mobile menu disclosure for the real Assistant Chat whose engine runs in this app.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Development chat · Engine on this device"
+          }
+        }
+      }
+    },
+    "Development chat · Production tools disabled" : {
+
+    },
+    "Done" : {
+      "comment" : "Dismisses the mobile example Activity inspector.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "Engine on this device" : {
+
+    },
+    "Example Activity" : {
+
+    },
+    "Examples only · Not connected" : {
+      "comment" : "Persistent Mac sidebar notice; no engine or services are connected.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Examples only · Not connected"
+          }
+        }
+      }
+    },
+    "Explore Sample Resources" : {
+
+    },
+    "Library" : {
+
+    },
+    "Local" : {
+
+    },
+    "Local approval review · Production tools disabled" : {
+
+    },
+    "Local preview" : {
+
+    },
+    "Matching preview bots" : {
+
+    },
+    "Memoshi" : {
+      "comment" : "The product's name, also the example assistant's tab title."
+    },
+    "No connected bots or pending requests. This design preview does not request or grant approvals." : {
+
+    },
+    "No matching bots or sample resources." : {
+
+    },
+    "No names or descriptions match “%@”." : {
+      "comment" : "Empty search result; the placeholder is the text the person typed."
+    },
+    "No preview bots found" : {
+
+    },
+    "Nothing Waiting for You" : {
+
+    },
+    "One original sample note · not a synced page" : {
+
+    },
+    "Open %@" : {
+
+    },
+    "Open Activity Beside" : {
+
+    },
+    "Open Beside" : {
+
+    },
+    "Open Conversation" : {
+
+    },
+    "Open Details" : {
+
+    },
+    "Open Details Beside" : {
+
+    },
+    "Open sample resource details beside the conversation" : {
+
+    },
+    "Open the sample resource’s bot conversation" : {
+
+    },
+    "Open this bot conversation beside the main pane" : {
+
+    },
+    "Opens %@'s local preview conversation." : {
+      "comment" : "Accessibility hint; the placeholder is an example bot's name."
+    },
+    "Opens local example steps. No tools run." : {
+
+    },
+    "Other bots and resources are examples" : {
+
+    },
+    "Others" : {
+
+    },
+    "Pages" : {
+
+    },
+    "Palette" : {
+
+    },
+    "Palette and preview options" : {
+
+    },
+    "Pinned" : {
+      "comment" : "Mac roster section containing the personal Assistant example.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pinned"
+          }
+        }
+      }
+    },
+    "Preview" : {
+
+    },
+    "Preview Chat" : {
+
+    },
+    "Preview bot" : {
+
+    },
+    "Preview routes, bots and resources" : {
+
+    },
+    "Preview · Not connected" : {
+
+    },
+    "Projects" : {
+
+    },
+    "Resource" : {
+
+    },
+    "Routes, bots and sample resources" : {
+
+    },
+    "Sample Activity" : {
+
+    },
+    "Sample Activity for %@" : {
+      "comment" : "Menu item; the placeholder is an example bot's name."
+    },
+    "Sample Details" : {
+
+    },
+    "Sample Resource" : {
+
+    },
+    "Sample Resources" : {
+
+    },
+    "Sample work for %@ · no model or tool has run" : {
+
+    },
+    "Search" : {
+
+    },
+    "Search Results" : {
+
+    },
+    "Search bots and resources" : {
+
+    },
+    "Search bots and sample resources" : {
+
+    },
+    "Search preview bots" : {
+
+    },
+    "Show Example Activity" : {
+
+    },
+    "Show a bot conversation without replacing the main selection" : {
+
+    },
+    "Show or hide Activity, sample details or a bot conversation (⌃⌘I)" : {
+
+    },
+    "Show or hide the sidebar (⌃⌘S)" : {
+
+    },
+    "Sidebar" : {
+
+    },
+    "Switches the visible local conversation without clearing drafts." : {
+
+    },
+    "Two original sample resources, available entirely in this local preview." : {
+
+    },
+    "Your assistant and other bots" : {
+
+    }
+  },
+  "version" : "1.0"
+}

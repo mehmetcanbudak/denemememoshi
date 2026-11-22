@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32020,
+    "data": {
+      "kind": "timeout",
+      "retryable": true
+    },
+    "message": "The deadline passed."
+  },
+  "id": "c:45",
+  "jsonrpc": "2.0"
+}

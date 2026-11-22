@@ -1,0 +1,2280 @@
+{
+  "$meta": {
+    "name": "Memoshi design tokens",
+    "version": "4.0.0-draft.11",
+    "status": "Draft 4 · 2026-10-20; D91–D94 native design hierarchy retained; P0-13 native recipes and foreground-only accessibility correction updated 2026-11-04; D127 avatar name-text contrast correction 2026-11-13",
+    "owner": "docs/plan/03-design-system.md",
+    "platform": "macOS 27+ on Apple silicon; iOS 27+ and iPadOS 27+; SwiftUI with AppKit on macOS",
+    "supersedes": "Draft 3 specs/design-tokens.json 0.1.0 (Kuvo-inspired baseline; Memoshi-Plan commit 3570e71)",
+    "appearances": ["light", "dark", "increasedContrastLight", "increasedContrastDark"],
+    "conventions": {
+      "color": "'#RRGGBB' or '#RRGGBBAA' sRGB. 'system' names a native color used at runtime; 'nativeAccent' derives Current text/fill from the resolved user accent with quantized OKLCH lightness and gamut-limited chroma. Hex values remain preview and test fallbacks. Warm retains its explicit variants; runtime derivation is not native-surface acceptance.",
+      "units": "Lengths in points (pt). Durations in milliseconds. Angles in degrees unless the key says Rad.",
+      "curves": "Cubic Bezier control points [x1, y1, x2, y2], identical to CSS cubic-bezier() and SwiftUI Animation.timingCurve(_:_:_:_:duration:).",
+      "springs": "{durationMs, bounce} as in SwiftUI Spring(duration:bounce:); Core Animation reads mass/stiffness/damping from the same Spring value.",
+      "geometry": "Avatar shapes are parametric definitions in a 100 x 100 view box (y grows downward). Generated paths are cached per shape and size.",
+      "budgets": "Budget classes B0-B3 are defined under performance.budgetClasses.",
+      "reduceMotion": "'instant' = final state with no interpolation; 'fade:<ms>' = opacity crossfade only (no translate, scale, rotate, blur); 'static-pose' = avatar still pose plus its non-motion cue."
+    },
+    "sources": [
+      {
+        "id": "viticci-assistant-reference",
+        "title": "Viticci's observed Apple-native assistant interaction grammar; selected hierarchy under D92",
+        "location": "docs/research/2026-10-23-design-direction-review.md#3-observed-ui-patterns-worth-discussing",
+        "license": "Visual/interaction reference only; no implementation or artwork rights inferred",
+        "use": "Leads one coherent Apple-native assistant family across Mac, iPhone and iPad: persistent bots/Chat, native resource cards, collapsed work with inspectable activity, and versioned mini-app/change flows (D92). D94 subsequently selects the newer-reference preview layout and reversible Current/Warm palette comparison; it does not adopt every pictured feature, exact pixels or final numerical values. Evidence and implemented scenarios live in docs/specs/design-reference.md. Accessibility, Reduce Motion, performance gates, original artwork and user design review remain required; D93 makes targeted outside help optional."
+      },
+      {
+        "id": "aiden-0.36.1",
+        "title": "Aiden Agent renderer (styles.css, lib/streaming-reveal.ts, lib/chat-title-reveal.ts), PRODUCT.md, docs/chatgpt-desktop-ui-inspiration.md, docs/gpui-port/parity-audit-design-motion.md, design-qa.md",
+        "location": "~/Memoshi/aiden-agent (upstream main f87e9e7f, v0.36.1)",
+        "license": "MIT",
+        "use": "Motion values, elevation ladder, Markdown scale, syntax colors: adapted with attribution; the Aiden motion/streaming/activity recipes retain their existing later-design-pass stage under D92"
+      },
+      {
+        "id": "aiden-0.58.0",
+        "title": "Aiden Agent upstream main (styles.css, lib/streaming-reveal.ts, docs/activity-marks.md, docs/design-guide.md, renderer/components/bot-avatar.tsx)",
+        "location": "https://github.com/sambitcreate/aiden-agent (fetched 2026-10-20)",
+        "license": "MIT",
+        "use": "Drift notes, block-release fallback, activity marks, avatar eye-mark concept"
+      },
+      {
+        "id": "apple-hig",
+        "title": "Apple Human Interface Guidelines: Color, Materials, Motion, Typography; Adopting Liquid Glass",
+        "location": "https://developer.apple.com/design/human-interface-guidelines/",
+        "license": "Apple documentation",
+        "use": "System color values, macOS text styles, Liquid Glass and motion rules"
+      },
+      {
+        "id": "kuvo-docs",
+        "title": "Kuvo Code public site/docs (llms-full.txt) and permitted GitHub source reference; P0-19 plans the unified docs/specs/design-reference.md reference/reuse assessment (D91, D92)",
+        "location": "https://www.kuvo.run/code/ and https://www.kuvo.run/llms-full.txt and https://github.com/serhatandic/kuvo-code",
+        "license": "PolyForm Noncommercial 1.0.0; reused code retains terms and required notices, with third-party terms checked separately (D91). Before public/commercial redistribution, resolve rights and GPL-linked iSH compatibility; no automatic Apache-2.0 relicensing",
+        "use": "Informs project/workspace, files, terminal, diff and review depth and suitable frontend reuse within the Viticci-led Apple-native assistant family, not identical pixels or behaviour (D92). Also documented avatar state vocabulary (bounce, hop and glow, cheer, sleep until wake, lookout). All participants may inspect and copy/adapt Kuvo source for this personal/noncommercial project under applicable terms, without separate observers or a lawyer-before-reference gate (D91). P0-19 records named source revisions/paths or observed runtime provenance, token/motion references, scenario review and frontend reuse viability without assumed savings. An observed Kuvo value is reference evidence, not automatic Memoshi adoption: provisional values need Memoshi scenario, accessibility and performance review, with provenance and adoption rationale in $source. No fork/import is selected or implemented here. Branding stays original; screenshots, artwork, media and private content stay outside both repos"
+      },
+      {
+        "id": "memobot-behavior",
+        "title": "Grok Bot 0.71.2 as measured by MemoBot",
+        "location": "docs/research/prior/grok-bot-measured/behavior.md (copy of ~/Projects/MemoBot/spec/behavior.md)",
+        "license": "Behavior reference only; Grok and MemoBot assets are never copied",
+        "use": "Reference counts: New Bot sheet offers 13 shapes x 11 colors; 3-column pinned grid; 280 px sidebar"
+      },
+      {
+        "id": "draft-3-tokens",
+        "title": "Draft 3 specs/design-tokens.json and docs/01-kuvo-design-base.md",
+        "location": "~/Documents/Memoshi-Plan",
+        "license": "Own",
+        "use": "Token structure, spacing scale, layout baseline (adapted). Draft 3's Kuvo-audit method is unknown; unverified values remain provisional pending named source revisions/paths or observed runtime evidence plus Memoshi scenario, accessibility and performance adoption review in P0-19's planned docs/specs/design-reference.md (D91, D92). Matching a source does not validate the old audit or automatically make a token final"
+      }
+    ],
+    "contrastCorrection": {
+      "date": "2026-11-04",
+      "source": "Memoshi P0-13 accessibility correction after the central canonical contrast check exposed failures against 03-design-system.md §4/§11. These are derived accessibility values, not competitor-token adoption or rendered/native reference-hardware proof.",
+      "method": "Only failing foreground role/appearance values change. Opaque chromatic roles move the least distance along OKLCH lightness at constant hue/chroma; chroma decreases only as needed to fit sRGB. Source-over translucent roles instead use the smallest 8-bit alpha increase with unchanged RGB. Candidates are quantized to 8-bit sRGB before evaluating every intended pairing, including shared Current/Warm status roles.",
+      "ratioMargin": 0.02,
+      "marginUse": "Changed values target the unchanged 4.5:1 text, 7:1 increased text or 3:1 strong-boundary threshold plus 0.02 after quantization. Existing passing foregrounds remain untouched.",
+      "preserved": "All surfaces, accent/default/fill/selection/focus roles, status fills/onFill, avatar identities, layout numbers, motion numbers and contrast-pair thresholds are unchanged. Original affected foreground bytes are recorded in each role's $source."
+    },
+    "changelog": [
+      "4.0.0-draft.1 (2026-10-20): rewrite for Draft 4. Semantic roles with light, dark and increased-contrast values; AA-checked text and status roles; Aiden-derived motion system; avatar shapes, palette and states; performance budgets.",
+      "4.0.0-draft.2 (2026-10-20): consistency review against 03-design-system.md and 02-experience.md. skeleton.pulse is B1 at 30 fps (TimelineView); title3 weight is semibold; the inspector overlay threshold follows the current pane widths; floatingCard, live.takeover and avatar md uses match 03 (no controls over live views).",
+      "4.0.0-draft.3 (2026-10-20): D43 Kuvo parity. Chrome values on surfaces shared with Kuvo (layout, size, spacing, density, colour, materials, type) are provisional until the clean-room parity spec (phase-0 P0-19) lands; each replaced token will record kuvo-parity in its $source.",
+      "4.0.0-draft.4 (2026-10-20): D43 sequencing. v1 builds Kuvo's look and motion, so the motion recipes are provisional on shared surfaces too. The Aiden-derived recipes, the avatarGrid layout and other Aiden- or Grok-derived values stay here as the design-pass reference (03 design-pass backlog). Budget scenario setups are now design-neutral; keys are unchanged.",
+      "4.0.0-draft.5 (2026-10-23): D91 supersedes the historical no-source/observer/legal-first reuse policy with source-informed P0-19 reference/reuse assessment and permitted personal/noncommercial source inspection/copying/adaptation under applicable terms, notices and provenance. No source imported or fork selected; unknown Kuvo/Draft 3 values remain provisional pending a named-revision or runtime check. D43's visual baseline remains until separately amended while docs/research/2026-10-23-design-direction-review.md reviews Viticci's references. Existing keys, numeric tokens, geometry, tabs, feature phases and contracting assumptions are unchanged.",
+      "4.0.0-draft.6 (2026-10-23): D92 amends D43 with one coherent Viticci-led Apple-native assistant family + Kuvo-informed workbench across Mac/iPhone/iPad, replacing blanket shared-surface pixel/behaviour parity and parity-spec precedence. P0-19 now plans docs/specs/design-reference.md; scenario-based native design review retains same-state evidence, accessibility, Reduce Motion and all numeric performance gates. Source matches are evidence, not automatic token adoption; unknown Draft 3 values remain provisional pending evidence and Memoshi adoption review. D93 removes mandatory designer allocation, hiring and payment dependencies: builder + coding agents implement, user reviews design, required QA remains and targeted outside help is optional for a concrete identified gap and separately chosen scope/cost. Token keys and numeric definitions, original avatar geometry, current layouts and all phase/drop stages stay unchanged. Historical entries are preserved; no source import, fork, new feature, date change or builder-day saving is selected.",
+      "4.0.0-draft.7 (2026-10-25): D94 selects the newer Viticci reference set for native preview review. Add four-appearance palettes.warm overrides plus surface.resource and text.onUserBubble roles; preserve prior color values as Current. Generate palette-aware AdaptiveColor values and native tint without copying third-party artwork or treating these original ivory/amber values as exact screenshot measurements. Both apps expose a persistent local palette comparison. The design reference records native smoke, contrast checks and the remaining runtime/device/performance limits; no gate or feature stage moves.",
+      "4.0.0-draft.8 (2026-11-02): P0-13 gallery and avatar prototype generation. The generator now also emits color.status, opacity, typography, motion durations/curves/springs/frame rates, the avatar geometry/palette/face/size/badge/state/overlay tokens and $meta.version. Structured fields make previously prose-only rules machine-readable without changing any existing value: avatar.colorRules.mutedNeutral (the stated light/dark neutral, reused for increased contrast), avatar.face.edge widths, avatar.sizes.*.loopFpsMax, avatar.states.*.stillPose, has_news apexEyePose/sparkleFadeMs/rateLimitMs and asleep wakeTransition.eyesOvershootScaleY. Muted avatar fills are derived at generation as mix(fill, mutedNeutral, opacity.mutedAvatar) in sRGB. layout.gallery adds builder-chosen provisional review metrics for the component gallery window. Every value stays provisional pending P0-19 evidence and Memoshi accessibility/performance review; no measured contrast, performance or native-review result is implied.",
+      "4.0.0-draft.9 (2026-11-04): P0-13 generates native motion/material/elevation bindings, performance budgets and the intended contrast-pair catalogue. Correct 26 failing foreground role/appearance values using the documented minimal hue-preserving lightness or alpha derivation and a quantized 0.02 ratio margin, without changing surfaces, identity colors, fills, thresholds or pairs. Extract existing native sheet, mobile-browser-review and device-pairing geometry into explicitly provisional semantic tokens without changing its values; QR paper remains explicitly white for machine readability. No native material/focus, performance, user-review or reference-hardware pass is implied.",
+      "4.0.0-draft.10 (2026-11-04): Generate the existing general icon inventory and sizes without treating custom/composed/deferred marks as SF Symbol names. Derive Current accent.text/fill at runtime from the resolved native accent and intended opaque surfaces; preserve fallback bytes, Warm variants, contrast thresholds and all existing numeric tokens. Cache by native appearance, contrast, accent and native surfaces. This is implementation, not user adoption or reference/physical accessibility qualification.",
+      "4.0.0-draft.11 (2026-11-13): D127. Correct the 48 avatar.colors.<id>.text role/appearance values with the $meta.contrastCorrection method (least OKLCH lightness change at constant hue, chroma reduced only to fit sRGB, 8-bit quantization) until each meets its declared 4.6:1, or 7:1 under increased contrast, plus the 0.02 margin on all eight opaque text surfaces in Current and Warm; original bytes are in each role's $source. The contrast catalogue now checks those 96 pairs and the pressed prominent control (accent.onFill over surface.hover on accent.fill). Fills, muted fills, surfaces, thresholds and every other token are unchanged."
+    ]
+  },
+  "palettes": {
+    "warm": {
+      "$source": "D94: user-selected newer Viticci reference set (2026-10-25), Downloads/viticci/ios*.jpeg and mac*.jpeg, documented in docs/specs/design-reference.md. Original Memoshi preview interpretation, not sampled exact pixels; semantic colors remain subject to visual/accessibility review. Current originally preserved existing color values. The foreground-only Memoshi accessibility correction of 2026-11-04 is documented in $meta.contrastCorrection and affected role sources; surfaces and identity colors remain unchanged.",
+      "accent": {
+        "default": {"light": "#9B6916", "dark": "#E3B75F", "increasedContrastLight": "#714702", "increasedContrastDark": "#FFE0A3"},
+        "text": {"light": "#80520D", "dark": "#E6BD72", "increasedContrastLight": "#5D3800", "increasedContrastDark": "#FFE3AA", "$source": "Memoshi contrast correction 2026-11-04; see $meta.contrastCorrection. Original increasedContrastLight #5F3A00; fixed OKLCH hue with minimal lightness reduction after 8-bit quantization."},
+        "fill": {"light": "#93600E", "dark": "#DBAB51", "increasedContrastLight": "#6F4500", "increasedContrastDark": "#F0CB7E"},
+        "onFill": {"light": "#FFFFFF", "dark": "#231A0D", "increasedContrastLight": "#FFFFFF", "increasedContrastDark": "#110F0A"},
+        "selection": {"light": "#A56F1830", "dark": "#DFAF5740", "increasedContrastLight": "#80520D40", "increasedContrastDark": "#FFD99055"},
+        "focusRing": {"light": "#8F5D0E", "dark": "#E3B75F", "increasedContrastLight": "#603900", "increasedContrastDark": "#FFE0A3"}
+      },
+      "surface": {
+        "window": {"light": "#F5F2E9", "dark": "#171612", "increasedContrastLight": "#F7F4ED", "increasedContrastDark": "#11100D"},
+        "content": {"light": "#FAF8F1", "dark": "#1B1914", "increasedContrastLight": "#FFFDF7", "increasedContrastDark": "#14120E"},
+        "inspector": {"light": "#F8F5EC", "dark": "#201D17", "increasedContrastLight": "#FFFDF5", "increasedContrastDark": "#18150F"},
+        "card": {"light": "#ECE7DB", "dark": "#302B22", "increasedContrastLight": "#E4DECF", "increasedContrastDark": "#393226"},
+        "cardHover": {"light": "#E4DECF", "dark": "#393226", "increasedContrastLight": "#DDD4C2", "increasedContrastDark": "#463B2B"},
+        "resource": {"light": "#FFFCF2", "dark": "#28241D", "increasedContrastLight": "#FFFEFA", "increasedContrastDark": "#211C14"},
+        "well": {"light": "#F0EBE1", "dark": "#29251D", "increasedContrastLight": "#E8E0D1", "increasedContrastDark": "#31291D"},
+        "userBubble": {"light": "#93600E", "dark": "#C18D32", "increasedContrastLight": "#6F4500", "increasedContrastDark": "#F0CB7E"},
+        "hover": {"light": "#6F4B1610", "dark": "#E5C28414", "increasedContrastLight": "#6F4B1624", "increasedContrastDark": "#E5C28433"},
+        "raised": {"light": "#FFFFFF", "dark": "#26231E", "increasedContrastLight": "#FFFFFF", "increasedContrastDark": "#211D16"}
+      },
+      "text": {
+        "primary": {"light": "#242018", "dark": "#F5F0E7", "increasedContrastLight": "#000000", "increasedContrastDark": "#FFFFFF"},
+        "secondary": {"light": "#625B50", "dark": "#C4BCAF", "increasedContrastLight": "#3F3629", "increasedContrastDark": "#DED5C5"},
+        "tertiary": {"light": "#675E50", "dark": "#AEA394", "increasedContrastLight": "#453A2B", "increasedContrastDark": "#DED2BD"},
+        "placeholder": {"light": "#675E50", "dark": "#AEA394", "increasedContrastLight": "#453A2B", "increasedContrastDark": "#DED2BD"},
+        "disabled": {"light": "#7C716180", "dark": "#BAAD9780", "increasedContrastLight": "#665B4D99", "increasedContrastDark": "#CCC0AC99"},
+        "onAccent": {"light": "#FFFFFF", "dark": "#231A0D", "increasedContrastLight": "#FFFFFF", "increasedContrastDark": "#110F0A"},
+        "onUserBubble": {"light": "#FFFFFF", "dark": "#1B160D", "increasedContrastLight": "#FFFFFF", "increasedContrastDark": "#110F0A"}
+      },
+      "border": {
+        "subtle": {"light": "#6F5D3C24", "dark": "#F8E7C029", "increasedContrastLight": "#6F5D3C55", "increasedContrastDark": "#F8E7C066"},
+        "field": {"light": "#6F5D3C3D", "dark": "#F8E7C03D", "increasedContrastLight": "#5C48258C", "increasedContrastDark": "#FFF0C999"},
+        "strong": {"light": "#6F5D3CC1", "dark": "#F8E7C080", "increasedContrastLight": "#4F3B1BCC", "increasedContrastDark": "#FFF0C9CC", "$source": "Memoshi contrast correction 2026-11-04; see $meta.contrastCorrection. Original light #6F5D3C80; RGB/hue unchanged, smallest 8-bit alpha increase meeting all intended 3:1 boundaries plus quantization margin."},
+        "hairline": {"light": "#6F5D3C29", "dark": "#F8E7C02E", "increasedContrastLight": "#6F5D3C66", "increasedContrastDark": "#F8E7C077"}
+      }
+    }
+  },
+  "color": {
+    "accent": {
+      "default": {
+        "system": "controlAccentColor",
+        "light": "#0088FF",
+        "dark": "#0091FF",
+        "increasedContrastLight": "#1E6EF4",
+        "increasedContrastDark": "#5CB8FF",
+        "note": "Follows the user's macOS accent. The AccentColor asset (used when the user picks Multicolor) carries these HIG blue values."
+      },
+      "text": {
+        "nativeAccent": "text",
+        "light": "#0268C5",
+        "dark": "#3A9EFF",
+        "increasedContrastLight": "#0043AB",
+        "increasedContrastDark": "#9BD2FF",
+        "note": "Default-blue fallback foregrounds remain canonical. Current derives the actual native accent against every declared opaque text surface at runtime; native material and actual-surface qualification remain separate.",
+        "$source": "Memoshi contrast correction 2026-11-04; see $meta.contrastCorrection. Original dark #1E95FE, increasedContrastLight #0146B1, increasedContrastDark #74C1FF. Minimal OKLCH lightness change; hue held constant, chroma reduced only at the sRGB gamut boundary."
+      },
+      "fill": {
+        "nativeAccent": "fill",
+        "light": "#0276DF",
+        "dark": "#0091FF",
+        "increasedContrastLight": "#1E6EF4",
+        "increasedContrastDark": "#5CB8FF",
+        "note": "Solid fill that carries a label or glyph. Light: darkened until white content reaches 4.5:1. Dark: bright fill with black content."
+      },
+      "onFill": {"light": "#FFFFFF", "dark": "#000000", "increasedContrastLight": "#FFFFFF", "increasedContrastDark": "#000000"},
+      "selection": {
+        "light": "#0088FF24",
+        "dark": "#0091FF38",
+        "increasedContrastLight": "#1E6EF433",
+        "increasedContrastDark": "#5CB8FF47",
+        "note": "Custom selection fill (14% / 22% light-dark). System List selection stays system-drawn."
+      },
+      "focusRing": {
+        "system": "keyboardFocusIndicatorColor",
+        "light": "#0088FF80",
+        "dark": "#0091FF80",
+        "increasedContrastLight": "#1E6EF4",
+        "increasedContrastDark": "#5CB8FF",
+        "note": "Keyboard focus only; never shown after pointer clicks."
+      }
+    },
+    "surface": {
+      "window": {
+        "system": "windowBackgroundColor",
+        "light": "#F5F5F7",
+        "dark": "#262628",
+        "increasedContrastLight": "#F5F5F7",
+        "increasedContrastDark": "#262628",
+        "note": "Preview values approximate; sample on macOS 27 in Phase 0."
+      },
+      "content": {
+        "system": "textBackgroundColor",
+        "light": "#FFFFFF",
+        "dark": "#1E1E1E",
+        "increasedContrastLight": "#FFFFFF",
+        "increasedContrastDark": "#1E1E1E",
+        "note": "Conversation and inspector content. Always opaque."
+      },
+      "inspector": {
+        "system": "windowBackgroundColor",
+        "light": "#F5F5F7",
+        "dark": "#262628",
+        "increasedContrastLight": "#F5F5F7",
+        "increasedContrastDark": "#262628"
+      },
+      "card": {
+        "light": "#F5F5F5",
+        "dark": "#2C2C2C",
+        "increasedContrastLight": "#F0F0F0",
+        "increasedContrastDark": "#333333",
+        "note": "label at 4% (light) / 6% (dark) over content"
+      },
+      "cardHover": {
+        "light": "#EDEDED",
+        "dark": "#333333",
+        "increasedContrastLight": "#E6E6E6",
+        "increasedContrastDark": "#3A3A3A",
+        "note": "label at 7% / 9% over content"
+      },
+      "well": {
+        "light": "#F7F7F7",
+        "dark": "#292929",
+        "increasedContrastLight": "#F0F0F0",
+        "increasedContrastDark": "#303030",
+        "note": "Code blocks, BotSaysWell, inline code: label at 3% / 5%"
+      },
+      "resource": {
+        "light": "#FFFFFF",
+        "dark": "#2C2C2E",
+        "increasedContrastLight": "#FFFFFF",
+        "increasedContrastDark": "#2C2C2E",
+        "note": "Opaque resource-card paper. Palette-specific values are generated from palettes.*."
+      },
+      "userBubble": {
+        "light": "#EFEFF1",
+        "dark": "#2F2F31",
+        "increasedContrastLight": "#E6E6E9",
+        "increasedContrastDark": "#3A3A3C",
+        "note": "User message bubble"
+      },
+      "hover": {
+        "light": "#0000000D",
+        "dark": "#FFFFFF0F",
+        "increasedContrastLight": "#0000001A",
+        "increasedContrastDark": "#FFFFFF1F",
+        "note": "Row hover overlay (5% / 6%)"
+      },
+      "raised": {
+        "light": "#FFFFFF",
+        "dark": "#2C2C2E",
+        "increasedContrastLight": "#FFFFFF",
+        "increasedContrastDark": "#2C2C2E",
+        "note": "Opaque fallback for glass surfaces under Reduce Transparency, and for opaque floating surfaces"
+      },
+      "scrim": {
+        "light": "#00000033",
+        "dark": "#00000066",
+        "increasedContrastLight": "#00000052",
+        "increasedContrastDark": "#00000080",
+        "note": "Only behind the narrow-window inspector overlay"
+      }
+    },
+    "pairing": {
+      "qrPaper": {
+        "light": "#FFFFFF",
+        "dark": "#FFFFFF",
+        "increasedContrastLight": "#FFFFFF",
+        "increasedContrastDark": "#FFFFFF",
+        "$source": "Existing DevicePairingQRCode white backing extracted 2026-11-04. Machine-readable QR paper stays opaque white in every appearance; not a general content-surface or palette choice."
+      }
+    },
+    "text": {
+      "primary": {
+        "system": "labelColor",
+        "light": "#000000D9",
+        "dark": "#FFFFFFD9",
+        "increasedContrastLight": "#000000",
+        "increasedContrastDark": "#FFFFFF",
+        "note": "13.2:1 light / 10.5:1 dark on the worst listed surface"
+      },
+      "secondary": {
+        "light": "#0000009E",
+        "dark": "#FFFFFF99",
+        "increasedContrastLight": "#000000BF",
+        "increasedContrastDark": "#FFFFFFBF",
+        "note": "black 62% / white 60%: >= 5.9:1 / 6.1:1. Replaces secondaryLabelColor, which is about 3.9:1 on white"
+      },
+      "tertiary": {
+        "light": "#0000008F",
+        "dark": "#FFFFFF85",
+        "increasedContrastLight": "#000000AD",
+        "increasedContrastDark": "#FFFFFFBC",
+        "note": "Standard black 56% / white 52%; increased-contrast alpha is derived separately so timestamps and metadata meet the stated role-pair contract.",
+        "$source": "Memoshi contrast correction 2026-11-04; see $meta.contrastCorrection. Original increasedContrastLight #000000A8 and increasedContrastDark #FFFFFFA8; smallest passing 8-bit alpha increases, unchanged black/white RGB."
+      },
+      "placeholder": {
+        "light": "#0000008F",
+        "dark": "#FFFFFF85",
+        "increasedContrastLight": "#000000AD",
+        "increasedContrastDark": "#FFFFFFBC",
+        "note": "Same as tertiary so placeholder text meets the same contrast contract.",
+        "$source": "Memoshi contrast correction 2026-11-04; see $meta.contrastCorrection. Original increasedContrastLight #000000A8 and increasedContrastDark #FFFFFFA8; smallest passing 8-bit alpha increases, unchanged black/white RGB."
+      },
+      "disabled": {
+        "light": "#0000004D",
+        "dark": "#FFFFFF4D",
+        "increasedContrastLight": "#00000073",
+        "increasedContrastDark": "#FFFFFF73",
+        "note": "Inactive controls only (exempt from 1.4.3); always paired with disabled semantics"
+      },
+      "onUserBubble": {
+        "system": "labelColor",
+        "light": "#000000D9",
+        "dark": "#FFFFFFD9",
+        "increasedContrastLight": "#000000",
+        "increasedContrastDark": "#FFFFFF",
+        "note": "Paired with surface.userBubble; Current retains the original neutral bubble foreground."
+      },
+      "onAccent": {"light": "#FFFFFF", "dark": "#000000", "increasedContrastLight": "#FFFFFF", "increasedContrastDark": "#000000"}
+    },
+    "border": {
+      "subtle": {
+        "system": "separatorColor",
+        "light": "#0000001A",
+        "dark": "#FFFFFF1A",
+        "increasedContrastLight": "#00000040",
+        "increasedContrastDark": "#FFFFFF40",
+        "note": "Decorative separators"
+      },
+      "field": {
+        "light": "#00000026",
+        "dark": "#FFFFFF29",
+        "increasedContrastLight": "#00000073",
+        "increasedContrastDark": "#FFFFFF73"
+      },
+      "strong": {
+        "light": "#00000073",
+        "dark": "#FFFFFF73",
+        "increasedContrastLight": "#000000A6",
+        "increasedContrastDark": "#FFFFFFA6",
+        "note": ">= 3:1 non-text contrast; card and chip outlines under Increase Contrast"
+      },
+      "hairline": {
+        "light": "#0000001F",
+        "dark": "#FFFFFF24",
+        "increasedContrastLight": "#00000059",
+        "increasedContrastDark": "#FFFFFF59",
+        "note": "0.5 pt optical edge for opaque floating surfaces (Aiden elevation ring)"
+      }
+    },
+    "status": {
+      "$source": "Foreground accessibility corrections are derived for the existing HIG-informed hues, not newly adopted competitor colors. See $meta.contrastCorrection; fills and onFill values remain unchanged.",
+      "running": {
+        "hue": "system blue",
+        "fg": {
+          "light": "#0058DC",
+          "dark": "#3A9EFF",
+          "increasedContrastLight": "#003996",
+          "increasedContrastDark": "#A2D5FF",
+          "$source": "Memoshi contrast correction 2026-11-04; see $meta.contrastCorrection. Original light #0D61E6, dark #1E95FE, increasedContrastLight #0146B1, increasedContrastDark #74C1FF. Shared Current/Warm role derived against both palettes; OKLCH hue retained with gamut-only chroma reduction."
+        },
+        "fill": {
+          "light": "#1E6EF4",
+          "dark": "#0091FF",
+          "increasedContrastLight": "#0146B1",
+          "increasedContrastDark": "#74C1FF"
+        },
+        "onFill": {
+          "light": "#FFFFFF",
+          "dark": "#000000",
+          "increasedContrastLight": "#FFFFFF",
+          "increasedContrastDark": "#000000"
+        }
+      },
+      "success": {
+        "hue": "system green",
+        "fg": {
+          "light": "#007228",
+          "dark": "#30D158",
+          "increasedContrastLight": "#004B18",
+          "increasedContrastDark": "#5DEA78",
+          "$source": "Memoshi contrast correction 2026-11-04; see $meta.contrastCorrection. Original light #017B2C, increasedContrastLight #015A1F, increasedContrastDark #4AD968. Shared Current/Warm foreground; minimal hue-preserving lightness changes after quantization."
+        },
+        "fill": {
+          "light": "#008932",
+          "dark": "#30D158",
+          "increasedContrastLight": "#015A1F",
+          "increasedContrastDark": "#4AD968"
+        },
+        "onFill": {
+          "light": "#FFFFFF",
+          "dark": "#000000",
+          "increasedContrastLight": "#FFFFFF",
+          "increasedContrastDark": "#000000"
+        }
+      },
+      "caution": {
+        "hue": "system yellow",
+        "fg": {
+          "light": "#875900",
+          "dark": "#FFD600",
+          "increasedContrastLight": "#5A3900",
+          "increasedContrastDark": "#FEDF43",
+          "$source": "Memoshi contrast correction 2026-11-04; see $meta.contrastCorrection. Original light #916005 and increasedContrastLight #694400. Shared Current/Warm foreground; minimal hue-preserving lightness reductions after quantization."
+        },
+        "fill": {
+          "light": "#A16A00",
+          "dark": "#FFD600",
+          "increasedContrastLight": "#694400",
+          "increasedContrastDark": "#FEDF43"
+        },
+        "onFill": {
+          "light": "#FFFFFF",
+          "dark": "#000000",
+          "increasedContrastLight": "#FFFFFF",
+          "increasedContrastDark": "#000000"
+        }
+      },
+      "attention": {
+        "hue": "system orange",
+        "fg": {
+          "light": "#A54500",
+          "dark": "#FF9230",
+          "increasedContrastLight": "#6E2C00",
+          "increasedContrastDark": "#FFC398",
+          "$source": "Memoshi contrast correction 2026-11-04; see $meta.contrastCorrection. Original light #AF4900, increasedContrastLight #833500, increasedContrastDark #FFA561. Shared Current/Warm foreground; minimal hue-preserving lightness changes after quantization."
+        },
+        "fill": {
+          "light": "#C55300",
+          "dark": "#FF9230",
+          "increasedContrastLight": "#833500",
+          "increasedContrastDark": "#FFA561"
+        },
+        "onFill": {
+          "light": "#FFFFFF",
+          "dark": "#000000",
+          "increasedContrastLight": "#FFFFFF",
+          "increasedContrastDark": "#000000"
+        }
+      },
+      "danger": {
+        "hue": "system red",
+        "fg": {
+          "light": "#C70021",
+          "dark": "#FF6B65",
+          "increasedContrastLight": "#860013",
+          "increasedContrastDark": "#FFC0BC",
+          "$source": "Memoshi contrast correction 2026-11-04; see $meta.contrastCorrection. Original light #D60325, dark #FF5E5A, increasedContrastLight #9F0119, increasedContrastDark #FF9F9C. Shared Current/Warm foreground; minimal hue-preserving lightness changes after quantization."
+        },
+        "fill": {
+          "light": "#E9152D",
+          "dark": "#FF4245",
+          "increasedContrastLight": "#9F0119",
+          "increasedContrastDark": "#FF9F9C"
+        },
+        "onFill": {
+          "light": "#FFFFFF",
+          "dark": "#000000",
+          "increasedContrastLight": "#FFFFFF",
+          "increasedContrastDark": "#000000"
+        }
+      },
+      "neutral": {
+        "hue": "gray",
+        "fg": {
+          "light": "#0000009E",
+          "dark": "#FFFFFF99",
+          "increasedContrastLight": "#000000BF",
+          "increasedContrastDark": "#FFFFFFC1",
+          "$source": "Memoshi contrast correction 2026-11-04; see $meta.contrastCorrection. Original increasedContrastDark #FFFFFFBF; shared Current/Warm foreground uses the smallest 8-bit alpha increase with unchanged white RGB."
+        },
+        "fill": {
+          "light": "#6E6E73",
+          "dark": "#98989D",
+          "increasedContrastLight": "#000000BF",
+          "increasedContrastDark": "#FFFFFFBF"
+        },
+        "onFill": {
+          "light": "#FFFFFF",
+          "dark": "#000000",
+          "increasedContrastLight": "#FFFFFF",
+          "increasedContrastDark": "#000000"
+        }
+      },
+      "$note": "fg = text and glyphs on surfaces (>= 4.5:1; 7:1 increased contrast). fill = badges and dots; onFill content on fill reaches >= 4.5:1. Base hues are the HIG unified system colors (2025-06 values); light fills use the HIG increased-contrast light value."
+    },
+    "tier": {
+      "T0": {"name": "Read", "role": "status.neutral", "glyph": "eye"},
+      "T1": {"name": "Local write", "role": "status.neutral", "glyph": "pencil"},
+      "T2": {"name": "Execute", "role": "status.neutral", "glyph": "terminal"},
+      "T3": {"name": "Reach out", "role": "status.caution", "glyph": "network"},
+      "T4": {"name": "Act externally", "role": "status.attention", "glyph": "paperplane.fill"},
+      "T5": {"name": "Critical", "role": "status.danger", "glyph": "exclamationmark.shield.fill"},
+      "$rule": "Color escalates only from T3 up. The tier label and glyph are always shown; color is never the only cue."
+    },
+    "avatarState": {
+      "working": {"role": "accent.fill", "glyph": "ellipsis"},
+      "needs_you": {"role": "status.attention", "glyph": "hand.raised.fill", "glow": "status.attention.fill"},
+      "has_news": {"role": "accent.fill", "glyph": "sparkle"},
+      "watching": {"role": "status.neutral", "glyph": "binoculars.fill"},
+      "asleep": {"role": "status.neutral", "glyph": "moon.zzz.fill"},
+      "idle": {"role": null, "glyph": null},
+      "paused": {"role": "status.neutral", "glyph": "pause.circle.fill"},
+      "error": {"role": "status.danger", "glyph": "exclamationmark.triangle.fill"},
+      "overlay.takenOver": {"role": "accent.fill", "glyph": "hand.point.up.left.fill"},
+      "overlay.offline": {"role": "status.neutral", "glyph": "wifi.slash"},
+      "overlay.unread": {"role": "accent.fill", "glyph": null}
+    },
+    "diff": {
+      "addedBackground": {
+        "light": "#0089321A",
+        "dark": "#30D15829",
+        "increasedContrastLight": "#00893229",
+        "increasedContrastDark": "#30D15838"
+      },
+      "addedWord": {
+        "light": "#00893238",
+        "dark": "#30D15847",
+        "increasedContrastLight": "#0089324D",
+        "increasedContrastDark": "#30D15859"
+      },
+      "removedBackground": {
+        "light": "#E9152D17",
+        "dark": "#FF424526",
+        "increasedContrastLight": "#E9152D26",
+        "increasedContrastDark": "#FF424533"
+      },
+      "removedWord": {
+        "light": "#E9152D33",
+        "dark": "#FF424542",
+        "increasedContrastLight": "#E9152D4D",
+        "increasedContrastDark": "#FF424554"
+      },
+      "addedMarker": {"light": "#017B2C", "dark": "#30D158", "increasedContrastLight": "#015A1F", "increasedContrastDark": "#4AD968"},
+      "removedMarker": {"light": "#D60325", "dark": "#FF5E5A", "increasedContrastLight": "#9F0119", "increasedContrastDark": "#FF9F9C"},
+      "commentBackground": {
+        "light": "#FFCC0024",
+        "dark": "#FFD6002E",
+        "increasedContrastLight": "#FFCC0038",
+        "increasedContrastDark": "#FFD60042"
+      },
+      "hunkHeader": {"light": "#F7F7F7", "dark": "#292929", "increasedContrastLight": "#F0F0F0", "increasedContrastDark": "#303030"},
+      "$rule": "+/- markers stay visible whenever Differentiate Without Color is on; increased contrast adds a 2 pt leading bar in the marker color."
+    },
+    "syntax": {
+      "comment": {"light": "#606773", "dark": "#A2AAB4", "increasedContrastLight": "#4D535F", "increasedContrastDark": "#AEB7C1"},
+      "keyword": {"light": "#C83349", "dark": "#FF7F8D", "increasedContrastLight": "#A80430", "increasedContrastDark": "#FE97A0"},
+      "string": {"light": "#146B67", "dark": "#83D7CC", "increasedContrastLight": "#025F5B", "increasedContrastDark": "#83D7CC"},
+      "number": {"light": "#235EB1", "dark": "#7EB5FD", "increasedContrastLight": "#1652A4", "increasedContrastDark": "#83B8FE"},
+      "title": {"light": "#674AAE", "dark": "#C2A6FE", "increasedContrastLight": "#5F41A4", "increasedContrastDark": "#C2A6FE"},
+      "variable": {"light": "#AF5216", "dark": "#FFB06B", "increasedContrastLight": "#8C3C00", "increasedContrastDark": "#FFB06B"},
+      "$source": "Aiden 0.36.1 renderer/styles.css syntax tokens (MIT), checked >= 4.8:1 on surface.well; increased-contrast values darkened/lightened to >= 7:1."
+    },
+    "terminal": {
+      "background": {"light": "#FFFFFF", "dark": "#1E1E1E", "increasedContrastLight": "#FFFFFF", "increasedContrastDark": "#1E1E1E"},
+      "foreground": {"light": "#1D1D1F", "dark": "#E5E5EA", "increasedContrastLight": "#000000", "increasedContrastDark": "#FFFFFF"},
+      "cursor": {"light": "#1D1D1F", "dark": "#E5E5EA", "increasedContrastLight": "#1D1D1F", "increasedContrastDark": "#E5E5EA"},
+      "selection": {
+        "light": "#0088FF33",
+        "dark": "#0091FF4D",
+        "increasedContrastLight": "#0088FF33",
+        "increasedContrastDark": "#0091FF4D"
+      },
+      "ansi": {
+        "black": {"light": "#1D1D1F", "dark": "#3A3A3C"},
+        "red": {"light": "#C74B43", "dark": "#DF695E"},
+        "green": {"light": "#178529", "dark": "#44A04B"},
+        "yellow": {"light": "#936E03", "dark": "#B48706"},
+        "blue": {"light": "#3072D0", "dark": "#518FE9"},
+        "magenta": {"light": "#AD51A7", "dark": "#C770C1"},
+        "cyan": {"light": "#0A818B", "dark": "#099EAB"},
+        "white": {"light": "#737378", "dark": "#D1D1D6"},
+        "bright_black": {"light": "#58585D", "dark": "#8E8E93"},
+        "bright_red": {"light": "#BE2323", "dark": "#FE9C91"},
+        "bright_green": {"light": "#02721C", "dark": "#79C77C"},
+        "bright_yellow": {"light": "#7E5E01", "dark": "#DDB049"},
+        "bright_blue": {"light": "#025DC9", "dark": "#84B6FF"},
+        "bright_magenta": {"light": "#A1319B", "dark": "#E99BE2"},
+        "bright_cyan": {"light": "#076D76", "dark": "#11C8D8"},
+        "bright_white": {"light": "#3A3A3C", "dark": "#FFFFFF"}
+      },
+      "$rule": "Chromatic ANSI colors reach >= 4.6:1 (normal) and >= 6:1 (bright) on light, >= 5:1 and >= 8:1 on dark. ANSI black (dark) and bright white (light) are background-adjacent by convention."
+    },
+    "glass": {
+      "chrome": {
+        "material": "Glass.regular",
+        "api": "glassEffect(_:in:) / system bars",
+        "reduceTransparency": "surface.raised",
+        "use": [
+          "toolbar",
+          "sidebar (system)",
+          "InspectorTabBar",
+          "Composer shell",
+          "DictationPill",
+          "Toast",
+          "CommandPalette",
+          "ScrollToLatest",
+          "MenuBarExtra panel (system)",
+          "popovers and sheets (system)"
+        ]
+      },
+      "prominentAction": {
+        "material": "Glass.regular.tint(accent.default)",
+        "api": ".buttonStyle(.glassProminent)",
+        "use": ["Send", "primary action inside a glass cluster"]
+      },
+      "$rule": "Glass is for the functional layer only. Never on messages, Cards, chips, diffs, terminal, files, previews, settings content or avatars, and never over live VM or WebKit views (LiveView controls sit in the inspector header; a detached live window uses an opaque surface.raised capsule). No glass on glass; group nearby glass in one GlassEffectContainer. Under Reduce Motion, glassEffectID morphs become crossfades."
+    }
+  },
+  "typography": {
+    "family": {
+      "ui": "system (SF Pro; optical sizes chosen by the system)",
+      "mono": "system monospaced (SF Mono)",
+      "custom": "none in v1"
+    },
+    "chrome": {
+      "largeTitle": {
+        "size": 26,
+        "lineHeight": 32,
+        "weight": "regular",
+        "textStyle": "largeTitle",
+        "note": "Onboarding and empty states only"
+      },
+      "title1": {"size": 22, "lineHeight": 26, "weight": "regular", "textStyle": "title"},
+      "title2": {"size": 17, "lineHeight": 22, "weight": "regular", "textStyle": "title2"},
+      "title3": {
+        "size": 15,
+        "lineHeight": 20,
+        "weight": "semibold",
+        "textStyle": "title3",
+        "note": "Inspector and sheet section titles (semibold)"
+      },
+      "headline": {"size": 13, "lineHeight": 16, "weight": "bold", "textStyle": "headline", "note": "Card titles, row titles"},
+      "body": {"size": 13, "lineHeight": 16, "weight": "regular", "textStyle": "body", "note": "All chrome text"},
+      "callout": {"size": 12, "lineHeight": 15, "weight": "regular", "textStyle": "callout", "note": "Metadata, chip labels"},
+      "subheadline": {
+        "size": 11,
+        "lineHeight": 14,
+        "weight": "regular",
+        "textStyle": "subheadline",
+        "note": "Smallest functional text (badges, timestamps)"
+      },
+      "$source": "Apple HIG macOS built-in text styles. Footnote and Caption (10 pt) are not used for functional text."
+    },
+    "minFunctionalSize": 11,
+    "prose": {
+      "sizes": {
+        "S": {"size": 13, "lineHeight": 20, "weight": "regular"},
+        "M": {"size": 14, "lineHeight": 22, "weight": "regular"},
+        "L": {"size": 16, "lineHeight": 25, "weight": "regular"},
+        "XL": {"size": 18, "lineHeight": 28, "weight": "regular"}
+      },
+      "default": "M",
+      "measureCh": 72,
+      "markdown": {
+        "h1": {"em": 1.22, "weight": "semibold", "spaceBefore": 24},
+        "h2": {"em": 1.12, "weight": "semibold", "spaceBefore": 20},
+        "h3": {"em": 1.0, "weight": "semibold", "spaceBefore": 16},
+        "paragraphSpacing": 12,
+        "listIndent": 24,
+        "listItemSpacing": 6,
+        "blockquote": {"barWidth": 2, "indent": 14, "color": "text.secondary"},
+        "tableCellPadding": {"vertical": 4, "horizontal": 8},
+        "hrSpacing": 12,
+        "inlineCode": {"em": 0.9, "paddingH": 6, "paddingV": 2, "radius": 6, "fill": "surface.well"},
+        "link": {"color": "accent.text", "underlineOffset": 2},
+        "$source": "Adapted from Aiden 0.36.1 markdown.tsx scale as recorded in parity-audit-design-motion.md P0-2 (MIT)"
+      }
+    },
+    "mono": {
+      "code": {"size": 12, "lineHeight": 18, "weight": "regular"},
+      "terminal": {"size": 12, "lineHeight": 16, "weight": "regular"},
+      "diff": {"size": 12, "lineHeight": 18, "weight": "regular"},
+      "inline": "0.9em of surrounding text"
+    },
+    "numerals": "monospacedDigit() for counts, costs, tokens, timers and diff stats",
+    "rules": [
+      "Never below 11 pt for functional text",
+      "Truncate with a tooltip, never shrink",
+      "Code is always left-to-right",
+      "No faux bold or italics; use font weights"
+    ]
+  },
+  "space": {
+    "0": 0,
+    "1": 2,
+    "2": 4,
+    "3": 6,
+    "4": 8,
+    "5": 12,
+    "6": 16,
+    "7": 20,
+    "8": 24,
+    "9": 32,
+    "10": 40,
+    "11": 48,
+    "12": 64,
+    "$grid": 4
+  },
+  "radius": {
+    "xs": 4,
+    "sm": 6,
+    "md": 8,
+    "control": 10,
+    "popover": 12,
+    "tile": 12,
+    "card": 14,
+    "bubble": 18,
+    "composer": 22,
+    "pill": 999,
+    "$style": "continuous corners everywhere; nested shapes use ConcentricRectangle / containerShape (macOS 26+) so inner radius = outer radius - inset"
+  },
+  "elevation": {
+    "$conversion": "SwiftUI shadow radius = CSS blur / 2 [INFERENCE: Core Animation convention; verify visually in Phase 0]. CSS negative spread is approximated by lowering opacity. 'hairline' is a 0.5 pt stroke (border.hairline), not a shadow.",
+    "e0": {"use": "flat content", "light": [], "dark": []},
+    "e1": {
+      "use": "resting opaque controls, Cards",
+      "hairline": true,
+      "light": [
+        {"color": "#000000", "opacity": 0.1, "radius": 1, "x": 0, "y": 1},
+        {"color": "#000000", "opacity": 0.08, "radius": 4, "x": 0, "y": 3}
+      ],
+      "dark": [
+        {"color": "#000000", "opacity": 0.45, "radius": 1.5, "x": 0, "y": 1},
+        {"color": "#000000", "opacity": 0.4, "radius": 5, "x": 0, "y": 4}
+      ],
+      "css": "0 1px 2px -1px rgb(0 0 0/.1), 0 4px 10px -8px rgb(0 0 0/.16)"
+    },
+    "e2": {
+      "use": "hovered opaque controls",
+      "hairline": true,
+      "light": [
+        {"color": "#000000", "opacity": 0.14, "radius": 2, "x": 0, "y": 2},
+        {"color": "#000000", "opacity": 0.1, "radius": 6, "x": 0, "y": 5}
+      ],
+      "dark": [
+        {"color": "#000000", "opacity": 0.55, "radius": 3, "x": 0, "y": 2},
+        {"color": "#000000", "opacity": 0.5, "radius": 7, "x": 0, "y": 6}
+      ],
+      "css": "0 2px 5px -2px rgb(0 0 0/.16), 0 7px 14px -10px rgb(0 0 0/.2)"
+    },
+    "e3": {
+      "use": "opaque floating surfaces in the content layer (popover fallback)",
+      "hairline": true,
+      "light": [
+        {"color": "#000000", "opacity": 0.12, "radius": 3.75, "x": 0, "y": 3},
+        {"color": "#000000", "opacity": 0.035, "radius": 10, "x": 0, "y": 0}
+      ],
+      "dark": [
+        {"color": "#000000", "opacity": 0.58, "radius": 4, "x": 0, "y": 3},
+        {"color": "#000000", "opacity": 0.16, "radius": 10, "x": 0, "y": 0}
+      ],
+      "css": "0 0 0 .5px rgb(0 0 0/.12), 0 3px 7.5px rgb(0 0 0/.12), 0 0 20px rgb(0 0 0/.035)"
+    },
+    "e4": {
+      "use": "Toast opaque fallback",
+      "hairline": false,
+      "light": [{"color": "#000000", "opacity": 0.1, "radius": 6, "x": 0, "y": 4}],
+      "dark": [{"color": "#000000", "opacity": 0.54, "radius": 6, "x": 0, "y": 4}],
+      "css": "0 4px 12px rgb(0 0 0/.1)"
+    },
+    "e5": {
+      "use": "custom dialog opaque fallback",
+      "hairline": true,
+      "light": [{"color": "#000000", "opacity": 0.22, "radius": 12, "x": 0, "y": 16}],
+      "dark": [{"color": "#000000", "opacity": 0.72, "radius": 16, "x": 0, "y": 16}],
+      "css": "0 0 0 .5px rgb(0 0 0/.14), 0 16px 32px -8px rgb(0 0 0/.3)"
+    },
+    "e6": {
+      "use": "modal opaque fallback",
+      "hairline": true,
+      "light": [{"color": "#000000", "opacity": 0.28, "radius": 16, "x": 0, "y": 20}],
+      "dark": [{"color": "#000000", "opacity": 0.78, "radius": 24, "x": 0, "y": 22}],
+      "css": "0 0 0 .5px rgb(0 0 0/.16), 0 20px 44px -10px rgb(0 0 0/.38)"
+    },
+    "pressed": {
+      "use": "pressed custom control",
+      "innerShadow": {
+        "light": {"color": "#000000", "opacity": 0.14, "radius": 1, "x": 0, "y": 1},
+        "dark": {"color": "#000000", "opacity": 0.68, "radius": 1, "x": 0, "y": 1}
+      },
+      "css": "inset 0 1px 2px rgb(0 0 0/.14)"
+    },
+    "$source": "Aiden 0.36.1 renderer/styles.css:104-140 elevation tokens (MIT). Glass surfaces use system shadows, not these."
+  },
+  "opacity": {"disabled": 0.45, "mutedAvatar": 0.65, "offlineAvatar": 0.6, "windowInactiveChrome": "system"},
+  "layout": {
+    "window": {"minWidth": 1040, "minHeight": 700},
+    "sidebar": {"default": 280, "min": 240, "max": 360, "rail": 64, "snapToRailBelow": 200},
+    "inspector": {"default": 380, "min": 320, "max": 560, "overlayBelowWindowWidth": "sidebar + conversation.minWidth + inspector, at their current widths (02-experience.md section 3.4)"},
+    "conversation": {
+      "minWidth": 480, "contentMaxWidth": 760, "proseMeasureCh": 72, "atBottomThreshold": 24, "horizontalPadding": 24,
+      "scrollAnchorHeight": 1, "emptyStateMinHeight": 256,
+      "$source": "Widths retain the accepted layout base. Scroll anchor and empty-state geometry extracted from both native live Chat views on 2026-11-04, preserving 1 pt and space.12 × 4; not a new reference-adoption decision."
+    },
+    "rows": {"sidebar": 28, "sidebarBot": 44, "sectionHeader": 24, "inbox": 44, "menuBarItem": 36},
+    "tabBar": {"height": 32},
+    "composer": {
+      "minHeight": 44,
+      "maxHeightFraction": 0.4,
+      "padding": 12,
+      "controlSize": 28,
+      "contextLineHeight": 20,
+      "note": "Grows to 40% of the conversation height, then scrolls (02-experience.md section 3.2)"
+    },
+    "avatarGrid": {"columns": 3, "tileSize": 72, "avatarSize": 40, "gap": 8, "labelStyle": "subheadline"},
+    "gallery": {
+      "minWidth": 960,
+      "minHeight": 640,
+      "defaultWidth": 1240,
+      "defaultHeight": 860,
+      "columnMinWidth": 320,
+      "labelWidth": 168,
+      "swatchSize": 40,
+      "variantSwatchSize": 20,
+      "backdropHeight": 168,
+      "$source": "Builder-chosen provisional review metrics for the Phase 0 component gallery window and its comparison columns (D93, 2026-11-02); not adopted product values"
+    },
+    "sheet": {
+      "botProfileWidth": 520,
+      "sessionCreationWidth": 460,
+      "$source": "P0-13 token extraction, 2026-11-03: existing Memoshi BotProfileEditor and SessionCreationSheet widths, preserved without a visual change. Provisional native-sheet values, not competitor-adopted measurements."
+    },
+    "browserReview": {
+      "onePointWindowSide": 1,
+      "snapshotMaxHeight": 128,
+      "$source": "Existing Mac browser qualification geometry extracted 2026-11-04 without changing values: the S3 one-point host and space.12 × 2 snapshot bound. Mechanical/review metrics, not adopted product geometry."
+    },
+    "mobileBrowserReview": {
+      "inspectorMinHeight": 180,
+      "inspectorHeightFraction": 0.40,
+      "setupMaxHeight": 280,
+      "$source": "Existing MobileBrowserReviewView geometry extracted 2026-11-04 without changing values. Provisional Memoshi qualification-surface metrics, not reference-adopted product geometry."
+    },
+    "devicePairing": {
+      "contentMaxWidth": 560,
+      "qrCodeMaxDimension": 320,
+      "scannerMinWidth": 240,
+      "scannerMinHeight": 280,
+      "$source": "Existing DevicePairingView and DevicePairingScanner geometry extracted 2026-11-04 without changing values. Provisional native pairing-surface metrics, not reference-adopted product geometry."
+    },
+    "message": {"turnSpacing": 16, "groupSpacing": 6, "bubbleMaxWidthFraction": 0.8, "bubblePaddingV": 10, "bubblePaddingH": 14},
+    "card": {"padding": 14, "headerGap": 8, "actionRowHeight": 28, "maxWidth": 640},
+    "chip": {"height": 24, "paddingH": 8, "gap": 6, "iconSize": 14},
+    "ticker": {"rows": 3, "rowHeight": 24, "maskOpaqueFrom": 0.45},
+    "toast": {
+      "placement": "top-center below toolbar",
+      "topOffset": 12,
+      "maxWidth": 420,
+      "autoDismissMs": 4000,
+      "autoDismissWithActionMs": 8000
+    },
+    "dictationPill": {"minHeight": 40, "maxWidth": 272, "paddingV": 8, "paddingH": 14, "gap": 10},
+    "hitTarget": {"min": 24, "preferred": 28},
+    "$source": "Widths agreed with 02-experience.md (Experience); Draft 3 docs/01-kuvo-design-base.md for rows and composer padding (adapted)"
+  },
+  "density": {
+    "comfortable": {"sidebarRow": 28, "sidebarBot": 44, "turnSpacing": 16, "cardPadding": 14, "prose": "M"},
+    "compact": {"sidebarRow": 24, "sidebarBot": 36, "turnSpacing": 12, "cardPadding": 10, "prose": "S"},
+    "defaults": {"Guided": "comfortable", "Developer": "compact"},
+    "$rule": "Density is a preference seeded by the mode; it never hides information. Minimum hit target stays 24 pt."
+  },
+  "icon": {
+    "library": "SF Symbols shipped with macOS 27 (all names below verified present in CoreGlyphs name_availability.plist on macOS 27.0.1)",
+    "sizes": {"badgeGlyph": 11, "inline": 13, "toolbar": 15, "row": 16, "emptyState": 18},
+    "rules": [
+      "Weight matches adjacent text",
+      "Filled variants only for selected or state badges",
+      "Every icon-only control has a tooltip (.help) and an accessibility label",
+      "No third-party icon sets; custom symbols drawn in the SF Symbols template"
+    ],
+    "custom": {
+      "bot.face": "Memoshi template symbol: squircle with two pill eyes; used for the Bots section and the menu bar extra (drawn by us)"
+    },
+    "objects": {
+      "Assistant": "custom:bot.face + sparkles",
+      "Bot": "custom:bot.face",
+      "Chat": "bubble.left.fill",
+      "Project": "folder.fill",
+      "Session": "text.bubble",
+      "Group": "bubble.left.and.bubble.right.fill",
+      "Task": "checklist",
+      "Handoff": "arrowshape.turn.up.right.fill",
+      "Routine": "calendar.badge.clock",
+      "Watch": "binoculars.fill",
+      "Wake": "alarm.fill",
+      "Computer.ThisMac": "laptopcomputer",
+      "Computer.BotComputer": "display",
+      "Computer.RemoteMachine": "server.rack",
+      "Computer.CloudComputer": "cloud",
+      "Browser": "globe",
+      "Memory": "brain",
+      "Connector": "puzzlepiece.extension.fill",
+      "Skill": "wand.and.stars",
+      "Approval": "checkmark.shield.fill",
+      "Draft": "square.and.pencil",
+      "Artifact": "shippingbox.fill",
+      "Inbox": "tray.full.fill",
+      "Budget": "gauge.with.dots.needle.33percent",
+      "Grant": "key.fill"
+    },
+    "modes": {"Ask": "hand.raised", "Auto": "bolt.fill", "Plan": "list.bullet.clipboard", "Read-only": "eye"},
+    "cards": {
+      "ApprovalCard": "checkmark.shield",
+      "DraftCard": "square.and.pencil",
+      "QuestionCard": "questionmark.bubble",
+      "FormCard": "list.bullet.rectangle",
+      "SecureFormCard": "lock.rectangle",
+      "SignInCard": "person.badge.key.fill",
+      "PurchaseCard": "creditcard.fill",
+      "HandoffCard": "arrowshape.turn.up.right.fill",
+      "RoutineProposalCard": "calendar.badge.plus",
+      "MemoryProposalCard": "brain",
+      "BotProposalCard": "person.crop.circle.badge.plus",
+      "GrantRequestCard": "key.fill",
+      "BudgetCard": "gauge.with.dots.needle.67percent",
+      "RunSummaryCard": "clock.arrow.circlepath",
+      "ErrorCard": "exclamationmark.octagon.fill",
+      "TakeoverCard": "hand.point.up.left.fill",
+      "ExposureNote": "eye.trianglebadge.exclamationmark"
+    },
+    "tools": {
+      "read": "doc.text",
+      "write": "pencil",
+      "exec": "terminal",
+      "search": "magnifyingglass",
+      "web": "globe",
+      "mcp": "puzzlepiece.extension",
+      "memory": "brain",
+      "browserAction": "cursorarrow.click",
+      "computer": "display",
+      "codeMode": "curlybraces"
+    },
+    "review": {
+      "protected": "lock.shield.fill",
+      "secret": "exclamationmark.lock.fill",
+      "dependency": "shippingbox",
+      "attributionUser": "person.fill",
+      "attributionCommand": "terminal.fill",
+      "attributionMixed": "person.2.wave.2",
+      "ignored": "eye.slash",
+      "conflict": "arrow.triangle.merge",
+      "process": "play.rectangle.fill"
+    },
+    "composer": {
+      "attach": "paperclip",
+      "dictation": "mic.fill",
+      "send": "arrow.up.circle.fill",
+      "stop": "stop.fill",
+      "model": "cpu"
+    },
+    "statusGlyph": {
+      "working": "activity mark quad-shuffle (static t=0 under Reduce Motion)",
+      "needsYou": "hand.raised.fill",
+      "failed": "exclamationmark.triangle.fill",
+      "unread": "circle.fill 7 pt in accent.default",
+      "queued": "hourglass"
+    }
+  },
+  "motion": {
+    "durations": {
+      "instant": 0,
+      "dialogIn": 10,
+      "exitFast": 100,
+      "exit": 120,
+      "base": 150,
+      "unit": 160,
+      "standard": 180,
+      "medium": 200,
+      "page": 220,
+      "toast": 250,
+      "ticker": 280,
+      "panel": 300,
+      "swap": 260,
+      "upstreamLarge": 360
+    },
+    "curves": {
+      "expo": [0.19, 1, 0.22, 1],
+      "signal": [0.23, 1, 0.32, 1],
+      "standard": [0, 0, 0.2, 1],
+      "quart": [0.16, 1, 0.3, 1],
+      "emphasized": [0.22, 1, 0.36, 1],
+      "strong": [0.77, 0, 0.175, 1],
+      "knob": [0.25, 1, 0.5, 1],
+      "easeIn": [0.42, 0, 1, 1],
+      "easeOut": [0, 0, 0.58, 1],
+      "easeInOut": [0.42, 0, 0.58, 1],
+      "pulse": [0.4, 0, 0.6, 1],
+      "look": [0.5, 0, 0.3, 1],
+      "bounce": [0.45, 0, 0.55, 1],
+      "turn": [0.5, -0.45, 0.25, 1.45],
+      "shuffle": [0.65, 0, 0.35, 1],
+      "compose": [0.4, 0, 0.2, 1],
+      "linear": [0, 0, 1, 1],
+      "$rule": "Chrome uses only overshoot-free curves. 'turn' and springs with bounce > 0 are reserved for avatars and activity marks."
+    },
+    "springs": {
+      "interactive": {"durationMs": 300, "bounce": 0, "use": "drag release, reorder"},
+      "settle": {"durationMs": 350, "bounce": 0, "use": "layout settle after insert or resize"},
+      "meter": {"durationMs": 500, "bounce": 0, "use": "Budget and usage meters"},
+      "avatarHop": {"durationMs": 360, "bounce": 0.35, "use": "needs_you hop, has_news cheer"},
+      "avatarCatch": {"durationMs": 300, "bounce": 0.25, "use": "Handoff target catch"}
+    },
+    "frameRate": {
+      "transitions": "native (up to 120 Hz); one-shot and input-driven",
+      "ambientLoopMax": 60,
+      "ambientSmallAvatarMax": 30,
+      "slowLoopMax": 20,
+      "meterHz": 30,
+      "$rule": "Ambient loops set CAAnimation.preferredFrameRateRange or TimelineView minimumInterval; nothing ambient renders at 120 Hz."
+    },
+    "reduceMotion": {
+      "setting": "Tri-state: System / On / Off (Settings > Accessibility). System follows accessibilityReduceMotion; live changes reconcile immediately to the final state.",
+      "removes": "translation, scale, rotation, blur, parallax, morphs, bounces, loops, staggered character reveals",
+      "keeps": "opacity crossfades up to 150 ms for elements that appear or disappear; functional meters; color changes",
+      "avatars": "static pose + glyph + label",
+      "streaming": "reveal all units at once; handoff 0 ms"
+    },
+    "recipes": {
+      "reveal.unit": {
+        "use": "Streaming prose unit appears (word/sentence group)",
+        "durationMs": 160,
+        "curve": "expo",
+        "from": {"opacity": 0},
+        "reduceMotion": "instant",
+        "budget": "B3",
+        "source": "aiden-0.36.1 renderer/styles.css:1228-1235,1498-1500"
+      },
+      "reveal.block": {
+        "use": "Atomic Markdown block appears (code fence, table, list, heading, quote)",
+        "durationMs": 180,
+        "curve": "expo",
+        "from": {"opacity": 0, "offsetY": 4},
+        "reduceMotion": "instant",
+        "budget": "B2",
+        "source": "aiden-0.36.1 renderer/styles.css:1237-1246,1502-1504"
+      },
+      "reveal.schedule": {
+        "use": "Reveal cadence",
+        "baseDelayMs": 90,
+        "minDelayMs": 18,
+        "delayFormula": "max(18, round(90 / (1 + pending / 5)))",
+        "completeDelayMs": 32,
+        "completeMaxWaves": 12,
+        "proseGroupMinChars": 72,
+        "sentenceEnders": [".", "!", "?", "…"],
+        "trailingClosers": ["\"", "'", ")", "]", "”", "’"],
+        "reduceMotion": "reveal-all",
+        "budget": "B1",
+        "source": "aiden-0.36.1 renderer/lib/streaming-reveal.ts:1-5,44-47,161-206,358-403"
+      },
+      "reveal.handoff": {
+        "use": "Swap streaming view for persisted message",
+        "delayMs": 200,
+        "fallbackMs": 2000,
+        "reduceMotion": {"delayMs": 0},
+        "budget": "B1",
+        "source": "aiden-0.36.1 renderer/lib/streaming-reveal.ts:1-2,405-407",
+        "note": "no interpolation; swap inside a transaction with animations disabled"
+      },
+      "reveal.blockGate": {
+        "use": "Fallback cadence: Low Power Mode, or backlog above 40 units",
+        "minReleaseIntervalMs": 300,
+        "maxWaitMs": 1000,
+        "fadeMs": 450,
+        "curve": "easeOut",
+        "from": {"opacity": 0},
+        "reduceMotion": "reveal-all",
+        "budget": "B2",
+        "source": "aiden-0.58.0 renderer/lib/streaming-reveal.ts (STREAMING_REVEAL_RELEASE_MS, MAX_WAIT_MS, FADE_MS); styles.css:2189-2205"
+      },
+      "shimmer.sweep": {
+        "use": "ThinkingShimmer label while a model thinks or a tool runs",
+        "periodMs": 1800,
+        "curve": "easeInOut",
+        "gradientStops": [
+          [0, "text.secondary"],
+          [0.38, "text.secondary"],
+          [0.5, "text.primary"],
+          [0.62, "text.secondary"],
+          [1, "text.secondary"]
+        ],
+        "gradientWidthFraction": 2.4,
+        "positionFrom": 1.4,
+        "positionTo": -0.4,
+        "holdStart": 0.12,
+        "holdEnd": 0.88,
+        "direction": "reading direction (mirrors in RTL)",
+        "fpsMax": 60,
+        "reduceMotion": "static text.secondary label",
+        "budget": "B1",
+        "source": "aiden-0.36.1 renderer/styles.css:1217-1226,1480-1496"
+      },
+      "ticker.row": {
+        "use": "ActivityTicker: newest row appears",
+        "durationMs": 280,
+        "curve": "quart",
+        "from": {"opacity": 0, "offsetY": 2},
+        "note": "Aiden adds blur(2px); Memoshi drops blur (cost; upstream 0.58.0 also removed it)",
+        "coalesceMs": 280,
+        "reduceMotion": "instant",
+        "budget": "B2",
+        "source": "aiden-0.36.1 renderer/styles.css:1334-1343,1547-1549"
+      },
+      "ticker.shift": {
+        "use": "ActivityTicker: stack shifts up one row",
+        "durationMs": 280,
+        "curve": "quart",
+        "from": {"offsetY": "layout.ticker.rowHeight"},
+        "reduceMotion": "instant",
+        "budget": "B2",
+        "source": "aiden-0.36.1 renderer/styles.css:1323-1332,1543-1545"
+      },
+      "ticker.presence": {
+        "use": "ActivityTicker appears / leaves",
+        "enter": {
+          "use": "enter",
+          "durationMs": 200,
+          "curve": "quart",
+          "from": {"opacity": 0, "offsetY": 3},
+          "reduceMotion": "fade:120",
+          "budget": "B2"
+        },
+        "exit": {
+          "use": "exit",
+          "durationMs": 180,
+          "curve": "easeIn",
+          "to": {"opacity": 0, "offsetY": -2},
+          "reduceMotion": "instant",
+          "budget": "B2"
+        },
+        "retentionMs": 180,
+        "source": "aiden-0.36.1 renderer/styles.css:1259-1283,1532-1541"
+      },
+      "reasoning.enter": {
+        "use": "Reasoning disclosure opens while streaming",
+        "durationMs": 220,
+        "curve": "quart",
+        "from": {"opacity": 0, "clipBottom": 8},
+        "reduceMotion": "instant",
+        "budget": "B2",
+        "source": "aiden-0.36.1 renderer/styles.css:1248-1257,1506-1508"
+      },
+      "title.reveal": {
+        "use": "Session title changes to a generated title (a bot's Chat keeps the bot's name)",
+        "previousOutMs": 200,
+        "previousCurve": "easeOut",
+        "charDurationMs": 160,
+        "charCurve": "expo",
+        "charFrom": {"opacity": 0, "offsetY": 2},
+        "staggerWindowMs": 340,
+        "maxStaggerMs": 40,
+        "stepFormula": "min(40, 340 / (n - 1))",
+        "totalMaxMs": 500,
+        "reduceMotion": "instant",
+        "budget": "B3",
+        "note": "Staggered per-character fade and rise; never simulated typing",
+        "source": "aiden-0.36.1 renderer/lib/chat-title-reveal.ts:1-31; styles.css:1197-1215,1446-1452"
+      },
+      "card.enter": {
+        "use": "Card appears in a conversation",
+        "durationMs": 180,
+        "curve": "expo",
+        "from": {"opacity": 0, "offsetY": 4, "scale": 0.992},
+        "reduceMotion": "fade:120",
+        "budget": "B2",
+        "source": "aiden-0.36.1 renderer/styles.css:278-280,363-372 (ask-user-question-in)"
+      },
+      "card.resolve": {
+        "use": "Card decided: collapses to CardReceipt",
+        "durationMs": 220,
+        "curve": "expo",
+        "crossfadeMs": 150,
+        "reduceMotion": "fade:120",
+        "budget": "B2"
+      },
+      "chip.enter": {
+        "use": "ToolChip, TaskChip, SubagentChip, attachment chip appear",
+        "durationMs": 200,
+        "curve": "expo",
+        "from": {"opacity": 0, "offsetX": -4, "offsetY": 2},
+        "reduceMotion": "instant",
+        "budget": "B1",
+        "source": "aiden-0.36.1 docs/chatgpt-desktop-ui-inspiration.md:216 (Aiden adaptation, no overshoot); aiden-0.58.0 styles.css:625-627"
+      },
+      "chip.state": {
+        "use": "Chip running -> done / failed",
+        "durationMs": 200,
+        "effect": "symbolEffect(.replace) + label crossfade",
+        "reduceMotion": "instant",
+        "budget": "B0",
+        "curve": "standard",
+        "note": "symbol .replace uses system timing; label crossfade 200 ms standard"
+      },
+      "message.send": {
+        "use": "User message appears after send",
+        "durationMs": 150,
+        "curve": "expo",
+        "from": {"opacity": 0, "offsetY": 4},
+        "reduceMotion": "instant",
+        "budget": "B1"
+      },
+      "disclosure.toggle": {
+        "use": "Code Mode card, ToolGroup, reasoning disclosure expand/collapse",
+        "durationMs": 220,
+        "curve": "expo",
+        "contentFadeMs": 150,
+        "reduceMotion": "instant",
+        "budget": "B2"
+      },
+      "toolgroup.settle": {
+        "use": "Turn settles: ActivityTicker collapses into ToolGroup summary",
+        "durationMs": 220,
+        "curve": "expo",
+        "crossfadeMs": 200,
+        "reduceMotion": "instant",
+        "budget": "B2"
+      },
+      "scroll.toLatest": {
+        "use": "ScrollToLatest jump",
+        "durationMs": 300,
+        "curve": "easeInOut",
+        "reduceMotion": "instant",
+        "budget": "B2",
+        "source": "parity-audit-design-motion.md M3 (300 ms ease-in-out jump-to-bottom)"
+      },
+      "scroll.edgeMask": {
+        "use": "Inner scroll edge fade toggles",
+        "durationMs": 120,
+        "curve": "easeOut",
+        "fadeSize": 14,
+        "fadeSizeReasoning": 20,
+        "reduceMotion": "instant",
+        "budget": "B1",
+        "source": "aiden-0.36.1 renderer/styles.css:421-444"
+      },
+      "composer.focus": {
+        "use": "Composer focus fill (about 2% deeper, no accent ring)",
+        "durationMs": 150,
+        "curve": "easeOut",
+        "reduceMotion": "instant",
+        "budget": "B1",
+        "source": "aiden-0.36.1 renderer/styles.css:270-276"
+      },
+      "hover.fill": {
+        "use": "Row and control hover fill",
+        "durationMs": 150,
+        "curve": "easeOut",
+        "reduceMotion": "instant",
+        "budget": "B1",
+        "source": "aiden-0.36.1 docs/chatgpt-desktop-ui-inspiration.md:201,239"
+      },
+      "panel.toggle": {
+        "use": "Inspector show/hide; sidebar <-> rail",
+        "durationMs": 300,
+        "curve": "expo",
+        "disableDuringDrag": true,
+        "reduceMotion": "instant",
+        "budget": "B2",
+        "source": "aiden-0.36.1 renderer/styles.css:1090-1102; inspiration doc:202,212"
+      },
+      "tab.indicator": {
+        "use": "InspectorTabBar selection indicator",
+        "durationMs": 200,
+        "curve": "quart",
+        "note": "content swaps instantly",
+        "reduceMotion": "instant",
+        "budget": "B1"
+      },
+      "popover.enter": {
+        "use": "Custom popover / menu opens downward",
+        "durationMs": 150,
+        "curve": "standard",
+        "from": {"opacity": 0, "offsetY": -4, "scale": 0.98},
+        "reduceMotion": "fade:100",
+        "budget": "B1",
+        "source": "aiden-0.36.1 renderer/styles.css:1175-1184,1440-1442"
+      },
+      "popover.exit": {
+        "use": "Custom popover closes",
+        "durationMs": 100,
+        "curve": "easeIn",
+        "to": {"opacity": 0, "offsetY": -2, "scale": 0.99},
+        "retentionMs": 110,
+        "reduceMotion": "instant",
+        "budget": "B1",
+        "source": "aiden-0.36.1 renderer/styles.css:1186-1195,1443-1445"
+      },
+      "palette.enter": {
+        "use": "Slash/mention palette opens above the composer",
+        "durationMs": 150,
+        "curve": "standard",
+        "from": {"opacity": 0, "offsetY": 4, "scale": 0.98},
+        "reduceMotion": "fade:100",
+        "budget": "B1",
+        "source": "aiden-0.36.1 renderer/styles.css:1285-1294,1315-1317"
+      },
+      "palette.exit": {
+        "use": "Slash/mention palette closes",
+        "durationMs": 100,
+        "curve": "easeIn",
+        "to": {"opacity": 0, "offsetY": 3, "scale": 0.985},
+        "retentionMs": 110,
+        "reduceMotion": "instant",
+        "budget": "B1",
+        "source": "aiden-0.36.1 renderer/styles.css:1296-1306,1319-1321"
+      },
+      "dialog.enter": {
+        "use": "Custom modal overlay (CommandPalette) appears",
+        "durationMs": 10,
+        "curve": "standard",
+        "from": {"opacity": 0, "scale": 0.9},
+        "note": "Deliberately near-instant",
+        "reduceMotion": "instant",
+        "budget": "B1",
+        "source": "aiden-0.36.1 renderer/styles.css:1135-1144,1428-1430"
+      },
+      "dialog.exit": {
+        "use": "Custom modal overlay dismisses",
+        "durationMs": 120,
+        "curve": "easeIn",
+        "to": {"opacity": 0, "scale": 0.9},
+        "reduceMotion": "instant",
+        "budget": "B1",
+        "source": "aiden-0.36.1 renderer/styles.css:1146-1155,1431-1433"
+      },
+      "scrim.enter": {
+        "use": "Scrim behind narrow-window inspector overlay",
+        "durationMs": 160,
+        "curve": "easeOut",
+        "from": {"opacity": 0},
+        "reduceMotion": "fade:100",
+        "budget": "B0",
+        "source": "aiden-0.36.1 renderer/styles.css:1157-1164,1434-1436"
+      },
+      "scrim.exit": {
+        "use": "Scrim leaves",
+        "durationMs": 120,
+        "curve": "easeIn",
+        "to": {"opacity": 0},
+        "reduceMotion": "instant",
+        "budget": "B0",
+        "source": "aiden-0.36.1 renderer/styles.css:1166-1173,1437-1439"
+      },
+      "banner.enter": {
+        "use": "Banner appears",
+        "durationMs": 150,
+        "curve": "expo",
+        "from": {"opacity": 0, "offsetY": 4, "scale": 0.98},
+        "reduceMotion": "fade:120",
+        "budget": "B1",
+        "source": "aiden-0.36.1 renderer/styles.css:1367-1376,1459-1461"
+      },
+      "banner.exit": {
+        "use": "Banner leaves",
+        "durationMs": 120,
+        "curve": "easeIn",
+        "to": {"opacity": 0, "offsetY": 2, "scale": 0.99},
+        "reduceMotion": "instant",
+        "budget": "B1",
+        "source": "aiden-0.36.1 renderer/styles.css:1378-1388,1462-1464"
+      },
+      "floatingCard.enter": {
+        "use": "Anchored floating summary (Changes chip popover, footer popovers)",
+        "durationMs": 180,
+        "curve": "standard",
+        "from": {"opacity": 0, "offsetY": -4, "scale": 0.98},
+        "reduceMotion": "fade:120",
+        "budget": "B1",
+        "source": "aiden-0.36.1 renderer/styles.css:1345-1354,1453-1455"
+      },
+      "floatingCard.exit": {
+        "use": "Anchored floating summary closes",
+        "durationMs": 120,
+        "curve": "easeIn",
+        "to": {"opacity": 0, "offsetY": -2, "scale": 0.99},
+        "reduceMotion": "instant",
+        "budget": "B1",
+        "source": "aiden-0.36.1 renderer/styles.css:1356-1365,1456-1458"
+      },
+      "toast.enter": {
+        "use": "Toast appears (top-center)",
+        "durationMs": 250,
+        "curve": "standard",
+        "from": {"opacity": 0, "offsetY": -4},
+        "reduceMotion": "fade:120",
+        "budget": "B1",
+        "source": "aiden-0.36.1 docs/chatgpt-desktop-ui-inspiration.md:217"
+      },
+      "toast.exit": {
+        "use": "Toast leaves",
+        "durationMs": 150,
+        "curve": "easeIn",
+        "to": {"opacity": 0},
+        "reduceMotion": "instant",
+        "budget": "B1"
+      },
+      "page.step": {
+        "use": "Onboarding and NewBotSheet step change",
+        "durationMs": 220,
+        "curve": "expo",
+        "from": {"opacity": 0, "offsetY": 6},
+        "reduceMotion": "instant",
+        "budget": "B2",
+        "source": "aiden-0.36.1 renderer/styles.css:2346-2361"
+      },
+      "content.swap": {
+        "use": "Major mode change (onboarding hero -> app)",
+        "enter": {
+          "use": "enter",
+          "durationMs": 260,
+          "curve": "expo",
+          "from": {"opacity": 0, "offsetY": 8, "scale": 0.98},
+          "reduceMotion": "fade:150",
+          "budget": "B2"
+        },
+        "exit": {
+          "use": "exit",
+          "durationMs": 180,
+          "curve": "easeIn",
+          "to": {"opacity": 0, "offsetY": -4, "scale": 0.99},
+          "reduceMotion": "instant",
+          "budget": "B2"
+        },
+        "source": "aiden-0.36.1 docs/chatgpt-desktop-ui-inspiration.md:215"
+      },
+      "badge.count": {
+        "use": "Inbox and unread counts change",
+        "durationMs": 200,
+        "effect": "contentTransition(.numericText())",
+        "reduceMotion": "instant",
+        "budget": "B0",
+        "curve": "standard"
+      },
+      "inbox.arrive": {
+        "use": "New needs-you item while the window is key",
+        "effect": "symbolEffect(.bounce) once on the Inbox glyph",
+        "reduceMotion": "instant",
+        "budget": "B0",
+        "note": "system timing of BounceSymbolEffect (about 0.5 s) [INFERENCE]"
+      },
+      "copy.confirm": {
+        "use": "Copy -> Check",
+        "resetMs": 1500,
+        "errorResetMs": 2500,
+        "effect": "symbol replace",
+        "reduceMotion": "instant (timers unchanged)",
+        "budget": "B0",
+        "source": "parity-audit-design-motion.md section 3 CopyButton",
+        "durationMs": 200,
+        "curve": "standard"
+      },
+      "spinner": {
+        "use": "Indeterminate progress when no activity mark fits",
+        "periodMs": 1000,
+        "curve": "linear",
+        "sidebarPeriodMs": 1500,
+        "reduceMotion": "static ProgressView with label",
+        "budget": "B0",
+        "source": "parity-audit-design-motion.md section 5.3 (animate-spin 1 s; sidebar 1.5 s)"
+      },
+      "skeleton.pulse": {
+        "use": "Shape-matched loading skeletons only",
+        "periodMs": 2000,
+        "curve": "pulse",
+        "opacity": [1, 0.5],
+        "reduceMotion": "static 50% fill",
+        "fpsMax": 30,
+        "budget": "B1",
+        "source": "Tailwind animate-pulse as used by Aiden (parity audit 5.3)"
+      },
+      "pill.enter": {
+        "use": "DictationPill appears",
+        "durationMs": 200,
+        "curve": "expo",
+        "from": {"opacity": 0, "offsetY": 4, "scale": 0.98},
+        "reduceMotion": "instant",
+        "budget": "B1",
+        "source": "aiden-0.36.1 renderer/styles.css:2331-2344"
+      },
+      "pill.exit": {
+        "use": "DictationPill leaves",
+        "durationMs": 120,
+        "curve": "easeIn",
+        "to": {"opacity": 0, "offsetY": 2},
+        "reduceMotion": "instant",
+        "budget": "B1"
+      },
+      "pill.dot": {
+        "use": "Recording dot",
+        "periodMs": 2000,
+        "curve": "pulse",
+        "opacity": [1, 0.5],
+        "fpsMax": 30,
+        "reduceMotion": "static dot",
+        "budget": "B0",
+        "source": "aiden-0.36.1 renderer/pill/pill-app.tsx:503 (animate-pulse)"
+      },
+      "pill.meter": {
+        "use": "Input level bars",
+        "bars": 9,
+        "barWidth": 3,
+        "minHeight": 4,
+        "maxHeight": 22,
+        "updateHz": 30,
+        "reduceMotion": "bars update at 10 Hz without interpolation (functional feedback)",
+        "budget": "B1",
+        "source": "aiden-0.36.1 renderer/pill/pill-app.tsx:47,140-147,514-525",
+        "curve": "linear",
+        "sampleMs": 33
+      },
+      "quickAsk.expand": {
+        "use": "QuickAsk reply area expands in the MenuBarExtra panel",
+        "enter": {
+          "use": "enter",
+          "durationMs": 180,
+          "curve": "standard",
+          "from": {"opacity": 0, "offsetY": -8, "scale": 0.98},
+          "reduceMotion": "instant",
+          "budget": "B1"
+        },
+        "exit": {
+          "use": "exit",
+          "durationMs": 120,
+          "curve": "easeIn",
+          "to": {"opacity": 0, "offsetY": -6, "scale": 0.99},
+          "reduceMotion": "instant",
+          "budget": "B1"
+        },
+        "note": "Mirror of Aiden's bottom-anchored assistant dock for a top-anchored panel",
+        "source": "aiden-0.36.1 renderer/styles.css:1391-1411,1465-1470"
+      },
+      "quickAsk.reply": {
+        "use": "QuickAsk reply bubble appears",
+        "durationMs": 180,
+        "curve": "standard",
+        "from": {"opacity": 0, "offsetY": 6, "scale": 0.9},
+        "reduceMotion": "fade:120",
+        "budget": "B1",
+        "source": "aiden-0.36.1 renderer/styles.css:1413-1424,1471-1473 (assistant-bubble-in)"
+      },
+      "modelPad.canvas": {
+        "use": "Model Pad canvas repositions when a side panel opens",
+        "durationMs": 220,
+        "curve": "strong",
+        "reduceMotion": "instant",
+        "budget": "B2",
+        "source": "aiden-0.36.1 renderer/styles.css:812-826"
+      },
+      "modelPad.browser": {
+        "use": "Model Pad model browser panel",
+        "enter": {
+          "use": "enter",
+          "durationMs": 180,
+          "curve": "signal",
+          "from": {"opacity": 0, "offsetX": 8, "scale": 0.985},
+          "reduceMotion": "fade:100",
+          "budget": "B1"
+        },
+        "exit": {
+          "use": "exit",
+          "durationMs": 110,
+          "curve": "signal",
+          "to": {"opacity": 0, "offsetX": 4, "scale": 0.99},
+          "reduceMotion": "instant",
+          "budget": "B1"
+        },
+        "source": "aiden-0.36.1 renderer/styles.css:833-839,849-861"
+      },
+      "modelPad.insights": {
+        "use": "Model Pad insights panel",
+        "enter": {
+          "use": "enter",
+          "durationMs": 180,
+          "curve": "signal",
+          "from": {"opacity": 0, "offsetY": -4, "scale": 0.99},
+          "reduceMotion": "fade:100",
+          "budget": "B1"
+        },
+        "exit": {
+          "use": "exit",
+          "durationMs": 110,
+          "curve": "signal",
+          "to": {"opacity": 0, "offsetY": -2, "scale": 0.995},
+          "reduceMotion": "instant",
+          "budget": "B1"
+        },
+        "source": "aiden-0.36.1 renderer/styles.css:841-847,863-874"
+      },
+      "modelPad.marker": {
+        "use": "Model Pad marker hover / select",
+        "scale": 1.08,
+        "durationMs": 150,
+        "curve": "standard",
+        "label": {"opacityMs": 120, "opacityCurve": "easeOut", "transformMs": 150, "from": {"offsetY": 3, "scale": 0.98}},
+        "disabledWhileDragging": true,
+        "reduceMotion": "no scale; label instant",
+        "budget": "B1",
+        "source": "aiden-0.36.1 renderer/styles.css:608-614,636-668"
+      },
+      "modelPad.knob": {
+        "use": "Model Pad knob confirm",
+        "durationMs": 250,
+        "curve": "knob",
+        "reduceMotion": "instant",
+        "budget": "B1",
+        "source": "aiden-0.36.1 renderer/styles.css:904-916"
+      },
+      "live.takeover": {
+        "use": "LiveView in-control border",
+        "durationMs": 200,
+        "curve": "easeOut",
+        "reduceMotion": "instant",
+        "budget": "B1",
+        "note": "2 pt accent.default border fades in; in-control Banner"
+      },
+      "handoff.link": {
+        "use": "HandoffCard link from source to target avatar",
+        "drawMs": 240,
+        "curve": "expo",
+        "targetCatch": "springs.avatarCatch (scale 1 -> 1.06 -> 1)",
+        "reduceMotion": "static link",
+        "budget": "B1"
+      },
+      "budget.meter": {
+        "use": "Budget and usage meters",
+        "spring": "meter",
+        "thresholdCrossing": "200 ms color crossfade + one symbolEffect(.bounce) on the warning glyph at 80%",
+        "reduceMotion": "instant",
+        "budget": "B1"
+      },
+      "diff.hunkAccept": {
+        "use": "Accepted hunk collapses to an 'Accepted' stub",
+        "durationMs": 220,
+        "curve": "expo",
+        "contentFadeMs": 150,
+        "reduceMotion": "instant",
+        "budget": "B2"
+      },
+      "comment.composer": {
+        "use": "LineCommentComposer appears",
+        "durationMs": 150,
+        "curve": "standard",
+        "from": {"opacity": 0, "offsetY": 4, "scale": 0.96},
+        "reduceMotion": "fade:100",
+        "budget": "B1",
+        "source": "aiden-0.36.1 docs/chatgpt-desktop-ui-inspiration.md:218"
+      },
+      "activityMark": {
+        "use": "Running indicator inside chips and rows (Aiden activity marks)",
+        "marks": {
+          "tri-step": {"periodMs": 2700, "curve": "turn", "meaning": "thinking"},
+          "quad-shuffle": {"periodMs": 2600, "curve": "shuffle", "meaning": "tool running"},
+          "compose": {"periodMs": 2200, "curve": "compose", "meaning": "responding"},
+          "scan-grid": {"periodMs": 1500, "curve": "easeInOut", "meaning": "searching"},
+          "glance": {"periodMs": 4000, "curve": "look", "meaning": "waiting for approval or an answer"},
+          "bounce": {"periodMs": 1200, "curve": "bounce", "meaning": "preparing, queued, stopping"}
+        },
+        "rules": [
+          "At most 11 shapes per mark",
+          "Animate translation, rotation, scale and opacity only",
+          "Freeze on the t = 0 pose when inactive, off-screen, or under Reduce Motion; never hide a mark instead"
+        ],
+        "fpsMax": 30,
+        "reduceMotion": "static-pose",
+        "budget": "B0",
+        "source": "aiden-0.58.0 docs/activity-marks.md (MIT)"
+      }
+    }
+  },
+  "avatar": {
+    "viewBox": 100,
+    "$units": "Keyframes are [t, value] with t in 0...1 of the period. Offsets are view-box units (percent of avatar size); rotation in degrees; scale unitless.",
+    "provenance": "Original Memoshi geometry and palette (2026-10-20). Concept of one shared eye mark with varying shape and color adapted from Aiden bot-avatar.tsx (MIT). Grok Bot's measured sheet (13 shapes x 11 colors) is a count reference only; no Grok or MemoBot asset, path or color is used.",
+    "shapes": {
+      "circle": {"kind": "circle", "center": [50, 50], "radius": 44, "eyes": {"lineY": 47, "spread": 24, "scale": 1.0}},
+      "squircle": {
+        "kind": "superellipse",
+        "center": [50, 50],
+        "semiAxes": [43, 43],
+        "exponent": 4.5,
+        "eyes": {"lineY": 47, "spread": 24, "scale": 1.0}
+      },
+      "capsule": {
+        "kind": "stadium",
+        "center": [50, 50],
+        "size": [66, 90],
+        "axis": "vertical",
+        "eyes": {"lineY": 40, "spread": 22, "scale": 0.95}
+      },
+      "drop": {
+        "kind": "teardrop",
+        "circleCenter": [50, 62],
+        "radius": 33,
+        "apex": [50, 5],
+        "apexCornerRadius": 4,
+        "eyes": {"lineY": 63, "spread": 23, "scale": 0.95}
+      },
+      "shield": {
+        "kind": "shield",
+        "top": 8,
+        "left": 10,
+        "right": 90,
+        "shoulderY": 46,
+        "tip": [50, 95],
+        "sideControls": [[88, 78], [12, 78]],
+        "cornerRadius": 10,
+        "eyes": {"lineY": 42, "spread": 24, "scale": 1.0}
+      },
+      "leaf": {
+        "kind": "lens",
+        "center": [50, 50],
+        "length": 98,
+        "width": 62,
+        "rotation": -45,
+        "tipCornerRadius": 6,
+        "eyes": {"lineY": 50, "spread": 22, "scale": 0.9}
+      },
+      "hexagon": {
+        "kind": "roundedPolygon",
+        "center": [50, 50],
+        "sides": 6,
+        "circumradius": 47,
+        "startAngle": -90,
+        "cornerRadius": 8,
+        "eyes": {"lineY": 48, "spread": 24, "scale": 1.0}
+      },
+      "flower": {
+        "kind": "radialWave",
+        "center": [50, 50],
+        "baseRadius": 40,
+        "amplitude": 5.5,
+        "lobes": 6,
+        "phase": -90,
+        "eyes": {"lineY": 49, "spread": 23, "scale": 0.95}
+      },
+      "cloud": {
+        "kind": "union",
+        "circles": [[31, 56, 19], [55, 41, 25], [77, 58, 15]],
+        "roundedRect": {"rect": [8, 52, 92, 86], "cornerRadius": 17},
+        "eyes": {"lineY": 63, "spread": 23, "scale": 0.95}
+      },
+      "star": {
+        "kind": "roundedStar",
+        "center": [50, 54],
+        "points": 5,
+        "outerRadius": 48,
+        "innerRatio": 0.62,
+        "startAngle": -90,
+        "cornerRadius": 7,
+        "eyes": {"lineY": 55, "spread": 19, "scale": 0.8}
+      },
+      "arch": {
+        "kind": "arch",
+        "rect": [10, 5, 90, 95],
+        "bottomCornerRadius": 11,
+        "eyes": {"lineY": 50, "spread": 24, "scale": 1.0}
+      },
+      "bean": {
+        "kind": "dentedEllipse",
+        "center": [50, 54],
+        "semiAxes": [45, 33],
+        "dentDepth": 9,
+        "dentAngle": -90,
+        "dentWidthRad": 0.55,
+        "rotation": -10,
+        "eyes": {"lineY": 56, "spread": 24, "scale": 0.95}
+      }
+    },
+    "colors": {
+      "coral": {
+        "oklch": {"l": 0.76, "c": 0.13, "h": 25},
+        "fill": {
+          "light": "#F98F87",
+          "dark": "#E47C75",
+          "increasedContrastLight": "#F07F77",
+          "increasedContrastDark": "#FF958E"
+        },
+        "text": {
+          "light": "#AB3937",
+          "dark": "#E77F77",
+          "increasedContrastLight": "#830C15",
+          "increasedContrastDark": "#FFC0B9",
+          "$source": "Memoshi contrast correction 2026-11-13 (D127); see $meta.contrastCorrection. Original light #BC4945, dark #DD766F, increasedContrastLight #9A2929, increasedContrastDark #FE9B93; fixed OKLCH hue with minimal lightness change after 8-bit quantization, chroma reduced only at the sRGB gamut boundary."
+        },
+        "cvdConfusableWith": ["mint (deuteranopia)"]
+      },
+      "tangerine": {
+        "oklch": {"l": 0.82, "c": 0.13, "h": 58},
+        "fill": {
+          "light": "#FEB073",
+          "dark": "#EE9B58",
+          "increasedContrastLight": "#F99F55",
+          "increasedContrastDark": "#FFB984"
+        },
+        "text": {
+          "light": "#944F00",
+          "dark": "#DB8A45",
+          "increasedContrastLight": "#653300",
+          "increasedContrastDark": "#FFC395",
+          "$source": "Memoshi contrast correction 2026-11-13 (D127); see $meta.contrastCorrection. Original light #A85B05, dark #D07F3A, increasedContrastLight #804303, increasedContrastDark #F4A76A; fixed OKLCH hue with minimal lightness change after 8-bit quantization, chroma reduced only at the sRGB gamut boundary."
+        },
+        "cvdConfusableWith": ["lime (deuteranopia)", "orchid (tritanopia)"]
+      },
+      "amber": {
+        "oklch": {"l": 0.86, "c": 0.13, "h": 88},
+        "fill": {
+          "light": "#F4CC64",
+          "dark": "#E1B850",
+          "increasedContrastLight": "#EABE4A",
+          "increasedContrastDark": "#FBD26B"
+        },
+        "text": {
+          "light": "#795D00",
+          "dark": "#BF9829",
+          "increasedContrastLight": "#513D00",
+          "increasedContrastDark": "#F0CC6E",
+          "$source": "Memoshi contrast correction 2026-11-13 (D127); see $meta.contrastCorrection. Original light #896A01, dark #B68F1B, increasedContrastLight #674F00, increasedContrastDark #D7B355; fixed OKLCH hue with minimal lightness change after 8-bit quantization, chroma reduced only at the sRGB gamut boundary."
+        },
+        "cvdConfusableWith": ["lime (protanopia)"]
+      },
+      "lime": {
+        "oklch": {"l": 0.82, "c": 0.13, "h": 125},
+        "fill": {
+          "light": "#B1D372",
+          "dark": "#9EBF5F",
+          "increasedContrastLight": "#A3C75D",
+          "increasedContrastDark": "#B7D978"
+        },
+        "text": {
+          "light": "#4F6900",
+          "dark": "#87A846",
+          "increasedContrastLight": "#344600",
+          "increasedContrastDark": "#BBDB82",
+          "$source": "Memoshi contrast correction 2026-11-13 (D127); see $meta.contrastCorrection. Original light #5A7803, dark #80A03E, increasedContrastLight #425900, increasedContrastDark #A3C26A; fixed OKLCH hue with minimal lightness change after 8-bit quantization, chroma reduced only at the sRGB gamut boundary."
+        },
+        "cvdConfusableWith": ["tangerine (deuteranopia)", "amber (protanopia)"]
+      },
+      "mint": {
+        "oklch": {"l": 0.78, "c": 0.12, "h": 160},
+        "fill": {
+          "light": "#6BCF9D",
+          "dark": "#57BC8A",
+          "increasedContrastLight": "#53C48E",
+          "increasedContrastDark": "#71D6A3"
+        },
+        "text": {
+          "light": "#006F47",
+          "dark": "#49AF7F",
+          "increasedContrastLight": "#004A2F",
+          "increasedContrastDark": "#7EE3AF",
+          "$source": "Memoshi contrast correction 2026-11-13 (D127); see $meta.contrastCorrection. Original light #067D51, dark #3EA576, increasedContrastLight #035F3D, increasedContrastDark #67CC9A; fixed OKLCH hue with minimal lightness change after 8-bit quantization, chroma reduced only at the sRGB gamut boundary."
+        },
+        "cvdConfusableWith": ["coral (deuteranopia)", "sky (tritanopia)"]
+      },
+      "teal": {
+        "oklch": {"l": 0.82, "c": 0.11, "h": 195},
+        "fill": {
+          "light": "#5EDADA",
+          "dark": "#47C7C7",
+          "increasedContrastLight": "#3BCFCF",
+          "increasedContrastDark": "#65E1E1"
+        },
+        "text": {
+          "light": "#006C6D",
+          "dark": "#21AEAD",
+          "increasedContrastLight": "#004849",
+          "increasedContrastDark": "#66E2E1",
+          "$source": "Memoshi contrast correction 2026-11-13 (D127); see $meta.contrastCorrection. Original light #027C7C, dark #07A4A4, increasedContrastLight #055C5C, increasedContrastDark #4BCACA; fixed OKLCH hue with minimal lightness change after 8-bit quantization, chroma reduced only at the sRGB gamut boundary."
+        },
+        "cvdConfusableWith": ["orchid (deuteranopia)"]
+      },
+      "sky": {
+        "oklch": {"l": 0.78, "c": 0.11, "h": 230},
+        "fill": {
+          "light": "#64C4F0",
+          "dark": "#50B1DC",
+          "increasedContrastLight": "#4AB8E8",
+          "increasedContrastDark": "#6BCBF7"
+        },
+        "text": {
+          "light": "#00688B",
+          "dark": "#44A7D1",
+          "increasedContrastLight": "#00455E",
+          "increasedContrastDark": "#8CDAFF",
+          "$source": "Memoshi contrast correction 2026-11-13 (D127); see $meta.contrastCorrection. Original light #07769C, dark #3A9EC8, increasedContrastLight #055875, increasedContrastDark #61C1ED; fixed OKLCH hue with minimal lightness change after 8-bit quantization, chroma reduced only at the sRGB gamut boundary."
+        },
+        "cvdConfusableWith": ["iris (deuteranopia, protanopia)", "mint (tritanopia)"]
+      },
+      "cobalt": {
+        "oklch": {"l": 0.7, "c": 0.13, "h": 262},
+        "fill": {
+          "light": "#719DEF",
+          "dark": "#608BDB",
+          "increasedContrastLight": "#6290E7",
+          "increasedContrastDark": "#77A4F6"
+        },
+        "text": {
+          "light": "#305DB7",
+          "dark": "#709CEE",
+          "increasedContrastLight": "#0E3A91",
+          "increasedContrastDark": "#B7D1FF",
+          "$source": "Memoshi contrast correction 2026-11-13 (D127); see $meta.contrastCorrection. Original light #3B6AC5, dark #6894E5, increasedContrastLight #224FA7, increasedContrastDark #91B7FE; fixed OKLCH hue with minimal lightness change after 8-bit quantization, chroma reduced only at the sRGB gamut boundary."
+        },
+        "cvdConfusableWith": ["violet (protanopia)"]
+      },
+      "iris": {
+        "oklch": {"l": 0.8, "c": 0.12, "h": 285},
+        "fill": {
+          "light": "#B6B4FE",
+          "dark": "#A3A0F3",
+          "increasedContrastLight": "#A9A5FF",
+          "increasedContrastDark": "#BDBCFE"
+        },
+        "text": {
+          "light": "#5F54B0",
+          "dark": "#9794E6",
+          "increasedContrastLight": "#3F3289",
+          "increasedContrastDark": "#CACBFF",
+          "$source": "Memoshi contrast correction 2026-11-13 (D127); see $meta.contrastCorrection. Original light #6B62BF, dark #8E8ADC, increasedContrastLight #50459E, increasedContrastDark #B3B1FF; fixed OKLCH hue with minimal lightness change after 8-bit quantization, chroma reduced only at the sRGB gamut boundary."
+        },
+        "cvdConfusableWith": ["sky (deuteranopia, protanopia)"]
+      },
+      "violet": {
+        "oklch": {"l": 0.74, "c": 0.13, "h": 308},
+        "fill": {
+          "light": "#C294EA",
+          "dark": "#AF81D6",
+          "increasedContrastLight": "#B785E1",
+          "increasedContrastDark": "#C89AF1"
+        },
+        "text": {
+          "light": "#7D49A6",
+          "dark": "#B889DF",
+          "increasedContrastLight": "#5B2582",
+          "increasedContrastDark": "#E2C4FF",
+          "$source": "Memoshi contrast correction 2026-11-13 (D127); see $meta.contrastCorrection. Original light #8A55B4, dark #AF81D6, increasedContrastLight #6F3A97, increasedContrastDark #D0A5F6; fixed OKLCH hue with minimal lightness change after 8-bit quantization, chroma reduced only at the sRGB gamut boundary."
+        },
+        "cvdConfusableWith": ["cobalt (protanopia)"]
+      },
+      "orchid": {
+        "oklch": {"l": 0.8, "c": 0.12, "h": 340},
+        "fill": {
+          "light": "#F19FD6",
+          "dark": "#DD8CC3",
+          "increasedContrastLight": "#E88FCB",
+          "increasedContrastDark": "#F8A5DD"
+        },
+        "text": {
+          "light": "#98407F",
+          "dark": "#D283B8",
+          "increasedContrastLight": "#721B5C",
+          "increasedContrastDark": "#FFBBE7",
+          "$source": "Memoshi contrast correction 2026-11-13 (D127); see $meta.contrastCorrection. Original light #A84F8E, dark #C97AAF, increasedContrastLight #883170, increasedContrastDark #EE9CD3; fixed OKLCH hue with minimal lightness change after 8-bit quantization, chroma reduced only at the sRGB gamut boundary."
+        },
+        "cvdConfusableWith": ["teal (deuteranopia)", "tangerine (tritanopia)", "slate (protanopia)"]
+      },
+      "slate": {
+        "oklch": {"l": 0.76, "c": 0.03, "h": 250},
+        "fill": {
+          "light": "#A3B3C4",
+          "dark": "#91A0B1",
+          "increasedContrastLight": "#92A7BD",
+          "increasedContrastDark": "#A9B9CA"
+        },
+        "text": {
+          "light": "#4F6377",
+          "dark": "#8F9FAF",
+          "increasedContrastLight": "#304155",
+          "increasedContrastDark": "#C1D1E2",
+          "$source": "Memoshi contrast correction 2026-11-13 (D127); see $meta.contrastCorrection. Original light #5D7186, dark #8594A4, increasedContrastLight #425468, increasedContrastDark #A9B9CA; fixed OKLCH hue with minimal lightness change after 8-bit quantization, chroma reduced only at the sRGB gamut boundary."
+        },
+        "cvdConfusableWith": ["orchid (protanopia)"]
+      }
+    },
+    "colorRules": {
+      "eyeInkContrast": "Eye ink on every fill >= 5.1:1 (light/dark), >= 6.7:1 (increased contrast)",
+      "normalVisionMinDeltaE": 0.077,
+      "textVariant": "Bot name text in the bot's color uses colors.<id>.text (>= 4.6:1; 7:1 increased contrast) on every opaque text surface (content, window, inspector, card, cardHover, well, resource, raised) in both palettes (D127). Fills are never used for text.",
+      "muted": "paused/offline fill = mix(fill, neutral, 0.65); neutral light #B8B8BC, dark #7C7C80",
+      "mutedNeutral": {
+        "light": "#B8B8BC",
+        "dark": "#7C7C80",
+        "increasedContrastLight": "#B8B8BC",
+        "increasedContrastDark": "#7C7C80",
+        "note": "Structured copy of the muted rule's neutral. Increased contrast reuses the light/dark neutral; the mix fraction is opacity.mutedAvatar."
+      },
+      "cvdNote": "Pairs in cvdConfusableWith have OKLab dE < 0.035 under Machado 2009 severity-1.0 simulation; the generator never gives two bots with the same shape a confusable pair."
+    },
+    "face": {
+      "eye": {
+        "width": 7.5,
+        "height": 13,
+        "cornerRadius": 3.75,
+        "ink": {
+          "light": "#1C1A26",
+          "dark": "#1C1A26",
+          "increasedContrastLight": "#000000",
+          "increasedContrastDark": "#000000"
+        }
+      },
+      "mouth": null,
+      "minEyeSize": {"width": 1.5, "height": 2.5, "note": "points, applied at 16 and 20 pt"},
+      "poses": {
+        "open": {"scaleY": 1.0, "offsetX": 0},
+        "lookLeading": {"offsetX": -6.5},
+        "lookTrailing": {"offsetX": 6.5},
+        "half": {"scaleY": 0.5, "offsetY": 1.5},
+        "closed": {"scaleY": 0.15, "offsetY": 1.5},
+        "squint": {"scaleY": 0.75},
+        "wide": {"scale": 1.15},
+        "blink": {"scaleY": 0.1}
+      },
+      "edge": {
+        "light": "border.hairline inner stroke 1 px",
+        "increasedContrast": "1.5 pt stroke in text.secondary",
+        "hairlinePixels": 1,
+        "increasedContrastWidth": 1.5
+      }
+    },
+    "sizes": {
+      "xs": {"pt": 16, "use": "inline mentions, MenuBarExtra list", "badge": false, "motion": "none", "loopFpsMax": 0},
+      "sm": {
+        "pt": 20,
+        "use": "sidebar bot rows (two-line, with subtitle), session lead avatars, chips, Card headers",
+        "badge": false,
+        "motion": "loops at 30 fps max",
+        "loopFpsMax": 30
+      },
+      "md": {
+        "pt": 28,
+        "use": "Assistant row, message headers, group member stacks, sidebar rail",
+        "badge": true,
+        "motion": "loops at 30 fps max",
+        "loopFpsMax": 30
+      },
+      "lg": {"pt": 40, "use": "AvatarGrid tiles", "badge": true, "motion": "loops at 60 fps max", "loopFpsMax": 60},
+      "xl": {"pt": 64, "use": "inspector Profile header, BotProposalCard", "badge": true, "motion": "loops at 60 fps max", "loopFpsMax": 60},
+      "xxl": {"pt": 96, "use": "NewBotSheet preview, onboarding", "badge": true, "motion": "loops at 60 fps max", "loopFpsMax": 60}
+    },
+    "badge": {
+      "diameterFraction": 0.4,
+      "minDiameter": 12,
+      "glyphFraction": 0.6,
+      "cutoutRing": 1.5,
+      "positions": {
+        "status": "bottom-trailing",
+        "unread": "top-trailing",
+        "computerLevel": "top-leading (>= 40 pt, only for Bot computer / Remote machine)"
+      },
+      "priority": ["takenOver", "offline", "status"]
+    },
+    "states": {
+      "idle": {
+        "pose": "open",
+        "stillPose": "open",
+        "loop": null,
+        "oneShot": null,
+        "glyph": null,
+        "label": "job line",
+        "reduceMotion": "same",
+        "budget": "B0"
+      },
+      "working": {
+        "pose": "open",
+        "stillPose": "lookLeading",
+        "loop": {
+          "name": "bounce",
+          "periodMs": 1200,
+          "curve": "bounce",
+          "phaseOffset": "hash(botId) mod period",
+          "bodyOffsetY": [[0, 0], [0.27, -8], [0.55, 0], [1, 0]],
+          "bodySquash": [
+            {"t": 0.55, "scaleX": 1, "scaleY": 1},
+            {"t": 0.6, "scaleX": 1.04, "scaleY": 0.94},
+            {"t": 0.7, "scaleX": 1, "scaleY": 1}
+          ],
+          "anchor": "bottom-center"
+        },
+        "eyes": {
+          "name": "glance",
+          "periodMs": 4000,
+          "curve": "look",
+          "offsetX": [[0, 0], [0.14, 0], [0.24, -6.5], [0.4, -6.5], [0.52, 6.5], [0.68, 6.5], [0.8, 0], [1, 0]],
+          "blinkScaleY": [[0, 1], [0.86, 1], [0.9, 0.1], [0.94, 1], [1, 1]],
+          "source": "aiden-0.58.0 docs/activity-marks.md glance; styles.css:3061-3073"
+        },
+        "glyph": "ellipsis",
+        "label": "Working: <current step> / <n> tasks",
+        "reduceMotion": "static-pose: eyes lookLeading + glyph + label",
+        "budget": "B0"
+      },
+      "needs_you": {
+        "pose": "open",
+        "stillPose": "open",
+        "oneShot": {
+          "name": "hop x2",
+          "durationMs": 640,
+          "bodyOffsetY": [[0, 0], [0.25, -12], [0.5, 0], [0.72, -7], [1, 0]],
+          "spring": "avatarHop"
+        },
+        "loop": {
+          "name": "glow",
+          "periodMs": 2400,
+          "curve": "easeInOut",
+          "glowOpacity": [1, 0.45],
+          "ringWidthFraction": 0.075,
+          "ringMin": 1.5,
+          "hopRepeatEveryMs": 8000,
+          "hopRepeatMax": 3,
+          "fpsMax": 30
+        },
+        "glyph": "hand.raised.fill",
+        "label": "Needs you: <first pending item> (+n)",
+        "reduceMotion": "static-pose: glow ring at full opacity + glyph + label",
+        "budget": "B0"
+      },
+      "has_news": {
+        "pose": "open",
+        "stillPose": "open",
+        "oneShot": {
+          "name": "cheer",
+          "durationMs": 900,
+          "bodyOffsetY": [[0, 0], [0.3, -10], [0.6, 0], [1, 0]],
+          "bodyStretchAtApex": {"scaleX": 0.96, "scaleY": 1.06},
+          "eyes": "wide at apex",
+          "apexEyePose": "wide",
+          "sparkle": "sparkle glyph draws on at top-trailing, fades by 1200 ms",
+          "sparkleFadeMs": 1200,
+          "spring": "avatarHop",
+          "rateLimit": "once per bot per 60 s",
+          "rateLimitMs": 60000
+        },
+        "loop": null,
+        "glyph": "sparkle",
+        "label": "<first line of the unread message>",
+        "reduceMotion": "static-pose: glyph + unread badge + label",
+        "budget": "B0"
+      },
+      "watching": {
+        "pose": "open",
+        "stillPose": "lookLeading",
+        "loop": {
+          "name": "lookout",
+          "periodMs": 5000,
+          "curve": "look",
+          "eyesOffsetX": [[0, 0], [0.1, 0], [0.25, -8], [0.4, -8], [0.55, 8], [0.7, 8], [0.85, 0], [1, 0]],
+          "bodyRotation": [[0.25, -3], [0.55, 3], [0.85, 0]],
+          "anchor": "bottom-center",
+          "fpsMax": 30
+        },
+        "glyph": "binoculars.fill",
+        "label": "Watching <n> pages",
+        "reduceMotion": "static-pose: eyes lookLeading + glyph + label",
+        "budget": "B0"
+      },
+      "asleep": {
+        "pose": "closed",
+        "stillPose": "closed",
+        "loop": {
+          "name": "breathe",
+          "periodMs": 4000,
+          "curve": "easeInOut",
+          "bodyScale": [1.0, 1.03],
+          "anchor": "bottom-center",
+          "fpsMax": 20
+        },
+        "wakeTransition": {
+          "durationMs": 400,
+          "eyes": "closed -> open via blink overshoot 1.1",
+          "eyesOvershootScaleY": 1.1,
+          "bodyOffsetY": -4
+        },
+        "glyph": "moon.zzz.fill",
+        "label": "Asleep until <nextWakeAt>",
+        "reduceMotion": "static-pose: closed eyes + glyph + label",
+        "budget": "B0"
+      },
+      "paused": {
+        "pose": "half",
+        "stillPose": "half",
+        "fill": "muted",
+        "enterCrossfadeMs": 200,
+        "loop": null,
+        "glyph": "pause.circle.fill",
+        "label": "Paused / Paused: a week without you / Paused: budget reached (pauseReason user | away | budget)",
+        "reduceMotion": "same, instant",
+        "budget": "B0"
+      },
+      "error": {
+        "pose": "squint",
+        "stillPose": "squint",
+        "oneShot": {
+          "name": "shake",
+          "durationMs": 300,
+          "bodyOffsetX": [[0, 0], [0.17, -4], [0.33, 4], [0.5, -4], [0.67, 4], [0.83, -2], [1, 0]],
+          "curve": "easeInOut",
+          "rateLimit": "once per error event"
+        },
+        "loop": null,
+        "glyph": "exclamationmark.triangle.fill",
+        "label": "Needs attention: <fault message>",
+        "reduceMotion": "static-pose: glyph + label",
+        "budget": "B0"
+      }
+    },
+    "statusPrecedence": ["error", "needs_you", "working", "paused", "has_news", "watching", "asleep", "idle"],
+    "overlays": {
+      "takenOver": {
+        "glyph": "hand.point.up.left.fill",
+        "role": "accent.fill",
+        "motion": "all loops paused",
+        "label": "you are in control"
+      },
+      "offline": {
+        "when": "computerState in [error, stopped, unreachable]",
+        "glyph": "wifi.slash",
+        "fill": "muted",
+        "opacity": 0.6,
+        "motion": "all loops paused",
+        "label": "Computer offline / stopped / unreachable"
+      },
+      "unread": {"when": "unreadCount > 0", "badge": "count, accent.fill, subheadline monospacedDigit", "hideBelow": 28}
+    },
+    "generation": {
+      "storage": "Bot.avatar = {shape, color} with the ids above; no uploaded images in v1",
+      "assignment": [
+        "Never repeat an existing (shape, color) pair while fewer than 144 bots exist",
+        "Prefer an unused color, then an unused shape",
+        "Maximize the minimum OKLab distance to the roster under normal vision and under deuteranopia and protanopia simulation; avoid cvdConfusableWith pairs on the same shape",
+        "Assistant default: the palette color nearest the current accent, shape circle"
+      ],
+      "import": "bot.md keeps its pair unless it collides; then keep the shape, reassign the color, and tell the user",
+      "templates": "Starter templates carry a recommended pair",
+      "rendering": "Paths generated from the parametric definition, cached per shape and point size, pixel-snapped at <= 20 pt; eyes are separate layers so poses animate independently",
+      "concurrency": {
+        "maxAnimatingPerWindow": 12,
+        "priority": ["needs_you", "error", "working", "has_news", "watching", "asleep"],
+        "overflow": "static pose + glyph"
+      }
+    }
+  },
+  "performance": {
+    "display": "ProMotion up to 120 Hz: 8.33 ms per frame; 60 Hz displays: 16.7 ms",
+    "budgetClasses": {
+      "B0": "No per-frame main-thread work: Core Animation render server or system-driven effects. <= 0.5 ms main thread at state change.",
+      "B1": "<= 0.5 ms main-thread time per frame while running",
+      "B2": "<= 1 ms main-thread time per frame while running",
+      "B3": "<= 2 ms main-thread time per frame while running (streaming text, title reveal)"
+    },
+    "frame": {
+      "mainThreadP95Ms": 4,
+      "mainThreadP99Ms": 8,
+      "noFrameOverMs": 16.7,
+      "hitchTimeRatioMsPerS": 5,
+      "reduceMotionHitches": 0
+    },
+    "scenarios": {
+      "P-IDLE": {
+        "setup": "window visible, nothing running, all avatars static",
+        "appCpuPercentMax": 0.3,
+        "animationFrames": 0,
+        "wakeupsPerSecondMax": 1
+      },
+      "P-AMBIENT": {"setup": "12 animating avatars + one thinking indicator", "appCpuPercentMax": 1.0, "mainThreadMsPerFrameMax": 0.5},
+      "P-STREAM": {
+        "setup": "reply streaming 60-100 tokens/s (harness: 5,000 tokens at 60 tok/s) with 12 avatars visible",
+        "mainThreadP95Ms": 4,
+        "revealWorkP95Ms": 2,
+        "parsePerDeltaMsMax": 0.5,
+        "hitchTimeRatioMsPerS": 5,
+        "reduceMotionHitches": 0
+      },
+      "P-HIDDEN": {
+        "setup": "window occluded, minimized, app hidden or display asleep while bots run",
+        "animationFrames": 0,
+        "uiUpdateHzMax": 2,
+        "appCpuPercentMax": 0.3
+      },
+      "P-SCROLL": {"setup": "2,000-message transcript, continuous scroll", "frameP95Ms": 8.3},
+      "P-SWITCH": {"setup": "switch conversation", "latencyMsMax": 150, "transition": "none"},
+      "P-LAUNCH": {"setup": "cold launch", "usableMsMax": 2000, "entranceAnimations": "none"}
+    },
+    "$source": "03-design-system.md#performance-budgets; MASTER_PLAN section 14 for launch and switch targets"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32012,
+    "data": {
+      "kind": "computer_unavailable",
+      "retryable": true
+    },
+    "message": "This Mac's sandbox is not awake."
+  },
+  "id": "c:37",
+  "jsonrpc": "2.0"
+}

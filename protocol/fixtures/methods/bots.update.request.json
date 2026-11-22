@@ -1,0 +1,18 @@
+{
+  "id": "c:1",
+  "jsonrpc": "2.0",
+  "method": "bots.update",
+  "params": {
+    "botId": "bot_00000000000000000000000002",
+    "expectedRevision": 1,
+    "patch": {
+      "job": "Keeps running briefs on topics you pick.",
+      "model": {
+        "effort": "low",
+        "ref": "local/qwen3:0.6b"
+      },
+      "persona": "Plain, short sentences."
+    },
+    "requestId": "00000000000000000000000005"
+  }
+}

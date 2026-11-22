@@ -1,0 +1,13 @@
+{
+  "error": {
+    "code": -32014,
+    "data": {
+      "kind": "rate_limited",
+      "retryAfterMs": 250,
+      "retryable": true
+    },
+    "message": "Too many requests in flight."
+  },
+  "id": "c:39",
+  "jsonrpc": "2.0"
+}

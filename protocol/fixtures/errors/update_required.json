@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32028,
+    "data": {
+      "kind": "update_required",
+      "retryable": false
+    },
+    "message": "Update Memoshi to keep working on this device."
+  },
+  "id": "c:53",
+  "jsonrpc": "2.0"
+}

@@ -1,0 +1,8 @@
+{
+  "id": "c:18",
+  "jsonrpc": "2.0",
+  "method": "cards.get",
+  "params": {
+    "cardId": "crd_01JB8Z7N3P4Q5R6S7T8V9W0X1Z"
+  }
+}

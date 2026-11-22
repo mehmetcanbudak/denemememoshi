@@ -1,0 +1,22 @@
+{
+  "id": "c:1",
+  "jsonrpc": "2.0",
+  "result": {
+    "bot": {
+      "chatId": "cht_00000000000000000000000002",
+      "createdAt": 100,
+      "id": "bot_00000000000000000000000002",
+      "job": "Keeps running briefs on topics you pick.",
+      "model": {
+        "effort": "low",
+        "ref": "local/qwen3:0.6b"
+      },
+      "name": "Researcher",
+      "persona": "Plain, short sentences.",
+      "revision": 2,
+      "role": "bot",
+      "updatedAt": 200
+    },
+    "replayed": false
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "error": {
+    "code": -32001,
+    "data": {
+      "action": "restart_daemon",
+      "client": {
+        "max": 2,
+        "min": 2
+      },
+      "daemon": {
+        "max": 1,
+        "min": 1
+      },
+      "kind": "version_mismatch",
+      "retryable": false
+    },
+    "message": "No common protocol version."
+  },
+  "id": "c:1",
+  "jsonrpc": "2.0"
+}

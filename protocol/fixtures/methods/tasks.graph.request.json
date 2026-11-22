@@ -1,0 +1,8 @@
+{
+  "id": "c:50",
+  "jsonrpc": "2.0",
+  "method": "tasks.graph",
+  "params": {
+    "conversationId": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P"
+  }
+}

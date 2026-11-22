@@ -1,0 +1,9 @@
+{
+  "id": "c:13",
+  "jsonrpc": "2.0",
+  "method": "tasks.abort",
+  "params": {
+    "requestId": "01JB8ZJ0K1M2N3P4Q5R6S7T8V9",
+    "taskId": "tsk_01JB8ZG7H8J9K0M1N2P3Q4R5S6"
+  }
+}

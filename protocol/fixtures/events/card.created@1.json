@@ -1,0 +1,46 @@
+{
+  "actor": {
+    "kind": "system"
+  },
+  "cseq": 329,
+  "deviceId": "dev_01JC0D4E5F6G7H8J9K0M1N2P3Q",
+  "origin": {
+    "hops": 0,
+    "id": "usr_01JC0A1B2C3D4E5F6G7H8J9K0M",
+    "kind": "user",
+    "rootKind": "user"
+  },
+  "payload": {
+    "cardId": "crd_01JC3J1K2M3N4P5Q6R7S8T9V0W",
+    "inbox": true,
+    "kind": "resume",
+    "messageId": "msg_01JC3J2K3M4N5P6Q7R8S9T0V1W",
+    "needsYou": true,
+    "payload": {
+      "checkTool": "reminders_find",
+      "result": "inconclusive",
+      "tool": "reminders_add",
+      "toolCallId": "call_9b21"
+    },
+    "subject": {
+      "id": "tsk_01JC3G4M5N6P7Q8R9S0T1V2W3X",
+      "kind": "task"
+    },
+    "title": "Interrupted: may have happened"
+  },
+  "scope": {
+    "botId": "bot_01JC3F7Q9R2M8K4T6V5W0X1Y2Z",
+    "conversationId": "ses_01JC3G2A7B8C9D0E1F2G3H4J5K",
+    "projectId": "prj_01JC1A2B3C4D5E6F7G8H9J0K1M",
+    "taskId": "tsk_01JC3G4M5N6P7Q8R9S0T1V2W3X"
+  },
+  "seq": 48299,
+  "subject": {
+    "id": "crd_01JC3J1K2M3N4P5Q6R7S8T9V0W",
+    "kind": "card"
+  },
+  "ts": 1792486900020,
+  "type": "card.created",
+  "typeVersion": 1,
+  "v": 1
+}

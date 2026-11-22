@@ -1,0 +1,12 @@
+{
+  "id": "c:2",
+  "jsonrpc": "2.0",
+  "method": "events.subscribe",
+  "params": {
+    "after": 184228,
+    "afterTs": 1792497598940,
+    "focus": [
+      "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P"
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  memoshid's LaunchAgent, registered with SMAppService.agent(plistName:) from
+  Memoshi.app/Contents/Library/LaunchAgents (09-platform-macos.md §8.1 and §8.2).
+  SpawnConstraint checks the signing identifier now; the team identifier joins it
+  once the Developer ID team exists (P0-16).
+-->
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.mehmetcanbudak.memoshi.memoshid</string>
+	<key>BundleProgram</key>
+	<string>Contents/Helpers/memoshid.app/Contents/MacOS/memoshid</string>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>KeepAlive</key>
+	<true/>
+	<key>ProcessType</key>
+	<string>Interactive</string>
+	<key>LimitLoadToSessionType</key>
+	<string>Aqua</string>
+	<key>ThrottleInterval</key>
+	<integer>10</integer>
+	<key>ExitTimeOut</key>
+	<integer>30</integer>
+	<key>SpawnConstraint</key>
+	<dict>
+		<key>signing-identifier</key>
+		<string>com.mehmetcanbudak.memoshi.memoshid</string>
+	</dict>
+</dict>
+</plist>

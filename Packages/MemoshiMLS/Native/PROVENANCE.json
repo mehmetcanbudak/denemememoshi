@@ -1,0 +1,57 @@
+{
+  "format": 1,
+  "mls": {
+    "repository": "https://github.com/awslabs/mls-rs",
+    "tag_label": "0.57.0",
+    "revision": "a1436f4a5433214ed62349e77835b57a0accdc42",
+    "archive": "https://codeload.github.com/awslabs/mls-rs/tar.gz/a1436f4a5433214ed62349e77835b57a0accdc42",
+    "archive_sha256": "72ee15589c9b48f723da7c4fb43b0654c502c43c4814a684bd2967347b87e6fb",
+    "license": "Apache-2.0 OR MIT",
+    "security_notice_source": "mls-rs/README.md:64-66",
+    "security_notice": "This library has been validated for conformance to the RFC 9420 specification but has not yet received a full security audit by a 3rd party.",
+    "conformance_claim_owner": "upstream; not an independent Memoshi qualification"
+  },
+  "provider": {
+    "upstream_path": "mls-rs-crypto-cryptokit",
+    "upstream_version": "0.11.0",
+    "retained_path": "vendor/mls-rs-crypto-cryptokit",
+    "retained_upstream_files": ["src/*.rs", "cryptokit-bridge/Sources/cryptokit-bridge/*.swift", "LICENSE-apache", "LICENSE-mit"],
+    "modifications": [
+      "Cargo path dependencies resolve to the same immutable upstream git revision.",
+      "Replacement build.rs directly invokes installed xcrun swiftc for macOS27/iOS27/simulator arm64, emits a static library, and links Apple runtime/frameworks; no nested SwiftPM manifest or tool installation.",
+      "Swift AEAD and KEM entrypoints return provider failure instead of forced-try traps; invalid numeric algorithm IDs fail without forced unwrap.",
+      "Swift signature import validates Ed25519 64-byte private-plus-public representation; empty NIST public inputs and overlong private inputs do not index or negative-pad trap.",
+      "Swift HKDF expansion enforces the RFC HKDF output-length bound.",
+      "Only source files used by the provider are imported; unconsumed upstream SwiftPM packaging and its test target are not retained."
+    ],
+    "crypto_algorithms_changed": false,
+    "enabled_cipher_suite": "0x0001: MLS_128_DHKEMX25519_AES128GCM_SHA256_Ed25519",
+    "alternate_crypto_provider": null
+  },
+  "binding": {
+    "implementation": "Memoshi-owned Native/src wrapper around unmodified pinned mls-rs, with a custom authenticated device IdentityProvider",
+    "upstream_uniffi_wrapper_used": false,
+    "upstream_uniffi_wrapper_boundary": "Upstream mls-rs-uniffi0.14 hardcodes OpenSSL; importing it would violate the selected CryptoKit provider. This adapter uses UniFFI directly, not an OpenSSL substitution.",
+    "generator_and_runtime_version": "0.32.2",
+    "runtime_modified": false,
+    "runtime_license": "MPL-2.0",
+    "runtime_declared_mpl_dependency_graph": ["uniffi", "uniffi_core", "uniffi_pipeline"],
+    "runtime_object_membership": "Not asserted from source metadata: uniffi_pipeline is an unconditional normal dependency, even though described as codegen/CLI. Actual static-link/dead-strip membership requires artifact evidence.",
+    "host_codegen_mpl_components": ["uniffi_macros", "uniffi_meta", "uniffi_internal_macros", "uniffi_bindgen", "uniffi_udl"],
+    "generated_swift_notice": "../Sources/MemoshiMLSNativeBindings/NOTICE",
+    "upstream_runtime_revision": "7bc621ee9d0d15371d792612707ba5ed4111f950",
+    "upstream_runtime_license": "https://raw.githubusercontent.com/mozilla/uniffi-rs/7bc621ee9d0d15371d792612707ba5ed4111f950/LICENSE",
+    "identity_binding": "A host device-only Noise Ed25519 key signs domain-separated device ID, signing/agreement public keys and the independently generated MLS Ed25519 public key. The signed certificate is the MLS BasicCredential and is validated for every member. A KeyPackage must additionally equal the QR/Noise-authenticated peer supplied by the host.",
+    "group_context_binding": "Actual mls-rs RFC GroupContext encoding (including tree and confirmed transcript hashes) is returned for active and staged target states. Active commit acceptance requires exact authority target-context equality; a newcomer compares its native Welcome-joined context with the QR/authority anchor. An inactive removal tombstone only preserves authority target bytes: it cannot independently certify the new native epoch because the removed client receives no new secrets.",
+    "host_responsibilities": ["Authenticate Noise pairing", "Authenticate and CAS-order exact commit bytes, target GroupContext and resulting roster/leaf indices", "Encrypt secret snapshots under a device-only Keychain key", "Fsync snapshots atomically with host inbox/outbox/authority records", "Do not roll back acknowledged state or MLS-open a durable inbox receipt twice"]
+  },
+  "dependency_lock": "Cargo.lock",
+  "retained_dependency_licenses": "Licenses/manifest.json",
+  "license_selection": {
+    "r-efi": "MIT option; original AUTHORS contains its full permission/copyright notice. No LGPL option selected.",
+    "debug_tree0.4.0": "MIT declaration retained verbatim from published Cargo.toml.orig. Its immutable upstream tree has no standalone LICENSE/copyright notice; LicenseSources/debug_tree-0.4.0/UPSTREAM-NOTICE records that precise distribution-review boundary. No copyright/grant fabricated."
+  },
+  "build_entrypoint": "../../../scripts/build-memoshi-mls.sh",
+  "artifact_manifest": "../Artifacts/payload-manifest.json",
+  "qualification": "Source and packaging provenance only. No claim of independent audit, successful behavior tests, signed/cloud operation, physical device, reference performance, or release acceptance."
+}

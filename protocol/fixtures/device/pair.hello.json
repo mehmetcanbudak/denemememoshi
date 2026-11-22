@@ -1,0 +1,25 @@
+{
+  "from": {
+    "deviceId": "dev_01JB8Z1F2G3H4J5K6M7N8P9Q0R",
+    "kind": "device"
+  },
+  "msgId": "01JB9A0B1C2D3E4F5G6H7J8K00",
+  "payload": {
+    "appVersion": "1.0.0",
+    "deviceId": "dev_01JB8Z1F2G3H4J5K6M7N8P9Q0R",
+    "keyPackage": "AAEAAwAgy8Lm3Qp5Rz1Tk7Vb9Xc2Nw4Hd6Jf0Gs8Ae1Ui3Oo5K==",
+    "name": "iPhone",
+    "osVersion": "27.1",
+    "platform": "iphone",
+    "publicKeys": {
+      "agreement": "MCowBQYDK2VuAyEAb4Nv7Wq2Ys9Pk1Lm5Xz3Ct8Rd0Hf6Jg2Ae4Ui7Oo9Ki=",
+      "signing": "MCowBQYDK2VwAyEAy8Lm3Qp5Rz1Tk7Vb9Xc2Nw4Hd6Jf0Gs8Ae1Ui3Oo5Ke="
+    }
+  },
+  "sentAt": 1792497700000,
+  "to": {
+    "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+    "kind": "device"
+  },
+  "type": "pair.hello"
+}

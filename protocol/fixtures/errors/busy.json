@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32005,
+    "data": {
+      "kind": "busy",
+      "retryable": true
+    },
+    "message": "Atlas is busy; try again when this turn ends."
+  },
+  "id": "c:30",
+  "jsonrpc": "2.0"
+}

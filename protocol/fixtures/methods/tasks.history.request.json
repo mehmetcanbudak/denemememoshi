@@ -1,0 +1,10 @@
+{
+  "id": "c:51",
+  "jsonrpc": "2.0",
+  "method": "tasks.history",
+  "params": {
+    "before": "41",
+    "limit": 20,
+    "taskId": "tsk_01JB8Z6B2C3D4E5F6G7H8J9K0M"
+  }
+}

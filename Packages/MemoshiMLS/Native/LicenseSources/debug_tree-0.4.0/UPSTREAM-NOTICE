@@ -1,0 +1,11 @@
+debug_tree 0.4.0
+Upstream source: https://github.com/martypapa/debug-tree/tree/5b709de2d8872102b20b566c408d31d0662d7a9f
+The published Cargo.toml.orig declares license = "MIT" and author
+Marty Papamanolis <marty@mindpipess.com>. That declaration is retained verbatim.
+The immutable upstream source tree and published crate contain no standalone
+license file or copyright notice. No copyright holder or grant is invented here.
+MIT-standard.txt is the unchanged SPDX MIT license reference text from
+https://raw.githubusercontent.com/spdx/license-list-data/v3.27.0/text/MIT.txt,
+not a newly authored copyright statement for this crate. Its template fields
+are part of that reference text, not unfinished implementation or a substituted
+upstream notice. Distribution review must preserve this precise boundary.

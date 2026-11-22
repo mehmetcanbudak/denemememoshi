@@ -1,0 +1,7 @@
+[bindings.swift]
+module_name = "MemoshiMLSNativeBindings"
+ffi_module_name = "MemoshiMLSNativeFFI"
+ffi_module_filename = "MemoshiMLSNativeFFI"
+generate_module_map = true
+generate_immutable_records = true
+omit_localized_error_conformance = true

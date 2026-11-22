@@ -1,0 +1,16 @@
+{
+  "id": "c:5",
+  "jsonrpc": "2.0",
+  "result": {
+    "crashLoop": {
+      "crashes": 3,
+      "lastCrashAt": 1792497512000,
+      "windowMs": 300000
+    },
+    "hostConnected": true,
+    "liveRuns": 0,
+    "openThreads": 0,
+    "scheduler": "off",
+    "state": "safe_mode"
+  }
+}

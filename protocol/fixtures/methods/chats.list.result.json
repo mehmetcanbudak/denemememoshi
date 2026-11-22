@@ -1,0 +1,25 @@
+{
+  "id": "c:1",
+  "jsonrpc": "2.0",
+  "result": {
+    "asOf": {
+      "seq": 0
+    },
+    "items": [
+      {
+        "botId": "bot_00000000000000000000000001",
+        "createdAt": 100,
+        "id": "cht_00000000000000000000000001",
+        "kind": "assistant",
+        "title": "Assistant"
+      },
+      {
+        "botId": "bot_00000000000000000000000001",
+        "createdAt": 300,
+        "id": "ses_00000000000000000000000001",
+        "kind": "session",
+        "title": "Trip plan"
+      }
+    ]
+  }
+}

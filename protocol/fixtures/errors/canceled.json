@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32021,
+    "data": {
+      "kind": "canceled",
+      "retryable": false
+    },
+    "message": "The request was canceled."
+  },
+  "id": "c:46",
+  "jsonrpc": "2.0"
+}

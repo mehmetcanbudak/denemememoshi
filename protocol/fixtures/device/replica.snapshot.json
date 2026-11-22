@@ -1,0 +1,32 @@
+{
+  "from": {
+    "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+    "kind": "device"
+  },
+  "msgId": "01JB9A0B1C2D3E4F5G6H7J8K0H",
+  "payload": {
+    "conversationId": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P",
+    "epoch": 8,
+    "piSnapshot": "cGkgc3RvcmUgc25hcHNob3QgYXQgcnNlcSA1MDAw",
+    "records": [
+      {
+        "id": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P",
+        "kind": "chat",
+        "op": "upsert",
+        "value": {
+          "botId": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+          "id": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P",
+          "lastCseq": 880,
+          "unreadCount": 0
+        }
+      }
+    ],
+    "rseq": 5000
+  },
+  "sentAt": 1792497725050,
+  "to": {
+    "deviceId": "dev_01JB8Z1F2G3H4J5K6M7N8P9Q0R",
+    "kind": "device"
+  },
+  "type": "replica.snapshot"
+}

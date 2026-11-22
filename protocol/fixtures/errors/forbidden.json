@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32002,
+    "data": {
+      "kind": "forbidden",
+      "retryable": false
+    },
+    "message": "A run cannot change grants."
+  },
+  "id": "c:27",
+  "jsonrpc": "2.0"
+}

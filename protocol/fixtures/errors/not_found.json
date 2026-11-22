@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32003,
+    "data": {
+      "kind": "not_found",
+      "retryable": false
+    },
+    "message": "That task no longer exists."
+  },
+  "id": "c:28",
+  "jsonrpc": "2.0"
+}

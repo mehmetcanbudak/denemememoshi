@@ -1,0 +1,311 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@, %@, %lld degrees Celsius" : {
+      "comment" : "Accessibility label of a forecast hour: time, condition, temperature.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$@, %3$lld degrees Celsius"
+          }
+        }
+      }
+    },
+    "%@, %@, low %lld, high %lld degrees Celsius" : {
+      "comment" : "Accessibility label of a forecast day: day name, condition, low and high temperature.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$@, low %3$lld, high %4$lld degrees Celsius"
+          }
+        }
+      }
+    },
+    "%lld°" : {
+      "comment" : "A temperature in degrees Celsius, shown without its unit."
+    },
+    "11 AM" : {
+
+    },
+    "19 degrees Celsius" : {
+
+    },
+    "19°" : {
+
+    },
+    "2 PM" : {
+
+    },
+    "5 PM" : {
+
+    },
+    "8 AM" : {
+
+    },
+    "A connected research run would show actual source calls and outcomes here. No web search, browser or filesystem tool runs in this preview." : {
+
+    },
+    "A connected run would read an authorized weather source. The visible card instead uses bundled illustrative values and has not contacted WeatherKit." : {
+
+    },
+    "A mild start, with some cloud later. Here’s a sample forecast you can explore." : {
+
+    },
+    "Apple Weather website" : {
+
+    },
+    "Apple design guidelines" : {
+
+    },
+    "Clarify the question before collecting information. This is example presentation text, not a model-generated thought." : {
+
+    },
+    "Clear draft" : {
+
+    },
+    "Cloudy" : {
+
+    },
+    "Compare these design directions." : {
+
+    },
+    "Conversations give work a home. Native cards make resources tangible. Activity makes the process inspectable without getting in the way." : {
+
+    },
+    "Copy example %@" : {
+      "comment" : "Accessibility label; the placeholder is an example resource's title."
+    },
+    "Copy local draft" : {
+
+    },
+    "Copy original sample content" : {
+
+    },
+    "Days" : {
+
+    },
+    "Design principles" : {
+
+    },
+    "Draft actions" : {
+
+    },
+    "Example activity · %lld steps" : {
+      "comment" : "Count of example steps shown in the Activity pane.",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Example activity · %lld step"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Example activity · %lld steps"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Example assistant message: %@" : {
+      "comment" : "Accessibility label; the placeholder is the example message."
+    },
+    "Example user message: %@" : {
+      "comment" : "Accessibility label; the placeholder is the example message."
+    },
+    "Example work · %lld steps" : {
+      "comment" : "Count of example steps behind a reply.",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Example work · %lld step"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Example work · %lld steps"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Example · Apple resource" : {
+
+    },
+    "Example · planning" : {
+
+    },
+    "Example · research" : {
+
+    },
+    "Example · result" : {
+
+    },
+    "Feels like 18° · H:23° L:14°" : {
+
+    },
+    "Forecast period" : {
+
+    },
+    "Frame the question" : {
+
+    },
+    "Help me plan tomorrow." : {
+
+    },
+    "Here’s the sample forecast. A card can carry the details without turning the whole conversation into a dashboard." : {
+
+    },
+    "Hours" : {
+
+    },
+    "Identify the requested place and period. This row illustrates where a concise work summary would appear; it is not model reasoning or a recorded run." : {
+
+    },
+    "Insert an example prompt or copy your local draft. No attachments are uploaded." : {
+
+    },
+    "Insert example prompt" : {
+
+    },
+    "Inspect example %@" : {
+      "comment" : "Accessibility label; the placeholder is an example resource's title."
+    },
+    "Inspect example activity" : {
+
+    },
+    "Inspect sources" : {
+
+    },
+    "Keep a continuous conversation for each bot" : {
+
+    },
+    "Keep a useful note" : {
+
+    },
+    "Keep the answer short and the supporting detail inspectable. The reading note in this example is bundled sample text, not a saved research artifact." : {
+
+    },
+    "Keep the conversation central, make important information tangible, and leave the details one click away." : {
+
+    },
+    "Light rain" : {
+
+    },
+    "Local draft for %@" : {
+      "comment" : "Accessibility label of the composer; the placeholder is an example bot's name."
+    },
+    "Message %@" : {
+      "comment" : "Composer placeholder; the placeholder is an example bot's name."
+    },
+    "Monday" : {
+
+    },
+    "Not connected" : {
+
+    },
+    "Open resource details" : {
+
+    },
+    "Opens an official website. This example did not fetch information from it." : {
+
+    },
+    "Partly cloudy" : {
+
+    },
+    "Present a native card" : {
+
+    },
+    "READING NOTE" : {
+
+    },
+    "Read the forecast" : {
+
+    },
+    "Read-only sample · Shared and copied text is labelled as an example" : {
+
+    },
+    "Represent real objects with native controls" : {
+
+    },
+    "Sample copied" : {
+
+    },
+    "Saved on this device only. Nothing is sent." : {
+
+    },
+    "Sending unavailable in the design preview" : {
+
+    },
+    "Share example %@" : {
+      "comment" : "Accessibility label; the placeholder is an example resource's title."
+    },
+    "Share original sample content" : {
+
+    },
+    "Show me a compact forecast for the week." : {
+
+    },
+    "Show state honestly, including when work is blocked" : {
+
+    },
+    "Sunny" : {
+
+    },
+    "Switch between Hours and Days to try the card. Activity keeps the details beside the conversation, instead of filling the chat." : {
+
+    },
+    "The sample card is rendered by native SwiftUI. Hours and Days change the local presentation, without a model call or external effect." : {
+
+    },
+    "These are design examples. No model or tool has run." : {
+
+    },
+    "This is a design preview. Your text is saved as a local draft. There is no model connection, message delivery or tool execution in this view." : {
+
+    },
+    "This reading note is an example, not the result of a model or a web search. You can keep a separate local draft for each bot." : {
+
+    },
+    "Today" : {
+
+    },
+    "Tomorrow" : {
+
+    },
+    "Tuesday" : {
+
+    },
+    "Understand the request" : {
+
+    },
+    "WEATHER" : {
+
+    },
+    "Wednesday" : {
+
+    },
+    "What does tomorrow look like?" : {
+
+    },
+    "What makes an assistant feel at home on Apple devices?" : {
+
+    }
+  },
+  "version" : "1.0"
+}

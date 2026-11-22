@@ -1,0 +1,50 @@
+{
+  "id": "s3-owned-loopback-positive-and-denials",
+  "sites": [
+    {"origin": "http://127.0.0.1:8765", "interact": true, "signIn": false, "ownedFixture": true},
+    {"origin": "http://127.0.0.1:8766", "interact": true, "signIn": false, "ownedFixture": true}
+  ],
+  "tasks": [
+    {"id": "get-search", "site": "http://127.0.0.1:8765", "steps": [
+      {"operation": "navigate", "url": "http://127.0.0.1:8765/"},
+      {"operation": "type", "selector": {"role": "textbox", "name": "Search query"}, "text": "owned-fixture"},
+      {"operation": "click", "selector": {"role": "button", "name": "Search fixture"}},
+      {"operation": "expect", "selector": {"role": "heading", "name": "Search complete"}}
+    ]},
+    {"id": "authorized-post", "site": "http://127.0.0.1:8765", "steps": [
+      {"operation": "navigate", "url": "http://127.0.0.1:8765/"},
+      {"operation": "type", "selector": {"role": "textbox", "name": "Test value"}, "text": "owned-fixture"},
+      {"operation": "click", "selector": {"role": "button", "name": "Save test value"}},
+      {"operation": "expect", "selector": {"role": "heading", "name": "Form received"}}
+    ]},
+    {"id": "pagination", "site": "http://127.0.0.1:8765", "steps": [
+      {"operation": "navigate", "url": "http://127.0.0.1:8765/"},
+      {"operation": "click", "selector": {"role": "link", "name": "Next fixture page"}},
+      {"operation": "expect", "selector": {"role": "heading", "name": "Pagination complete"}}
+    ]},
+    {"id": "quarantined-download", "site": "http://127.0.0.1:8765", "steps": [
+      {"operation": "navigate", "url": "http://127.0.0.1:8765/"},
+      {"operation": "download", "selector": {"role": "link", "name": "Download test file"}}
+    ]},
+    {"id": "trusted-main-input", "site": "http://127.0.0.1:8765", "steps": [
+      {"operation": "navigate", "url": "http://127.0.0.1:8765/"},
+      {"operation": "type", "selector": {"role": "textbox", "name": "Native text"}, "text": "fixture-text", "nativeInput": true},
+      {"operation": "click", "selector": {"role": "button", "name": "Native click"}, "nativeInput": true},
+      {"operation": "expect", "selector": {"role": "heading", "name": "Native click received"}}
+    ]},
+    {"id": "trusted-cross-origin-frame", "site": "http://127.0.0.1:8765", "steps": [
+      {"operation": "navigate", "url": "http://127.0.0.1:8765/"},
+      {"operation": "snapshot"},
+      {"operation": "click", "selector": {"role": "button", "name": "Frame click", "frameOrigin": "http://127.0.0.1:8766"}, "nativeInput": true},
+      {"operation": "expect", "selector": {"role": "heading", "name": "Frame click received", "frameOrigin": "http://127.0.0.1:8766"}}
+    ]},
+    {"id": "consequential-denial", "site": "http://127.0.0.1:8765", "steps": [
+      {"operation": "navigate", "url": "http://127.0.0.1:8765/"},
+      {"operation": "click", "selector": {"role": "button", "name": "Send test message"}, "expectedDenial": "draftRequired"}
+    ]},
+    {"id": "money-denial", "site": "http://127.0.0.1:8765", "steps": [
+      {"operation": "navigate", "url": "http://127.0.0.1:8765/"},
+      {"operation": "click", "selector": {"role": "button", "name": "Pay test amount"}, "expectedDenial": "purchaseRequired"}
+    ]}
+  ]
+}

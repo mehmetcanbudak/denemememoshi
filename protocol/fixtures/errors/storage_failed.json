@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32017,
+    "data": {
+      "kind": "storage_failed",
+      "retryable": true
+    },
+    "message": "A store is being reopened."
+  },
+  "id": "c:42",
+  "jsonrpc": "2.0"
+}

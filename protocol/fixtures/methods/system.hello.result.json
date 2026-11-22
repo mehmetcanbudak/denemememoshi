@@ -1,0 +1,33 @@
+{
+  "id": "c:1",
+  "jsonrpc": "2.0",
+  "result": {
+    "capabilities": [
+      "events.focus.v1",
+      "host.browser.v1",
+      "host.fm.v1",
+      "host.notify.v1",
+      "host.keychain.v1"
+    ],
+    "connectionId": "conn-3f9a",
+    "daemon": {
+      "build": "412",
+      "pid": 4211,
+      "startedAt": 1792490000000,
+      "version": "1.0.0"
+    },
+    "head": 184230,
+    "limits": {
+      "maxBatchEvents": 256,
+      "maxFocus": 8,
+      "maxInFlightRequests": 64,
+      "maxInboundBytes": 1048576,
+      "maxOutboundFrameBytes": 4194304
+    },
+    "logId": "8f3c1a9e5b7d42c6a0e4f1b2d3c5e7a9",
+    "minRetainedSeq": 120001,
+    "protocol": 1,
+    "schemaHash": "sha256:9c1e04b2",
+    "serverTime": 1792497600123
+  }
+}

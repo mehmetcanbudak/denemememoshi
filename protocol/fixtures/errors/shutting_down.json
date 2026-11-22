@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32018,
+    "data": {
+      "kind": "shutting_down",
+      "retryable": true
+    },
+    "message": "memoshid is restarting to update."
+  },
+  "id": "c:43",
+  "jsonrpc": "2.0"
+}

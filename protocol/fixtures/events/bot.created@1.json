@@ -1,0 +1,26 @@
+{
+  "actor": {
+    "kind": "user"
+  },
+  "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+  "payload": {
+    "chatId": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P",
+    "createdBy": {
+      "kind": "user"
+    },
+    "name": "Atlas",
+    "role": "bot"
+  },
+  "scope": {
+    "botId": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E"
+  },
+  "seq": 101,
+  "subject": {
+    "id": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+    "kind": "bot"
+  },
+  "ts": 1792488700000,
+  "type": "bot.created",
+  "typeVersion": 1,
+  "v": 1
+}

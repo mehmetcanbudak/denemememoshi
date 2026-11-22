@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32024,
+    "data": {
+      "kind": "device_unreachable",
+      "retryable": true
+    },
+    "message": "Your Mac is not reachable."
+  },
+  "id": "c:49",
+  "jsonrpc": "2.0"
+}

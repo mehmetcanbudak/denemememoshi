@@ -1,0 +1,20 @@
+{
+  "id": "c:1",
+  "jsonrpc": "2.0",
+  "result": {
+    "asOf": {
+      "seq": 105
+    },
+    "items": [
+      {
+        "botId": "bot_00000000000000000000000002",
+        "deletedAt": 400,
+        "deletedOnDeviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+        "id": "ses_00000000000000000000000001",
+        "kind": "session",
+        "purgeAfter": 2592000400,
+        "title": "Trip plan"
+      }
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "c:12",
+  "jsonrpc": "2.0",
+  "method": "approvals.list",
+  "params": {
+    "botId": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+    "limit": 50,
+    "status": "pending"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "c:1",
+  "jsonrpc": "2.0",
+  "method": "bots.grants.update",
+  "params": {
+    "botId": "bot_00000000000000000000000001",
+    "grant": {
+      "access": "write",
+      "expectedRevision": 1,
+      "id": "grt_00000000000000000000000001",
+      "path": "/Users/example/Projects/memoshi-notes"
+    },
+    "requestId": "00000000000000000000000002"
+  }
+}

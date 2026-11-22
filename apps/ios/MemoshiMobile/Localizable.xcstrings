@@ -1,0 +1,487 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@ · local endpoint" : {},
+    "%@'s browser, watching" : {},
+    "%@'s browser, you are in control" : {},
+    "%@, outcome unresolved" : {},
+    "%@: %@ · %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$@ · %3$lld"
+          }
+        }
+      }
+    },
+    "%lld bytes · SHA-256 %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld bytes · SHA-256 %2$@"
+          }
+        }
+      }
+    },
+    "%lld characters so far" : {},
+    "%lld files staged" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld file staged"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld files staged"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld older entries are outside the bounded in-memory index; the files remain in their private session directory." : {},
+    "1 call" : {},
+    "1 × 10 minutes" : {},
+    "20 calls" : {},
+    "5 × 10 minutes" : {},
+    "A Python file path or linked filesystem object was refused." : {},
+    "A Python input changed while it was being copied. Nothing ran." : {},
+    "A Python output would replace an existing file. Nothing was replaced." : {},
+    "A declared Python input or output file is unavailable." : {},
+    "A first enrollment of this device identity did not complete, so that identity was removed again. No enrolled identity and no earlier state was touched. Verify the signed device Keychain/CloudKit capabilities and unlock the device, then create the identity again." : {},
+    "A loopback HTTP server on this device, such as Ollama or LM Studio. In the Simulator, that is the Mac's loopback. The engine refuses any other address." : {},
+    "A real authenticated MemoshiEgress client is installed per bot, with direct failover disabled. CONNECT sees hosts, not HTTPS methods. Coverage, DNS/QUIC leakage, five-site tasks and physical devices are not qualified here. Additional origins, including cross-origin subresources, are blocked." : {},
+    "Actual Matplotlib Agg PNG returned by the scientific cell" : {},
+    "Actual Verified Startup & Payload" : {},
+    "Actual host state" : {},
+    "Allow once" : {},
+    "Allowed once · execution not confirmed" : {},
+    "Allowed · execution not confirmed" : {},
+    "App" : {},
+    "App PID" : {},
+    "App-owned Keychain Review" : {},
+    "Approval" : {},
+    "Approve and Open Attributed HTTPS Gateway" : {},
+    "Assistant" : {},
+    "Assistant needs you: %@" : {},
+    "Assistant: %@" : {},
+    "Assistant: %@. %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Assistant: %1$@. %2$@"
+          }
+        }
+      }
+    },
+    "Attribute Instruments peak physical footprint to WebContent, and collect device jetsam logs. A WebKit termination callback alone never proves jetsam. Measure download/install delta against the same build without the payload." : {},
+    "Authorize Human Tap on Selected Control" : {},
+    "Background Lifecycle Probe" : {},
+    "Background probe returned. Inspect the lifecycle events; no continued-processing grant was used." : {},
+    "Begin Without Continued Processing" : {},
+    "Bot" : {},
+    "Both probes run a real infinite Python cell. Success means the expected error was observed and the realm discarded, not that the cell finished." : {},
+    "Browser Review" : {},
+    "Bundled bytes are not an app download or installed-size delta." : {},
+    "Cancel" : {},
+    "Canceled · not authorized" : {},
+    "Cancellation observed after the infinite cell started. The realm was discarded." : {},
+    "Cancellation requested. The interpreter will not be reused; no operation is retried automatically." : {},
+    "Capture a snapshot, select a control, then authorize a real human tap." : {},
+    "Captured frames: %lld · Skipped: %lld · Elements: %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Captured frames: %1$lld · Skipped: %2$lld · Elements: %3$lld"
+          }
+        }
+      }
+    },
+    "Check Both Cookie Stores" : {},
+    "Choose Long Pandas Measurement…" : {},
+    "Choose a local OpenAI-compatible endpoint in Model. No cloud model or key is used, and nothing is substituted." : {},
+    "Choose and Stage Files for This Document" : {},
+    "Close" : {},
+    "Close Interpreter" : {},
+    "Close Pairing Session" : {},
+    "Close Review" : {},
+    "Commits: %lld · store: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Commits: %1$lld · store: %2$@"
+          }
+        }
+      }
+    },
+    "Connector event" : {},
+    "Continued processing unavailable for this request. Nothing was retried." : {},
+    "Continued-processing probe returned. Inspect actual lifecycle events and external WebContent evidence." : {},
+    "Control-plane qualification only. This lab does not transfer Chat or Session stores." : {},
+    "Core ready (seconds)" : {},
+    "Could not create a private review directory. No interpreter was started." : {},
+    "Could not open pairing" : {},
+    "Create Device Identity" : {},
+    "Create Device Identity…" : {},
+    "Create a new device identity?" : {},
+    "Creates device-only private keys in this app's provisioned Keychain group. It does not replace a previous identity or start a connection." : {},
+    "Creation is explicit and never replaces an existing identity. Locked, missing or unprovisioned Keychain access fails closed; there is no file or default-Keychain fallback." : {},
+    "Current report snapshot saved in the private session directory." : {},
+    "Current report snapshot saved. The measurement continues." : {},
+    "Deadline passed · awaiting runner state" : {},
+    "Decline" : {},
+    "Delivery unconfirmed · original request kept" : {},
+    "Denied" : {},
+    "Deny" : {},
+    "Detected Lockdown Mode" : {},
+    "Development Review" : {},
+    "Development only · foreground only · two isolated review profiles · production tools: none" : {},
+    "Development review · not an S6 gate verdict" : {},
+    "Device Pairing Review" : {},
+    "Device identity" : {},
+    "Device name" : {},
+    "Discard" : {},
+    "Discard Refused Message?" : {},
+    "Discard Refused Message…" : {},
+    "Discard Unreadable Delivery Record?" : {},
+    "Discard Unreadable Record…" : {},
+    "Done" : {},
+    "Driver observations" : {},
+    "Each cell repeatedly groups and rolls a real million-row pandas frame for 600 seconds. This can consume substantial memory, battery and time. Stop discards the interpreter; there is no automatic retry." : {},
+    "Enabled" : {},
+    "Endpoint" : {},
+    "Engine not ready" : {},
+    "Evidence class" : {},
+    "Evidence could not be saved. Existing files are retained; no operation is repeated." : {},
+    "Exact HTTPS origin" : {},
+    "Exact-site permission" : {},
+    "Existing device or group history is unavailable or changed. Pairing is held; no replacement identity or empty history was created. Recover the original state before trying again." : {},
+    "Expired · not authorized" : {},
+    "Export Latest Report…" : {},
+    "Fill only into %@, main-document commit %lld. Networking will be frozen before release. This is not a live website sign-in or a secret-secrecy qualification." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Fill only into %1$@, main-document commit %2$lld. Networking will be frozen before release. This is not a live website sign-in or a secret-secrecy qualification."
+          }
+        }
+      }
+    },
+    "Finish Handoff and Observe Events" : {},
+    "Framework expiration or user cancellation observed; Python was torn down." : {},
+    "Framework launch callback observed. A continued-processing task is active." : {},
+    "Fresh element" : {},
+    "Gateway decisions: %lld allowed, %lld denied. Counts are not a coverage pass." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Gateway decisions: %1$lld allowed, %2$lld denied. Counts are not a coverage pass."
+          }
+        }
+      }
+    },
+    "Host call (seconds)" : {},
+    "I trust this exact origin and approve its network access" : {},
+    "Input" : {},
+    "Intent or Shortcut" : {},
+    "Interact" : {},
+    "Interpreter" : {},
+    "Interpreter closed. Saved evidence is retained; a new session needs an explicit Start." : {},
+    "Interpreter ready. This recreation is not a cold app-launch sample." : {},
+    "Isolation" : {},
+    "It cannot be read or retried. Discarding sends nothing and cannot undo a message the runtime already accepted; check this conversation before sending the same message again." : {},
+    "Latest Saved Scientific Return" : {},
+    "Latest observation (seconds)" : {},
+    "Lifecycle" : {},
+    "Load Earlier Messages" : {},
+    "Local Endpoint" : {},
+    "Lockdown Mode is enabled. Python needs an available, authorized Mac." : {},
+    "Loopback is direct, not proxy-covered. The offline document has no live TLS or server. Sign In allows only reviewed credential fill; Interact never authorizes sends or purchases." : {},
+    "Machine" : {},
+    "Mark as Done" : {},
+    "Measurement in progress" : {},
+    "Measurement in progress. Stop discards the realm; it never retries the operation." : {},
+    "Memoshi is answering" : {},
+    "Message" : {},
+    "Message Assistant" : {},
+    "Million-row pandas memory workload" : {},
+    "Mobile Browser Qualification" : {},
+    "Mobile Browser Review" : {},
+    "Model" : {},
+    "Model Settings" : {},
+    "Native S6 Measurement" : {},
+    "Native table · %lld total rows · %lld displayed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Native table · %1$lld total rows · %2$lld displayed"
+          }
+        }
+      }
+    },
+    "Native transport supplied" : {},
+    "Navigation" : {},
+    "No automated trusted input, interactive recipe runner, downloads, passkeys, background grant, or five-site score is claimed." : {},
+    "No continued-processing task requested." : {},
+    "No launch callback arrived within 20 seconds. Only this pending request was cancelled." : {},
+    "No model selected" : {},
+    "No models listed yet." : {},
+    "No · offline host" : {},
+    "Not Measured by This View" : {},
+    "Not enabled for this startup" : {},
+    "Not started. No Python interpreter has been created." : {},
+    "Observed Facts — No Page Text" : {},
+    "Offline Sign-in Document" : {},
+    "Older native events omitted from the bounded event index: %lld" : {},
+    "Only credential-free loopback fixtures retain their owned stores. Sign-in and HTTPS sessions remain ephemeral. Cookie checks initialize once, then read the same probes. Only an explicit reset replaces them, as a new numbered generation; earlier verdicts stay recorded." : {},
+    "Only your selected files are copied (32 MiB total); then authorize and tap the same file input. WebKit's picker receives staged copies only, never the original URLs." : {},
+    "Open Existing Identity" : {},
+    "Open an owned fixture or explicitly approve one HTTPS origin. Normal browser tools remain disabled." : {},
+    "Opening device identity…" : {},
+    "Opening isolated review profiles" : {},
+    "Opening the engine on this device." : {},
+    "Operating system" : {},
+    "Owned Loopback Fixture" : {},
+    "Owned tasks: %lld/%lld · Real sites: %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Owned tasks: %1$lld/%2$lld · Real sites: %3$lld"
+          }
+        }
+      }
+    },
+    "Owned-fixture Recipe" : {},
+    "Page labels are untrusted. Sends, purchases, credential-field taps and unstaged file pickers remain denied." : {},
+    "Pandas cell started" : {},
+    "Pandas measurement finished. WebContent peak footprint and jetsam still require external evidence." : {},
+    "Pending" : {},
+    "Pending request cancelled. No continued-processing grant is claimed." : {},
+    "Physical Lockdown Mode, real device background suspension/expiration, app-switcher kill behavior and external gateway/no-bypass packet capture remain separate observations. This offline surface does not run a network canary or register an engine/model tool." : {},
+    "Pinned payload bytes" : {},
+    "Policy reason: %@" : {},
+    "Private session directory (retained, never deleted here)" : {},
+    "Probe Cancellation After Code Starts" : {},
+    "Probe Timeout (0.5-second deadline)" : {},
+    "Probe generation %lld" : {},
+    "Provisioning required" : {},
+    "Pyodide payload" : {},
+    "Python Review" : {},
+    "Python S6 Review" : {},
+    "Python S6 review" : {},
+    "Python could not start within its start limit, so the cell did not run and nothing ran. Its interpreter was discarded; the call may be retried." : {},
+    "Python output exceeded the spike's bounded result size." : {},
+    "Python reached its session lifetime, so its interpreter was discarded. Start it again to continue." : {},
+    "Python reached its wall-time limit; its interpreter was discarded." : {},
+    "Python was idle past its limit, so its interpreter was discarded. Start it again to continue." : {},
+    "Python was stopped because the app could not keep this run active." : {},
+    "Python was stopped; its web view and in-memory interpreter were discarded." : {},
+    "Qualification boundary" : {},
+    "Read Only" : {},
+    "Real Native Input" : {},
+    "Recent native events (up to 12)" : {},
+    "Recipe" : {},
+    "Recorded probe/error code: %@" : {},
+    "Records what both fixture stores hold now under the current generation, then replaces the probes with a new numbered generation. Earlier verdicts stay in the record under their own generation, so a reset is not a pass." : {},
+    "Reference acceptance needs the physical iPhone 14 Pro and matching OS/build/payload. Collect at least 20 separate app-launch samples for cold p95; recreating a realm in one app launch is not cold-start evidence." : {},
+    "Refresh Gateway Counts" : {},
+    "Reload" : {},
+    "Reports are genuine content-free driver/native metadata. Scientific result JSON contains actual stdout, table values and PNG data; PNG and CSV files are also saved individually. Save or share deliberately. Exports do not assert physical/reference acceptance." : {},
+    "Request Continued-Processing Measurement" : {},
+    "Requesting a task. No grant has been observed." : {},
+    "Reset" : {},
+    "Reset Cookie Probes?" : {},
+    "Reset Cookie Probes…" : {},
+    "Resolved" : {},
+    "Resolved: %@" : {},
+    "Retry" : {},
+    "Retry Same Decision" : {},
+    "Review %lld" : {},
+    "Review Origin- and Document-bound Sign-in Card" : {},
+    "Review profile" : {},
+    "Reviewed origin" : {},
+    "Revoke Synthetic Account" : {},
+    "Route" : {},
+    "Routine" : {},
+    "Run %lld ten-minute cells" : {},
+    "Run Again" : {},
+    "Run Scientific Bridge" : {},
+    "Run Snapshot Assertion Only" : {},
+    "Run the long pandas measurement?" : {},
+    "Runs the real bundled offline interpreter in a hidden, nonpersistent WebKit realm. No production Python tool, network, gateway, remote-Mac fallback or user-folder access is enabled." : {},
+    "Save Current Report Snapshot" : {},
+    "Save File…" : {},
+    "Save Synthetic Device-only Keychain Canary" : {},
+    "Save and List Models" : {},
+    "Saved Evidence" : {},
+    "Saved as a local draft until you send it to the selected model." : {},
+    "Saved files (bounded to 200 indexed entries)" : {},
+    "Saving actual observations" : {},
+    "Scientific bridge calls" : {},
+    "Scientific bridge completed. Genuine text, native table, PNG and CSV evidence was saved." : {},
+    "Scientific imports (seconds)" : {},
+    "Scientific returns saved: %lld of %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Scientific returns saved: %1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "Secret" : {},
+    "Select an element" : {},
+    "Send" : {},
+    "Send your first message. The conversation is stored on this device. Production tools and Apple connectors are off." : {},
+    "Share File" : {},
+    "Sign In" : {},
+    "Skip" : {},
+    "Snapshot" : {},
+    "Snapshot is bounded or incomplete." : {},
+    "Start / Recreate Interpreter" : {},
+    "Start a 60-second pandas cell, send the app to the background, then return. Scene callbacks and the real result or error are saved. A process kill may deliver no callback and leaves an unknown outcome; this view does not resume or retry it." : {},
+    "Start creates a new canonical 0700 review directory only when needed. Stop, timeout, memory pressure and Close discard the realm. Restart is explicit; saved files are never deleted." : {},
+    "Starting" : {},
+    "Stop" : {},
+    "Stop & Discard Realm" : {},
+    "Stopping…" : {},
+    "Store %lld: %@ × %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Store %1$lld: %2$@ × %3$lld"
+          }
+        }
+      }
+    },
+    "Submission accepted. Launch callback not yet observed." : {},
+    "Submission is not a grant. The continued workload starts only in a real BGContinuedProcessingTask launch callback. Expiration or system-UI cancellation tears down Python before ending the task." : {},
+    "System memory pressure observed. The interpreter was discarded; this does not identify jetsam." : {},
+    "Tap only the selected live-page control. Type with the real keyboard. No programmatic touch or trusted-event claim is manufactured; the handoff expires after 30 seconds." : {},
+    "Task registration was refused. No continued workload ran." : {},
+    "Text preview is bounded. The saved result JSON retains the full returned text." : {},
+    "Text snapshots are disabled after a secret-release attempt. Open fresh isolated bots to continue." : {},
+    "That package is not in the pinned offline stack. No package was downloaded." : {},
+    "The Python cell failed. No output files were exported." : {},
+    "The Python host was closed." : {},
+    "The Python network request failed." : {},
+    "The Python request exceeds the spike's declared limits." : {},
+    "The app does not declare its matching .python.* identifier. No request was submitted." : {},
+    "The approval details have not loaded. This card cannot be answered yet." : {},
+    "The bundled Python payload did not match its pinned manifest." : {},
+    "The card and approval do not match. Decisions are disabled until review state reloads." : {},
+    "The current report could not be saved. Existing evidence is unchanged." : {},
+    "The five-run choice is the existing S6.2 workload. Attach Instruments to this session's WebContent process; app RSS is not WebContent peak physical footprint." : {},
+    "The observed continued-processing task has ended." : {},
+    "The offline Python interpreter could not start." : {},
+    "The on-device engine could not open. No other model or store is used." : {},
+    "The operation stopped. Inspect the recorded error; no fallback or retry was attempted." : {},
+    "The pinned offline Python payload is missing. Package it before running S6." : {},
+    "The provisioned device identity or encrypted group could not be opened. Verify the signed device Keychain/CloudKit capabilities and unlock the device. No alternate identity or authority was selected." : {},
+    "The returned PNG could not be decoded for display. Inspect its genuine saved file." : {},
+    "The returned table JSON could not be displayed. Inspect the saved result JSON." : {},
+    "The runtime refused it, so it was not delivered. Discarding removes only the saved request; your draft stays and nothing is sent." : {},
+    "The scheduler refused this request. No continued workload ran." : {},
+    "The scientific workload stages a genuine CSV in this session's private folder, reads it with pandas, uses NumPy and SciPy, returns a native table and Matplotlib Agg PNG, then exports a new result.csv." : {},
+    "The system could not export this file. The private saved evidence is unchanged." : {},
+    "The system exported the selected evidence file." : {},
+    "This app launch's first interpreter is ready. This is one sample, not a p95." : {},
+    "This bot already has a Python call in flight." : {},
+    "This bot's Python interpreter is not ready." : {},
+    "This bounded review session reached 100 actions. Save evidence, close it and explicitly start a new session." : {},
+    "This build has no configured device identity access group. The signed app needs its team-prefixed com.mehmetcanbudak.memoshi.devices Keychain group and iCloud.com.mehmetcanbudak.memoshi CloudKit capability. Ad-hoc builds cannot qualify this path." : {},
+    "This chat is paused until %lld uncertain tool steps are resolved." : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "This chat is paused until %lld uncertain tool step is resolved."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "This chat is paused until %lld uncertain tool steps are resolved."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "This conversation store is already open. A second open is refused." : {},
+    "This device was removed from your devices. Data it received from them was deleted." : {},
+    "This device was removed from your devices. Some data it received from them could not be deleted yet. It is deleted the next time you open this lab." : {},
+    "This device was removed from your devices. Some data it received from them is not deleted yet; Memoshi is trying again." : {},
+    "This exact site has no Sign In permission. Choose Sign In in Trusted Setup to create fresh bots." : {},
+    "This is a control-plane lab with an identity-bound in-memory conversation adapter, not a Pi-store handover or deployed-capacity qualification." : {},
+    "Time since the bridge reported code execution:" : {},
+    "Timeout observed on the infinite cell. The realm was discarded; restart explicitly." : {},
+    "Tool: %@ · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Tool: %1$@ · %2$@"
+          }
+        }
+      }
+    },
+    "Tool: %@ · T%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Tool: %1$@ · T%2$lld"
+          }
+        }
+      }
+    },
+    "Trusted Setup and Limits" : {},
+    "Unavailable: trusted host composition did not supply a provisioned BrowserKeychain. No default or legacy Keychain is used." : {},
+    "Unsupported card state · decisions disabled" : {},
+    "Unsupported source" : {},
+    "Upload" : {},
+    "Use Keychain Once and Freeze Networking" : {},
+    "Use your provisioned device-only Keychain identity and the real encrypted device group. Showing or scanning a code enables local discovery; group changes use the configured iCloud authority. No model spending, credentials or tool grants are approved here." : {},
+    "User" : {},
+    "Value could not be displayed; inspect the saved result JSON." : {},
+    "Versions and times above come from the validated host startup, never a canned measurement. A supplied native transport proves neither a grant nor complete network confinement. Enabled Lockdown Mode fails closed instead of silently using another runtime." : {},
+    "Waiting for an actual continued-processing launch callback; no workload has started." : {},
+    "Waiting for the system to start the measurement" : {},
+    "Waiting for your decision" : {},
+    "Wake" : {},
+    "Watch" : {},
+    "Web view to ready (seconds)" : {},
+    "WebKit terminated Python's content process. The cell was not retried." : {},
+    "Webhook" : {},
+    "Working…" : {},
+    "Workloads & Interruption Probes" : {},
+    "Yes" : {},
+    "You: %@" : {},
+    "Your Assistant" : {},
+    "an unloaded source" : {}
+  },
+  "version" : "1.0"
+}

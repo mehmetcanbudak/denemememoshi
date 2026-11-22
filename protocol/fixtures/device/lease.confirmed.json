@@ -1,0 +1,16 @@
+{
+  "from": {
+    "kind": "authority"
+  },
+  "msgId": "01JB9A0B1C2D3E4F5G6H7J8K0A",
+  "payload": {
+    "authority": "icloud",
+    "conversationId": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P",
+    "epoch": 8
+  },
+  "sentAt": 1792497720450,
+  "to": {
+    "kind": "group"
+  },
+  "type": "lease.confirmed"
+}

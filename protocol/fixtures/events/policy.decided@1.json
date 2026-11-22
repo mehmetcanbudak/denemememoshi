@@ -1,0 +1,53 @@
+{
+  "actor": {
+    "id": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+    "kind": "bot"
+  },
+  "cseq": 936,
+  "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+  "origin": {
+    "hops": 0,
+    "kind": "user",
+    "rootKind": "user"
+  },
+  "payload": {
+    "argsHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "attendance": "attended",
+    "decision": "allow",
+    "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+    "exposure": {
+      "privateData": false,
+      "untrusted": false
+    },
+    "opClass": "shell.exec",
+    "origin": {
+      "hops": 0,
+      "kind": "user",
+      "rootKind": "user"
+    },
+    "permissionMode": "ask_first",
+    "plan": false,
+    "policyVersion": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "reasonCode": "approval.allowed",
+    "recheck": true,
+    "ruleId": "approval.allowed",
+    "tier": 2,
+    "tool": "bash",
+    "toolCallId": "call_policy",
+    "via": "model"
+  },
+  "scope": {
+    "botId": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+    "conversationId": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P",
+    "taskId": "tsk_01JB8Z6A1B2C3D4E5F6G7H8J9K"
+  },
+  "seq": 184260,
+  "subject": {
+    "id": "call_policy",
+    "kind": "tool_call"
+  },
+  "ts": 1792497620020,
+  "type": "policy.decided",
+  "typeVersion": 1,
+  "v": 1
+}

@@ -1,0 +1,37 @@
+{
+  "id": "c:13",
+  "jsonrpc": "2.0",
+  "result": {
+    "task": {
+      "botId": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+      "budgetIds": [
+        "bud_01JB8Z9K2M3N4P5Q6R7S8T9V0W"
+      ],
+      "cancelRequestedAt": 1792497620000,
+      "conversationId": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P",
+      "createdAt": 1792497610950,
+      "id": "tsk_01JB8ZG7H8J9K0M1N2P3Q4R5S6",
+      "kind": "turn",
+      "origin": {
+        "hops": 0,
+        "kind": "user",
+        "rootKind": "user"
+      },
+      "regime": "attended",
+      "requestId": "01JB8ZH9K0M1N2P3Q4R5S6T7V8",
+      "resumeMode": "auto",
+      "startedAt": 1792497611000,
+      "status": "running",
+      "title": "Rebuild the release notes",
+      "usage": {
+        "cacheReadTokens": 1792,
+        "cacheWriteTokens": 0,
+        "costKnown": true,
+        "costMicroUsd": 2650,
+        "inputTokens": 2210,
+        "outputTokens": 140
+      }
+    },
+    "writtenSeq": 184251
+  }
+}

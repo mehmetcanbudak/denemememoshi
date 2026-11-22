@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32000,
+    "data": {
+      "kind": "unauthorized",
+      "retryable": false
+    },
+    "message": "The token is stale; reconnect."
+  },
+  "id": "c:25",
+  "jsonrpc": "2.0"
+}

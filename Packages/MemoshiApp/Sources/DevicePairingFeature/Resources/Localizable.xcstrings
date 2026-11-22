@@ -1,0 +1,448 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "A camera with QR scanning is not available. Show a code here instead.": {
+      "comment": "Scanner hardware unavailable.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A camera with QR scanning is not available. Show a code here instead."
+          }
+        }
+      }
+    },
+    "Authenticating your device and joining the encrypted group…": {
+      "comment": "Progress while authenticating an explicitly requested join.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Authenticating your device and joining the encrypted group…"
+          }
+        }
+      }
+    },
+    "Camera access was not allowed. You can show a code here and scan it from your other device, or change camera access in system settings.": {
+      "comment": "Camera permission denial; no automatic permission changes.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Camera access was not allowed. You can show a code here and scan it from your other device, or change camera access in system settings."
+          }
+        }
+      }
+    },
+    "Camera scanning a Memoshi pairing code": {
+      "comment": "Accessible label for the live scanner.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Camera scanning a Memoshi pairing code"
+          }
+        }
+      }
+    },
+    "Cancel": {
+      "comment": "Dismisses device removal without changing membership.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        }
+      }
+    },
+    "Cancel Scan": {
+      "comment": "Stops scanner presentation and closes pairing work.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel Scan"
+          }
+        }
+      }
+    },
+    "Device pairing unavailable": {
+      "comment": "Heading for a bounded pairing failure.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Device pairing unavailable"
+          }
+        }
+      }
+    },
+    "Devices": {
+      "comment": "Native device-pairing sheet title.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Devices"
+          }
+        }
+      }
+    },
+    "Existing device or group history is unavailable or changed. Pairing is held; no replacement identity or empty history was created. Recover the original state before trying again.": {
+      "comment": "Fail-closed identity/group recovery hold.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Existing device or group history is unavailable or changed. Pairing is held; no replacement identity or empty history was created. Recover the original state before trying again."
+          }
+        }
+      }
+    },
+    "Expires at %@": {
+      "comment": "Pairing-code deadline; placeholder is a locale-formatted time.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expires at %@"
+          }
+        }
+      }
+    },
+    "Keep this code private. It contains a one-time joining key, not a reusable password.": {
+      "comment": "Privacy notice below the one-time code.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep this code private. It contains a one-time joining key, not a reusable password."
+          }
+        }
+      }
+    },
+    "No other devices in this device's current local membership snapshot.": {
+      "comment": "Empty local peer list; not a claim about remote live state.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No other devices in this device's current local membership snapshot."
+          }
+        }
+      }
+    },
+    "Nothing connects until you choose an action below.": {
+      "comment": "Idle state: no automatic network or camera work.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing connects until you choose an action below."
+          }
+        }
+      }
+    },
+    "One-time Memoshi pairing QR code": {
+      "comment": "Accessible label for the private one-time QR image.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One-time Memoshi pairing QR code"
+          }
+        }
+      }
+    },
+    "Pair your own devices": {
+      "comment": "Pairing introduction heading.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pair your own devices"
+          }
+        }
+      }
+    },
+    "Paired devices": {
+      "comment": "Heading for the locally known enrolled-peer list.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paired devices"
+          }
+        }
+      }
+    },
+    "Paired with %@": {
+      "comment": "Successful pairing status; placeholder is a device name.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paired with %@"
+          }
+        }
+      }
+    },
+    "Pairing was not confirmed. The code may be used, closed, expired, or the configured group authority may be unreachable. Show a new code to try again.": {
+      "comment": "Unconfirmed join failure.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pairing was not confirmed. The code may be used, closed, expired, or the configured group authority may be unreachable. Show a new code to try again."
+          }
+        }
+      }
+    },
+    "Point the camera at the one-time code on your other device.": {
+      "comment": "Scanner instruction.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Point the camera at the one-time code on your other device."
+          }
+        }
+      }
+    },
+    "Preparing camera…": {
+      "comment": "Progress before the authorized native scanner is ready.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preparing camera…"
+          }
+        }
+      }
+    },
+    "Preparing one-time pairing code…": {
+      "comment": "Progress while creating an expiring pairing code.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preparing one-time pairing code…"
+          }
+        }
+      }
+    },
+    "Removal was not confirmed. No new permission was granted. Reconnect to the configured authority and check the device list before trying again.": {
+      "comment": "Revocation failure; do not claim membership changed.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Removal was not confirmed. No new permission was granted. Reconnect to the configured authority and check the device list before trying again."
+          }
+        }
+      }
+    },
+    "Remove": {
+      "comment": "Destructive peer-list action opening a confirmation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove"
+          }
+        }
+      }
+    },
+    "Remove %@": {
+      "comment": "Destructive action; the placeholder is an untrusted enrolled device name.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove %@"
+          }
+        }
+      }
+    },
+    "Remove this device?": {
+      "comment": "Confirmation title before revoking group membership.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove this device?"
+          }
+        }
+      }
+    },
+    "Removing device and advancing encryption epoch…": {
+      "comment": "Progress while revoking membership and rotating the group epoch.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Removing device and advancing encryption epoch…"
+          }
+        }
+      }
+    },
+    "Rendering code…": {
+      "comment": "Progress while rendering the QR image.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rendering code…"
+          }
+        }
+      }
+    },
+    "Scan Pairing Code": {
+      "comment": "User action requesting the native scanner.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan Pairing Code"
+          }
+        }
+      }
+    },
+    "Show Pairing Code": {
+      "comment": "User action to create a one-time code.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show Pairing Code"
+          }
+        }
+      }
+    },
+    "Show a one-time code here, or scan one on a device you already trust. Pairing authenticates membership of your encrypted device group; it does not approve model spending, credentials or tools.": {
+      "comment": "Pairing introduction; do not imply credential or tool authorization.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show a one-time code here, or scan one on a device you already trust. Pairing authenticates membership of your encrypted device group; it does not approve model spending, credentials or tools."
+          }
+        }
+      }
+    },
+    "Showing a code enables local-network discovery. Scanning asks for camera access. Codes expire after five minutes and become invalid as soon as their screen closes. iCloud and relay connections require their own explicit host setup.": {
+      "comment": "Explains permissions, expiry and separately configured transports.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Showing a code enables local-network discovery. Scanning asks for camera access. Codes expire after five minutes and become invalid as soon as their screen closes. iCloud and relay connections require their own explicit host setup."
+          }
+        }
+      }
+    },
+    "That one-time code expired. Show a new code to try again.": {
+      "comment": "Expired-code recovery advice.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "That one-time code expired. Show a new code to try again."
+          }
+        }
+      }
+    },
+    "The other device's group is full (%lld devices). Remove a device there, then show a new code.": {
+      "comment": "Shown on the scanning device when the other device reports a full group; the placeholder is the group's device limit.",
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "The other device's group is full (%lld device). Remove a device there, then show a new code."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "The other device's group is full (%lld devices). Remove a device there, then show a new code."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "The pairing code could not be rendered. Close this screen and try again.": {
+      "comment": "QR rendering failure; does not restart pairing automatically.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The pairing code could not be rendered. Close this screen and try again."
+          }
+        }
+      }
+    },
+    "The signed device host is not configured or is unavailable. No connection, cloud account or permission has been enabled automatically.": {
+      "comment": "Missing genuinely configured host; not an account fallback.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The signed device host is not configured or is unavailable. No connection, cloud account or permission has been enabled automatically."
+          }
+        }
+      }
+    },
+    "This changes the encrypted device group. The removed device cannot read new messages. Existing credentials and tool grants are not added or changed by pairing.": {
+      "comment": "Explains the exact authority boundary of removing a device.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This changes the encrypted device group. The removed device cannot read new messages. Existing credentials and tool grants are not added or changed by pairing."
+          }
+        }
+      }
+    },
+    "This device group already has %lld devices. Remove a device before you add another.": {
+      "comment": "Shown instead of a pairing code when this device's group is full; the placeholder is the group's device limit.",
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "This device group already has %lld device. Remove a device before you add another."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "This device group already has %lld devices. Remove a device before you add another."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "This is not a valid current Memoshi pairing code.": {
+      "comment": "Invalid-code refusal.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This is not a valid current Memoshi pairing code."
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

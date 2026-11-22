@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32601,
+    "data": {
+      "kind": "method_not_found",
+      "retryable": false
+    },
+    "message": "Unknown method chats.sned."
+  },
+  "id": "c:22",
+  "jsonrpc": "2.0"
+}

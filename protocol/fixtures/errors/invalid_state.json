@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32016,
+    "data": {
+      "kind": "invalid_state",
+      "retryable": true
+    },
+    "message": "The computer is saving its state."
+  },
+  "id": "c:41",
+  "jsonrpc": "2.0"
+}

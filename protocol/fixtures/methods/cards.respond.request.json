@@ -1,0 +1,11 @@
+{
+  "id": "c:9",
+  "jsonrpc": "2.0",
+  "method": "cards.respond",
+  "params": {
+    "action": "allow_once",
+    "cardId": "crd_01JB8Z7N3P4Q5R6S7T8V9W0X1Z",
+    "requestId": "01JB8ZC3D4E5F6G7H8J9K0M1N2",
+    "surface": "ui"
+  }
+}

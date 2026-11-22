@@ -1,0 +1,13 @@
+{
+  "error": {
+    "code": -32008,
+    "data": {
+      "cardId": "crd_01JC3G5Y6Z7A8B9C0D1E2F3G4J",
+      "kind": "card_expired",
+      "retryable": false
+    },
+    "message": "This card expired; only Always allow is still accepted."
+  },
+  "id": "c:33",
+  "jsonrpc": "2.0"
+}

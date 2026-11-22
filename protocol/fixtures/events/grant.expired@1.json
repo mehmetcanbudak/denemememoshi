@@ -1,0 +1,21 @@
+{
+  "actor": {
+    "kind": "system"
+  },
+  "deviceId": "dev_01JC0D4E5F6G7H8J9K0M1N2P3Q",
+  "payload": {
+    "grantId": "grt_01JC3H2B3C4D5E6F7G8H9J0K1M"
+  },
+  "scope": {
+    "botId": "bot_01JC3F7Q9R2M8K4T6V5W0X1Y2Z"
+  },
+  "seq": 48431,
+  "subject": {
+    "id": "grt_01JC3H2B3C4D5E6F7G8H9J0K1M",
+    "kind": "grant"
+  },
+  "ts": 1792488700500,
+  "type": "grant.expired",
+  "typeVersion": 1,
+  "v": 1
+}

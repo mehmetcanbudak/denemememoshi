@@ -1,0 +1,19 @@
+{
+  "actor": {
+    "kind": "system"
+  },
+  "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+  "payload": {
+    "reason": "connection_closed"
+  },
+  "scope": {},
+  "seq": 184272,
+  "subject": {
+    "id": "memoshid",
+    "kind": "system"
+  },
+  "ts": 1792497702000,
+  "type": "system.app_disconnected",
+  "typeVersion": 1,
+  "v": 1
+}

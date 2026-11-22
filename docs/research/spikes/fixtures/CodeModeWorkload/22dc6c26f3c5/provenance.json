@@ -1,0 +1,115 @@
+{
+  "schema": "memoshi.codemode-workload.provenance.v1",
+  "record": "docs/research/spikes/2026-11-02-code-mode-workload.md",
+  "authored": "2026-11-02, Memoshi repository; Pi_Swift, the upstream oracle checkout and every cache were read only",
+  "head": "22dc6c26f3c530e11b8cc40443ecdce2b3c84116",
+  "consumerPin": "892585fc8d8be3093b58c34aacffcd4e68c3a8d9",
+  "sdkHeadInspected": "f5dc5a1b6ba48c8e5b6a4525aa4b54603ecc8fee (unqualified; Code Mode, PiEnv daemon and tool APIs used here are unchanged from the consumer pin)",
+  "convention": "Data mirrors Pi_Swift's Tests/<Target>/Fixtures/<Kind>/<rev12>/ layout. The co-compiled Swift host sources live in Packages/MemoshiCore/Sources/Runtime/Qualification, explicitly excluded from the shipped library. Current hash paths are relative to this fixture directory; historical paths are retained.",
+  "guest": {
+    "package": "quickjs-wasi",
+    "version": "3.6.2",
+    "wasmBytes": 637405,
+    "wasmSha256": "d4c9375f2b1ca4dc95f72c8aa2982a7a9951ac8011490d79c6582df732b4bbd9",
+    "source": "Pi_Swift Sources/PiCodeMode/Resources/quickjs-wasi.json at the consumer pin; digest recomputed from the pinned quickjs.wasm blob"
+  },
+  "apiReadAtConsumerPin": [
+    "Sources/PiCodeMode/Sandbox.swift, Types.swift, VM.swift, QuickJS.swift, WasmKitQuickJSEngine.swift, Source.swift, Resources/prelude.js",
+    "Sources/PiDurable/Codemode/Codemode.swift, Output.swift",
+    "Sources/PiDurable/Harness/Harness.swift, Handles.swift, Settings.swift, Types.swift, ToolAPI.swift, ToolTask.swift; Sources/PiDurable/Truncate.swift; Sources/PiDurable/Storage/SqliteStorage.swift (openSqliteStorage)",
+    "Sources/PiAI/Providers/Faux.swift, Core/Types.swift, Core/NativeConveniences.swift; Sources/PiCore/JSONValue.swift, JSONString.swift",
+    "Tests/PiDurableTests/Codemode/CodemodeTests.swift; Scripts/benchmarks/ai-release.swift (task_info footprint pattern)",
+    "Smoke revision, 2026-11-02: re-read Sources/PiDurable/Harness/RegistryAgent.swift (createRegistry, callable filter), Session/Session.swift (subscribeCommits), Sources/PiCodeMode/QuickJS.swift (getQuickJSWasmURL), QuickJSEngine.swift (WasmKitQuickJSEngine is the only QuickJSEngine), Sources/PiAI/Providers/Faux.swift (FauxProviderHandle.state.callCount, pendingResponses), Sources/PiCore/ECMAScriptRegExp.swift (JavaScriptCore import)"
+  ],
+  "upstreamReadAtHead": [
+    "packages/durable/test/codemode-bench.ts (bench:codemode, the measurement VERIFICATION §5 names)",
+    "packages/durable/src/codemode/codemode.ts, harness/types.ts, harness/define.ts, harness/registry.ts, index.ts, truncate.ts",
+    "packages/codemode/src/types.ts"
+  ],
+  "derivation": "Generator rules, scripts and expected values were written by Memoshi. Expected results, byte sizes and counts were derived analytically and cross-checked at authoring time by an independent reimplementation of the generator rules and script semantics. When authored they had not been produced by the upstream Node oracle, Pi_Swift or a device; `history` records every later execution.",
+  "executed": {
+    "upstreamNodeBaseline": false,
+    "piSwiftHarnessCompiled": true,
+    "piSwiftHarnessRun": true,
+    "piSwiftHarnessRunScope": "Mac Debug WasmKit diagnostics only: history[1] reproduces W1/W2; histories[2] and [3] exercise CLI failure propagation, missing values and scratch ownership. W3a/W3b/W3c, Release, wasm2c, reference devices, p95 and the upstream Node oracle were not run.",
+    "referenceDeviceRun": false,
+    "expectedValuesReproduced": "W1 and W2 result strings, result and served byte sizes, nested-call counts per tool and policy-decision counts were reproduced by Pi_Swift at the consumer pin (Debug, WasmKit, macOS) in every turn of history[1]. The upstream Node oracle has not run, and W3 outcomes are unconfirmed.",
+    "firstConfirmation": "Run harness/codemode-workload-bench.ts for W1 and W2 in the prepared oracle worktree at the head above; every sample must report verified true before device timings are interpreted."
+  },
+  "history": [
+    {
+      "at": "2026-11-02 authoring",
+      "state": "Harness written against the pinned sources; not compiled or executed.",
+      "sha256": {
+        "harness/CodeModeWorkload.swift": "acff2eeaa7ebf16eee78f7a5a8cb65f927ae345d1210d3108e88cfb32b151069",
+        "harness/CodeModeWorkloadCLI.swift": "07248b2140969ef8b47b67b06cbace4637079c29d2ac73b0092d1d144e1870c5"
+      }
+    },
+    {
+      "at": "2026-11-02 consumer smoke revision",
+      "changes": [
+        "CodeModeWorkload.swift: each turn now also verifies one codemode execution, exactly 2 faux model requests with no scripted response left, and the fixture tools' own served-call ledger (calls per tool, no rejected request). Every served result is checked against expected.json inputBytes (per tool, per issue number, file_read lines, nestedTotal), along with script bytes and the returned string's resultBytes. The checks are reported in TurnSample, and expected values are unchanged.",
+        "CodeModeWorkload.swift: LaunchResult.guest records the quickjs.wasm path that PiCodeMode resolved (getQuickJSWasmURL), with its size and SHA-256. It is read after the last turn and fails the launch on a mismatch with scenario.json's guest pin.",
+        "CodeModeWorkload.swift: a Stop turn fails if the fixture served anything besides probe_mark, which also holds when the aborted codemode call returns no result. probe_mark records before signalling.",
+        "CodeModeWorkloadCLI.swift: each child keeps its store in a private 0700 directory under TMPDIR and removes it on every path. The driver propagates the first failing child status (1 launch error, 2 verification failure, 128 + signal), rejects --launches below 1 (which used to trap) and invalid --launch, writes sorted-key JSON lines, and never signals or terminates a child."
+      ],
+      "sha256": {
+        "harness/CodeModeWorkload.swift": "0cfc72da28837293f8d7c4ec1ca556b231cd799484ffe79ddcfa3f26f6d15b30",
+        "harness/CodeModeWorkloadCLI.swift": "cf1d06ef545f3e4b87ed8e7b3a69d8c20489b89f123e61d5b1be2a7c2321ef56"
+      },
+      "compiled": {
+        "command": "xcrun swiftc -swift-version 6 -parse-as-library -Onone -D DEBUG -target arm64-apple-macos27.0 -module-cache-path /private/tmp/memoshi-replay-env-drivers/module-cache -module-name CodeModeWorkload, with the include, module-map and link flags of /private/tmp/memoshi-replay-env-drivers/env/build.sh (read only), both harness files, Packages/MemoshiCore/.build/out/Products/Debug/libMemoshiRuntime.a and -lsqlite3. No swift build, swift test or xcodebuild.",
+        "toolchain": "Apple Swift 6.4.2 (swiftlang-6.4.2.1.9 clang-2100.4.1.1), macOS SDK 27.2",
+        "diagnostics": "No compiler warnings or errors on the first compile; the linker's ad-hoc signature verified",
+        "imports": "Chord, CryptoKit, Darwin, Foundation, PiAI, PiCodeMode, PiCore, PiDurable, Synchronization; no Memoshi module",
+        "archive": "libMemoshiRuntime.a SHA-256 2fc126187e31e3b7bdedcc88378cd452e80b08a5026122ba45c4d1c2da4ddc1e, identical before and after linking. Its Chord, PiAI, PiCodeMode, PiCore, PiDurable, PiEnv, PiTelemetry, WasmKit, WasmParser, WasmTypes and _CWasmKit members are byte-identical to the same objects in Products/Debug, built from the Pi_Swift checkout at the consumer pin with a clean worktree",
+        "binary": "45,113,024 bytes, SHA-256 06f1a4200293d4a607b2c1bac4a80b1f8fcafbcccc21fd84615242d9431e57d0; defines no MemoshiRuntime, MemoshiStore or MemoshiProtocol symbol; links JavaScriptCore.framework through PiCore's ECMAScriptRegExp"
+      },
+      "executed": {
+        "scope": "Mac diagnostic, one launch each for W1 and W2 in driver mode (--launches 1, --backend WasmKit), in sequence. W3, Stop and kill cases were not run.",
+        "environment": "env -i with only a fresh synthetic HOME and TMPDIR under the run directory, PATH=/usr/bin:/bin:/usr/sbin:/sbin, LANG=en_US.UTF-8 and PACKAGE_RESOURCE_BUNDLE_PATH=Packages/MemoshiCore/.build/out/Products/Debug; macOS 27.0.1 (26A434), thermal nominal, Low Power Mode off, no debugger, buildConfiguration debug",
+        "guest": "Both launches resolved Products/Debug/Pi_PiCodeMode.bundle/Contents/Resources/quickjs.wasm (637,405 bytes, SHA-256 d4c9375f…4bbd9, matching the pin). The executable's own directory holds no resource bundle, and the generated accessor tries the Debug-only PACKAGE_RESOURCE_BUNDLE_PATH override first. Bundle prelude.js SHA-256 57c8dc8c…5281 matches scenario.json",
+        "W1": "2026-11-02T19:03:01Z-19:03:27Z, driver and child exit 0, failures []. Cold, warm-up and warm turns all matched expected.json: 344-byte result, 5 nested calls (issues_list 1, issue_get 4) in both the codemode details and the served ledger, 6 policy decisions, 2 model requests, 855 script bytes and 10,928 served bytes. codemodeMs 6204.1 / 6210.8 / 6168.1; codemodeInitMs 0.50; incremental peak 13,074,456 bytes",
+        "W2": "2026-11-02T19:03:43Z-19:04:28Z, driver and child exit 0, failures []. All three turns matched expected.json: 150-byte result, 12 nested calls (code_search 1, file_read 10, symbols_outline 1) in both views, 13 policy decisions, 2 model requests, 974 script bytes and 461,598 served bytes. codemodeMs 12541.5 / 12443.2 / 12477.5; codemodeInitMs 2.41; incremental peak 21,233,688 bytes",
+        "cleanup": "The original record said empty synthetic HOME/TMPDIR proved removal of the CLI store. That inference was incorrect: this revision used FileManager.temporaryDirectory, which can select Darwin's per-user temporary directory before TMPDIR. Empty synthetic directories did not identify the actual store location. Histories[2] and [3] record the correction and directly observed containment. The children exited normally and were never signalled.",
+        "notEvidence": "These are development observations: one sample per mode on Debug (-Onone) objects on a Mac, WasmKit declared from the pin's only QuickJSEngine (not identified at runtime), and no slice tag. They are not compared with the limits and are not SDK qualification, Release, wasm2c, device, backend-identity or p95 evidence",
+        "proof": "/private/tmp/memoshi-codemode-workload-smoke.OZR7YMkY (owned throwaway scratch): build.sh, run.sh, proof/, run-W1/, run-W2/, bin/codemode-workload and MANIFEST.sha256. run-W1/result.jsonl SHA-256 9a128633422d4db6e7857633ddc07a45e8370e91abd583787ea33f3177eb1101; run-W2/result.jsonl SHA-256 10f001c2f94f6769b20a56b31cfa068fc626f7c3b78917064061ab69c0b5b030"
+      }
+    },
+    {
+      "at": "2026-11-02 CLI failure-path diagnostic",
+      "testedRevision": "The original consumer-smoke executable from history[1], before the CLI corrections.",
+      "proof": "/private/tmp/memoshi-codemode-cli-failure-smoke.AQycobwq",
+      "results": "All ten malformed numeric --launch/--launches values returned 64 normally. Missing fixture child/driver returned 1. A synthetic fixture copy with only the W1 expected result count changed from 4 to 5 returned 2 from both child and driver; all three turns failed only result equality, while their actual results and served-call counts remained correct.",
+      "defectsFound": [
+        "A trailing --launch or --launches without a value was silently ignored and started the default ten-child driver instead of returning usage status 64.",
+        "FileManager.temporaryDirectory did not prove TMPDIR ownership on Darwin. No memoshi-codemode directory was observed under the supplied synthetic TMPDIR during the negative run; empty directories alone were not cleanup evidence."
+      ]
+    },
+    {
+      "at": "2026-11-02 CLI corrections and runtime-boundary relocation",
+      "changes": [
+        "Missing flag values, including another flag in place of a value, now return 64 before launching work.",
+        "Each launch requires an explicit absolute TMPDIR and creates its owned 0700 directory directly beneath it. Normal return paths report cleanup failures.",
+        "Swift qualification sources moved to the runtime integration boundary, are excluded from the shipped target and use internal visibility. Lint and import-boundary checks remain unchanged.",
+        "Only source comments clarifying fixture location and normal-return cleanup were changed after the diagnostic executable was compiled."
+      ],
+      "binarySha256": "ec20a10ade839765a4c98d869e7ca2176f4d5341b48fb78bc4a9037c569b7793",
+      "proof": "/private/tmp/memoshi-codemode-cli-corrected/proof/summary.json",
+      "proofSha256": "efaed5a0182ce58623123ce2e4b51bbe6fe4727f1d3d4c115d4ca2e2b23c5cf5",
+      "results": "Seven cases passed: four missing/flag-valued arguments returned 64, absent and relative TMPDIR returned 64, and the one-child negative oracle driver returned 2 with three result-only verification failures. Live sampling observed the real store files inside owned 0700 directories beneath the explicit TMPDIR, with matching UID and no leftovers after normal exit. No process was signalled. This run is diagnostic, not timing/device/Release qualification."
+    }
+  ],
+  "sha256": {
+    "scripts/w1-issue-digest.js": "63dd7a85b36a27ea09b11b7bad5d5e879f42a38675f6bcad6a57022e8b07b5fd",
+    "scripts/w2-batch-read.js": "4f56ddaa723fe0b705ea8fa8f60289cbb67d9aa4549156d5b219452fd4701346",
+    "scripts/w3a-stop-loop.js": "834076c679ef39d336343f18b1c1f42e4dc186f10f339cb15443149968f44e63",
+    "scripts/w3b-stop-builtin.js": "0cbb2aacdd4f25bbf7335704bd724b0d08e853e3f7b151604ae3b0af2c1d235d",
+    "scripts/w3c-memory-limit.js": "0131e4e96d446df8af4ca4e1c4b2b4ecf70b95766b33d5a7a24cebd844eecafe",
+    "scenario.json": "7aec82cc830a8e360b099a169d24a5e4bf7eab5c18ff1061f6fb4be65cfdffb2",
+    "expected.json": "c6dea836d2228e0c1a41b4df59c6fe7658becc6adeebd1e5249520ab0c9989b7",
+    "../../../../../../Packages/MemoshiCore/Sources/Runtime/Qualification/CodeModeWorkload.swift": "541571de78f7a7ac59512e50a8fd6cc72cf3ff9acd20931093b7c80683e297ef",
+    "../../../../../../Packages/MemoshiCore/Sources/Runtime/Qualification/CodeModeWorkloadCLI.swift": "2447da146ef9263f5186c2322f314e8a90db7b86769e4722ea37a6a4f91adfae",
+    "harness/codemode-workload-bench.ts": "e4e495e5233a5c64eb5edae6541823103dc0f8bcd0201dc44bc5e84b0bd7e8c8"
+  }
+}

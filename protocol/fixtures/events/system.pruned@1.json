@@ -1,0 +1,20 @@
+{
+  "actor": {
+    "kind": "system"
+  },
+  "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+  "payload": {
+    "beforeSeq": 50001,
+    "deleted": 5000
+  },
+  "scope": {},
+  "seq": 250001,
+  "subject": {
+    "id": "memoshi",
+    "kind": "system"
+  },
+  "ts": 1792497703000,
+  "type": "system.pruned",
+  "typeVersion": 1,
+  "v": 1
+}

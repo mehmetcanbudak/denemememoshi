@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32027,
+    "data": {
+      "kind": "device_grant_missing",
+      "retryable": false
+    },
+    "message": "This device's grants do not allow the call."
+  },
+  "id": "c:52",
+  "jsonrpc": "2.0"
+}

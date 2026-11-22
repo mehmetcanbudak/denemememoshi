@@ -1,0 +1,18 @@
+{
+  "from": {
+    "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+    "kind": "device"
+  },
+  "msgId": "01JB9A0B1C2D3E4F5G6H7J8K05",
+  "payload": {
+    "conversationId": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P",
+    "expectedEpoch": 7,
+    "reason": "rebalance"
+  },
+  "sentAt": 1792497710000,
+  "to": {
+    "deviceId": "dev_01JB8Z1F2G3H4J5K6M7N8P9Q0R",
+    "kind": "device"
+  },
+  "type": "lease.request"
+}

@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32004,
+    "data": {
+      "kind": "conflict",
+      "retryable": false
+    },
+    "message": "The memory changed since you opened it."
+  },
+  "id": "c:29",
+  "jsonrpc": "2.0"
+}

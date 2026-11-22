@@ -1,0 +1,22 @@
+{
+  "actor": {
+    "kind": "system"
+  },
+  "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+  "payload": {
+    "appVersion": "0.1.0",
+    "capabilities": [
+      "events.focus.v1"
+    ]
+  },
+  "scope": {},
+  "seq": 184271,
+  "subject": {
+    "id": "memoshid",
+    "kind": "system"
+  },
+  "ts": 1792497701000,
+  "type": "system.app_connected",
+  "typeVersion": 1,
+  "v": 1
+}

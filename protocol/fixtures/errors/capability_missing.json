@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32019,
+    "data": {
+      "kind": "capability_missing",
+      "retryable": false
+    },
+    "message": "This connection did not offer events.focus.v1."
+  },
+  "id": "c:44",
+  "jsonrpc": "2.0"
+}

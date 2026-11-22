@@ -1,0 +1,6 @@
+{
+  "id": "c:3",
+  "jsonrpc": "2.0",
+  "method": "system.ping",
+  "params": {}
+}

@@ -1,0 +1,13 @@
+{
+  "id": "s3-owned-loopback-read-only-post-denial",
+  "sites": [
+    {"origin": "http://127.0.0.1:8765", "interact": false, "signIn": false, "ownedFixture": true},
+    {"origin": "http://127.0.0.1:8766", "interact": false, "signIn": false, "ownedFixture": true}
+  ],
+  "tasks": [
+    {"id": "post-without-interact", "site": "http://127.0.0.1:8765", "steps": [
+      {"operation": "navigate", "url": "http://127.0.0.1:8765/"},
+      {"operation": "click", "selector": {"role": "button", "name": "Save test value"}, "expectedDenial": "interactRequired"}
+    ]}
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "id": "c:6",
+  "jsonrpc": "2.0",
+  "method": "events.unsubscribe",
+  "params": {}
+}

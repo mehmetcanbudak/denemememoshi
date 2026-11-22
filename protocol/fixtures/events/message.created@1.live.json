@@ -1,0 +1,34 @@
+{
+  "actor": {
+    "kind": "user"
+  },
+  "cseq": 912,
+  "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+  "payload": {
+    "attachments": [],
+    "content": [
+      {
+        "text": "Why is CI red?",
+        "type": "text"
+      }
+    ],
+    "kind": "text",
+    "messageId": "msg_01JB8Z6A1B2C3D4E5F6G7H8J9H",
+    "requestId": "01JB8ZB2C3D4E5F6G7H8J9K0M1",
+    "role": "user"
+  },
+  "scope": {
+    "botId": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+    "conversationId": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P",
+    "taskId": "tsk_01JB8Z6A1B2C3D4E5F6G7H8J9K"
+  },
+  "seq": 184230,
+  "subject": {
+    "id": "msg_01JB8Z6A1B2C3D4E5F6G7H8J9H",
+    "kind": "message"
+  },
+  "ts": 1792497599050,
+  "type": "message.created",
+  "typeVersion": 1,
+  "v": 1
+}

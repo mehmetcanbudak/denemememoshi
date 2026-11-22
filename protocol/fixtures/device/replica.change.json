@@ -1,0 +1,66 @@
+{
+  "from": {
+    "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+    "kind": "device"
+  },
+  "msgId": "01JB9A0B1C2D3E4F5G6H7J8K0G",
+  "payload": {
+    "conversationId": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P",
+    "epoch": 8,
+    "events": [
+      {
+        "actor": {
+          "id": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+          "kind": "bot"
+        },
+        "cseq": 911,
+        "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+        "origin": {
+          "hops": 0,
+          "kind": "user",
+          "rootKind": "user"
+        },
+        "payload": {
+          "status": "running",
+          "taskId": "tsk_01JB8Z6A1B2C3D4E5F6G7H8J9K"
+        },
+        "scope": {
+          "botId": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+          "conversationId": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P",
+          "taskId": "tsk_01JB8Z6A1B2C3D4E5F6G7H8J9K"
+        },
+        "seq": 184229,
+        "subject": {
+          "id": "tsk_01JB8Z6A1B2C3D4E5F6G7H8J9K",
+          "kind": "task"
+        },
+        "ts": 1792497599012,
+        "type": "task.started",
+        "typeVersion": 1,
+        "v": 1
+      }
+    ],
+    "piChanges": [
+      "cGkgY2hhbmdlIGZlZWQgZW50cnkgNTEyMQ=="
+    ],
+    "records": [
+      {
+        "id": "tsk_01JB8Z6A1B2C3D4E5F6G7H8J9K",
+        "kind": "task",
+        "op": "upsert",
+        "value": {
+          "id": "tsk_01JB8Z6A1B2C3D4E5F6G7H8J9K",
+          "startedAt": 1792497599012,
+          "status": "running"
+        }
+      }
+    ],
+    "rseq": 5121
+  },
+  "sentAt": 1792497725100,
+  "to": {
+    "deviceId": "dev_01JB8Z1F2G3H4J5K6M7N8P9Q0R",
+    "kind": "device"
+  },
+  "type": "replica.change"
+}

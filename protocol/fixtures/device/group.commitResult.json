@@ -1,0 +1,17 @@
+{
+  "from": {
+    "kind": "authority"
+  },
+  "msgId": "01JB9A0B1C2D3E4F5G6H7J8K02",
+  "payload": {
+    "accepted": true,
+    "epoch": 4,
+    "groupId": "bWVtb3NoaS1kZXZpY2UtZ3JvdXA"
+  },
+  "sentAt": 1792497700900,
+  "to": {
+    "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+    "kind": "device"
+  },
+  "type": "group.commitResult"
+}

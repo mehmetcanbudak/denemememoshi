@@ -1,0 +1,13 @@
+{
+  "id": "c:1",
+  "jsonrpc": "2.0",
+  "result": {
+    "replayed": false,
+    "session": {
+      "createdAt": 300,
+      "id": "ses_00000000000000000000000001",
+      "leadBotId": "bot_00000000000000000000000002",
+      "title": "Trip plan"
+    }
+  }
+}

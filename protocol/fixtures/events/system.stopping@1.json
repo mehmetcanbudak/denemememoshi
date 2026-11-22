@@ -1,0 +1,19 @@
+{
+  "actor": {
+    "kind": "system"
+  },
+  "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+  "payload": {
+    "reason": "user"
+  },
+  "scope": {},
+  "seq": 184270,
+  "subject": {
+    "id": "memoshid",
+    "kind": "system"
+  },
+  "ts": 1792497700000,
+  "type": "system.stopping",
+  "typeVersion": 1,
+  "v": 1
+}

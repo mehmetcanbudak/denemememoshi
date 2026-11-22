@@ -1,0 +1,927 @@
+Memoshi
+Copyright 2026 Mehmet Can Budak
+
+Memoshi's Apache License, Version 2.0 text is in LICENSE and at
+https://www.apache.org/licenses/LICENSE-2.0. It does not relicense the private
+prototype or third-party material whose provenance and terms are recorded below.
+
+
+Pi_Swift text-chat development dependency
+----------------------------------------
+
+MemoshiCore's MemoshiRuntime consumes Pi_Swift unmodified, at the annotated tag
+slice-2, from a clean checkout of that commit, not from any working directory:
+
+  https://github.com/mehmetcanbudak/Pi_Swift
+  tag slice-2, revision ce1728ef8236d95a8b94b50a856670c48ad85365
+  upstream Pi revision 22dc6c26f3c530e11b8cc40443ecdce2b3c84116
+
+scripts/check-prerequisites.sh creates that checkout (../Pi_Swift-slice-2) from the
+sibling Pi_Swift Git repository and refuses it unless it is exactly that commit
+with no change. SwiftPM uses it by path: slice-2's manifest has a local package
+dependency, which SwiftPM does not allow under a revision pin. Memoshi's adapter
+is original source; Pi modules remain external dependencies. SubscriptionLogins
+is not enabled. No Pi terminal/CLI product is linked.
+
+MemoshiRuntime links PiCodeMode and PiMCP, both part of the same Pi_Swift
+revision, for an explicit development/qualification composition only; the
+normal app and daemon composition installs no Code Mode, MCP or other tools.
+PiCodeMode carries the pinned QuickJS guest both as WebAssembly (run by WasmKit)
+and translated to C by WABT 1.0.42 wasm2c with WABT's runtime; PiAI carries a
+pinned Zstandard codec. Pi_Swift's own third-party notices, including these, ship
+unmodified in PiCore's resource bundle (ThirdPartyNotices.txt). The guest's
+upstream licence resources remain unmodified.
+
+Resolved additional dependencies:
+  WasmKit 0.4.2, revision a7455cb8474b96b2c58f0adc1f70d0270b8010bf, MIT.
+  Swift Syntax 604.0.0, revision 050f1a346fbbac0ca2cfb15a95274f7bd1cf0ccf,
+    https://github.com/swiftlang/swift-syntax
+  Swift Argument Parser 1.8.2, revision 6a52f3251125d74daf04fcbd5e6f08a75d074382,
+    https://github.com/apple/swift-argument-parser
+The latter two retain Apache 2.0 WITH the Runtime Library Exception, not plain
+Apache-2.0-only. The common Apache text accompanies this NOTICE in LICENSE;
+the Runtime Library Exception is reproduced below. Resolved tooling is not a
+claim that every product is shipped.
+
+--- BEGIN Pi_Swift LICENSE ---
+MIT License
+
+Copyright (c) 2025 Mario Zechner
+Copyright (c) 2026 Pi_Swift contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+--- END Pi_Swift LICENSE ---
+
+--- BEGIN WasmKit LICENSE ---
+MIT License
+
+Copyright (c) 2020 Akio Yasui
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+--- END WasmKit LICENSE ---
+
+--- BEGIN WasmKit NOTICE.txt ---
+-------------------------------------------------------------------------------
+This product contains a derivation of the utility code from Swift System.
+
+  * LICENSE (Apache License 2.0):
+    * https://www.apache.org/licenses/LICENSE-2.0
+  * HOMEPAGE:
+    * https://github.com/apple/swift-system
+
+-------------------------------------------------------------------------------
+This product contains a derivation of the list of Swift keywords from Swift Syntax.
+
+  * LICENSE (Apache License 2.0):
+    * https://www.apache.org/licenses/LICENSE-2.0
+  * HOMEPAGE:
+    * https://github.com/apple/swift-syntax
+--- END WasmKit NOTICE.txt ---
+
+
+Private prototype behavioral reference
+-------------------------------------
+
+The storage implementation selectively re-expresses behavior from the private
+Memoshi-Plan prototype, reference revision:
+ce39f8a7ca324ce1c2473518593b1fb4f96ebe4b
+
+Swift target paths are relative to this repository; the "<-" source paths are
+relative to the private prototype repository:
+
+  Packages/MemoshiCore/Sources/Store/Migrations.swift
+    <- sidecar/src/store/db.ts
+    <- sidecar/src/store/migrations.ts
+  Packages/MemoshiCore/Sources/Store/Migrations/001_event_log.sql
+    <- sidecar/src/store/db.ts
+    <- sidecar/src/store/migrations.ts
+  Packages/MemoshiCore/Sources/Store/Identifiers.swift
+    <- sidecar/src/ids.ts
+  Packages/MemoshiCore/Sources/Store/EventBus.swift
+    <- sidecar/src/events/bus.ts
+  Packages/MemoshiCore/Sources/Store/Schedule.swift
+    <- sidecar/src/routines/schedule.ts
+    <- sidecar/src/routines/cron.ts
+  Packages/MemoshiCore/Sources/Store/StoreLogger.swift
+    <- sidecar/src/log.ts
+
+These are behavioral Swift and SQL re-expressions under Memoshi's current
+storage contract, not an unchanged or complete port. Identifiers use monotonic
+ULIDs in place of the prototype's UUID fragments. No TypeScript source or
+runtime is imported into these storage files.
+
+The reference revision does not contain a LICENSE file. The private prototype's
+current working-tree LICENSE, read on 2026-10-25, is reproduced verbatim below;
+these current terms are not asserted to have appeared at the reference revision.
+No MIT, Apache or other open-source licence is inferred for that revision.
+
+--- BEGIN current private prototype LICENSE ---
+Copyright (c) 2026 Mehmet Can Budak
+
+All rights reserved.
+
+This source is the Memoshi working tree. It is not released under an open-source
+license. You may build and run it on your own Mac. Redistribution, a public
+app store listing, and a hosted service need a separate decision.
+--- END current private prototype LICENSE ---
+
+This is private implementation provenance, not a complete port or legal audit
+and not clearance for public or commercial redistribution. The P0-17 port audit
+(docs/plan/phase-0.md section 7) and the P0-22 licence/provenance review
+(docs/research/2026-11-03-provenance-and-licence-review.md) record the remaining
+provenance and the open redistribution questions.
+
+
+SwiftNIO transport dependency
+----------------------------
+
+SwiftNIO is consumed as an unmodified external SwiftPM dependency by
+Packages/MemoshiIPC's MemoshiTransport product, on both native Mac IPC endpoints:
+
+  https://github.com/apple/swift-nio
+  EXACT 2.104.0
+  revision 6db9d9abd92ad7399b8a564cafbb87d3507245fa
+
+The same exact dependency supplies MemoshiCore's production MemoshiEgress
+gateway, which MemoshiRuntime links, and the loopback HTTP provider fixture in
+MemoshiRuntimeTests. MemoshiStore does not link NIO.
+
+SwiftNIO's LICENSE.txt is Apache License 2.0, without the Runtime Library
+Exception. Its complete Apache text is supplied in the accompanying LICENSE.
+Its NOTICE.txt is reproduced in full below. Statements inside that upstream
+notice describe the SwiftNIO distribution, including test/utility derivations;
+they do not assert that Memoshi links every SwiftNIO product.
+
+The linked transport components also retain their own terms:
+
+  Sources/CNIOLLHTTP/LICENSE: MIT, Copyright Fedor Indutny, 2018.
+  Sources/CNIOSHA1/c_nio_sha1.c and include/CNIOSHA1.h:
+    BSD-3-Clause, Copyright (C) 1995, 1996, 1997, and 1998 WIDE Project.
+  Sources/CNIOAtomics/src/cpp_magic.h: MIT, from Thomas Nixon and Jonathan
+    Heathcote's uSHET revision c09e0acafd86720efe42dc15c63e0cc228244c32.
+
+Those MIT/BSD texts are reproduced below. llhttp is a C parser dependency;
+its inclusion does not import a Node.js or TypeScript runtime. The component
+sources retain SwiftNIO's upstream changes; Memoshi does not patch them.
+
+The native project's resolved transport dependency graph also includes:
+
+  Swift Atomics 1.3.1
+    https://github.com/apple/swift-atomics.git
+    revision 0442cb5a3f98ab802acb777929fdb446bda11a34
+  Swift Collections 1.7.4
+    https://github.com/apple/swift-collections.git
+    revision 844289ac455816e193f1dbbe014f3c4dbe429410
+  Swift System 1.8.1
+    https://github.com/apple/swift-system.git
+    revision 869129b7bf4ecc57b97d0193ad29690ca2134750
+
+All three LICENSE.txt files contain Apache License 2.0 WITH the Runtime Library
+Exception, reproduced below in addition to the Apache text in LICENSE. This
+records resolved packages, not a claim that every package product is linked;
+Memoshi's selected NIO targets use Atomics and DequeModule, while Swift System
+is a package dependency used by other NIO products. These are not plain
+Apache-2.0-only licences, and their exception is not applied to SwiftNIO.
+
+
+Test-only protocol fixture validator
+------------------------------------
+
+MemoshiProtocol's MemoshiProtocolTests target validates the committed protocol
+fixtures with an unmodified SwiftPM dependency that no app, helper or library
+product links:
+
+  swift-json-schema 0.14.2
+    https://github.com/ajevans99/swift-json-schema
+    revision 121b469bcd1981d82e601d225032799143215692
+
+Its LICENSE is the MIT License, "Copyright (c) 2024 Austin Evans", with the same
+permission and warranty text as the MIT licences reproduced in this file. It also
+resolves Swift Syntax 604.0.0 and Swift Collections 1.7.4, recorded above.
+
+
+Kuvo Code personal/noncommercial reuse
+-------------------------------------
+
+Project decision D91 permits inspecting Kuvo Code's source and copying or adapting
+code for qualifying personal/noncommercial use under its applicable terms.
+No Kuvo code has been imported by that permission change. Any actual import must
+record its upstream revision, paths and changes and retain the required notices
+and PolyForm Noncommercial 1.0.0 terms:
+https://github.com/serhatandic/kuvo-code/blob/main/LICENSE
+
+Memoshi's Apache-2.0 license does not relicense retained Kuvo material. Included
+third-party terms and compatibility with any redistributed GPL-linked mobile app
+must be checked for the actual import. This code permission does not authorize
+copying product artwork or private media.
+
+
+GPL-3.0 module for iPhone and iPad
+----------------------------------
+
+The emulated Linux computer on iPhone and iPad will use iSH, through Open Minis's
+ARM64 version (OpenMinis/ish-arm64). iSH and any code taken from Open Minis are
+licensed under the GNU General Public License, version 3, so they will live in
+their own GPL-3.0 module that only the iPhone and iPad app links. The Mac app and
+memoshid link no GPL code. The iPhone and iPad app is then a combined work under
+GPL-3.0: if it is ever distributed, its source must be offered with it, and no
+closed-source code may be part of it.
+
+
+Retained SwiftNIO NOTICE.txt (2.104.0, unmodified)
+-----------------------------------------------
+
+--- BEGIN SwiftNIO NOTICE.txt ---
+
+                            The SwiftNIO Project
+                            ====================
+
+Please visit the SwiftNIO web site for more information:
+
+  * https://github.com/apple/swift-nio
+
+Copyright 2017, 2018 The SwiftNIO Project
+
+The SwiftNIO Project licenses this file to you under the Apache License,
+version 2.0 (the "License"); you may not use this file except in compliance
+with the License. You may obtain a copy of the License at:
+
+  https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+
+Also, please refer to each LICENSE.<component>.txt file, which is located in
+the 'license' directory of the distribution file, for the license terms of the
+components that this product depends on.
+
+-------------------------------------------------------------------------------
+
+This product is heavily influenced by Netty.
+
+  * LICENSE (Apache License 2.0):
+    * https://github.com/netty/netty/blob/4.1/LICENSE.txt
+  * HOMEPAGE:
+    * https://netty.io
+
+---
+
+This product contains NodeJS's llhttp.
+
+  * LICENSE (MIT):
+    * https://github.com/nodejs/llhttp/blob/1e1c5b43326494e97cf8244ff57475eb72a1b62c/LICENSE-MIT
+  * HOMEPAGE:
+    * https://github.com/nodejs/llhttp
+
+---
+
+This product contains "cpp_magic.h" from Thomas Nixon & Jonathan Heathcote's uSHET
+
+  * LICENSE (MIT):
+    * https://github.com/18sg/uSHET/blob/c09e0acafd86720efe42dc15c63e0cc228244c32/lib/cpp_magic.h
+  * HOMEPAGE:
+    * https://github.com/18sg/uSHET
+
+---
+
+This product contains "sha1.c" and "sha1.h" from FreeBSD (Copyright (C) 1995, 1996, 1997, and 1998 WIDE Project)
+
+  * LICENSE (BSD-3):
+    * https://opensource.org/licenses/BSD-3-Clause
+  * HOMEPAGE:
+    * https://github.com/freebsd/freebsd-src
+
+---
+
+This product contains a derivation of Fabian Fett's 'Base64.swift'.
+
+  * LICENSE (Apache License 2.0):
+    * https://github.com/swift-extras/swift-extras-base64/blob/b8af49699d59ad065b801715a5009619100245ca/LICENSE
+  * HOMEPAGE:
+    * https://github.com/fabianfett/swift-base64-kit
+
+---
+
+This product contains a derivation of "XCTest+AsyncAwait.swift" & "StructuredConcurrencyHelpers" from AsyncHTTPClient.
+
+  * LICENSE (Apache License 2.0):
+    * https://www.apache.org/licenses/LICENSE-2.0
+  * HOMEPAGE:
+    * https://github.com/swift-server/async-http-client
+
+---
+
+This product contains a derivation of "_TinyArray.swift" from SwiftCertificates.
+
+  * LICENSE (Apache License 2.0):
+    * https://www.apache.org/licenses/LICENSE-2.0
+  * HOMEPAGE:
+    * https://github.com/apple/swift-certificates
+
+---
+
+This product contains a derivation of the mocking infrastructure from Swift System.
+
+  * LICENSE (Apache License 2.0):
+    * https://www.apache.org/licenses/LICENSE-2.0
+  * HOMEPAGE:
+    * https://github.com/apple/swift-system
+
+---
+
+This product contains a derivation of "TokenBucket.swift" from Swift Package Manager.
+
+  * LICENSE (Apache License 2.0):
+    * https://www.apache.org/licenses/LICENSE-2.0
+  * HOMEPAGE:
+    * https://github.com/swiftlang/swift-package-manager
+--- END SwiftNIO NOTICE.txt ---
+
+
+Retained CNIOLLHTTP LICENSE (MIT, unmodified)
+-------------------------------------------
+
+Source: swift-nio 2.104.0, Sources/CNIOLLHTTP/LICENSE.
+
+--- BEGIN CNIOLLHTTP LICENSE ---
+This software is licensed under the MIT License.
+
+Copyright Fedor Indutny, 2018.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to permit
+persons to whom the Software is furnished to do so, subject to the
+following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+USE OR OTHER DEALINGS IN THE SOFTWARE.
+--- END CNIOLLHTTP LICENSE ---
+
+
+Retained CNIOSHA1 source-header notice (BSD-3-Clause)
+--------------------------------------------------
+
+Sources: swift-nio 2.104.0, Sources/CNIOSHA1/c_nio_sha1.c and
+Sources/CNIOSHA1/include/CNIOSHA1.h. Both carry the following notice:
+
+/*-
+ * SPDX-License-Identifier: BSD-3-Clause
+ *
+ * Copyright (C) 1995, 1996, 1997, and 1998 WIDE Project.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of the project nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE PROJECT AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE PROJECT OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
+
+
+Retained cpp_magic.h/uSHET terms (MIT)
+------------------------------------
+
+Source: swift-nio 2.104.0, Sources/CNIOAtomics/src/cpp_magic.h. Its header
+identifies MIT and this exact upstream file:
+https://github.com/18sg/uSHET/blob/c09e0acafd86720efe42dc15c63e0cc228244c32/lib/cpp_magic.h
+
+The following is the unmodified uSHET Library section of that revision's LICENSE:
+https://github.com/18sg/uSHET/blob/c09e0acafd86720efe42dc15c63e0cc228244c32/LICENSE
+The separate jsmn section is not applicable to cpp_magic.h.
+
+--- BEGIN uSHET Library LICENSE section ---
+uSHET Library
+=============
+
+Copyright (c) 2014 Thomas Nixon, Jonathan Heathcote
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+--- END uSHET Library LICENSE section ---
+
+
+SwiftNIO TLS and embedded BoringSSL
+----------------------------------
+
+MemoshiCore's production MemoshiEgress gateway links NIOSSL. MemoshiRuntime
+depends on that gateway. The Mac app, embedded memoshid helper and iPhone and
+iPad app include this dependency through their production target graphs:
+
+  https://github.com/apple/swift-nio-ssl
+  EXACT 2.37.6
+  revision 15e0b9e495786807272dd4891fa4bac76aa43034
+  embedded BoringSSL revision 8eb25be6fa18d475291122887a7bccd3762ff236
+
+NIOSSL's LICENSE.txt contains Apache License 2.0, without the Runtime Library
+Exception. The accompanying LICENSE supplies that complete text. The complete,
+unmodified NIOSSL NOTICE.txt follows, including its test and utility notices.
+It does not assert that every component described there is shipped.
+
+The upstream notice calls BoringSSL a "Combination ISC and OpenSSL license".
+The selected embedded source headers retained below state Apache License 2.0.
+Both original statements are retained as written. No blanket historical
+OpenSSL or SSLeay licence is substituted.
+
+Source paths for the retained headers are relative to
+swift-nio-ssl/Sources/CNIOBoringSSL at the exact NIOSSL revision above.
+The SHA assembly headers are from the Apple AArch64 sources. Retaining the
+service-indicator attribution does not assert a validated FIPS build.
+This packaging inventory is not legal clearance for public redistribution.
+
+--- BEGIN NIOSSL NOTICE.txt ---
+
+                            The SwiftNIO Project
+                            ====================
+
+Please visit the SwiftNIO web site for more information:
+
+  * https://github.com/apple/swift-nio
+
+Copyright 2017, 2018 The SwiftNIO Project
+
+The SwiftNIO Project licenses this file to you under the Apache License,
+version 2.0 (the "License"); you may not use this file except in compliance
+with the License. You may obtain a copy of the License at:
+
+  https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+
+Also, please refer to each LICENSE.<component>.txt file, which is located in
+the 'license' directory of the distribution file, for the license terms of the
+components that this product depends on.
+
+-------------------------------------------------------------------------------
+
+This product is heavily influenced by Netty.
+
+  * LICENSE (Apache License 2.0):
+    * https://github.com/netty/netty/blob/4.1/LICENSE.txt
+  * HOMEPAGE:
+    * https://netty.io
+
+---
+
+This product contains a derivation of the Tony Stone's 'process_test_files.rb'.
+
+  * LICENSE (Apache License 2.0):
+    * https://www.apache.org/licenses/LICENSE-2.0
+  * HOMEPAGE:
+    * https://codegists.com/snippet/ruby/generate_xctest_linux_runnerrb_tonystone_ruby
+
+---
+
+This product contains code derived from grpc-swift.
+
+  * LICENSE (Apache License 2.0):
+    * https://github.com/grpc/grpc-swift/blob/0.7.0/LICENSE
+  * HOMEPAGE:
+    * https://github.com/grpc/grpc-swift
+
+---
+
+This product contains code from boringssl.
+
+  * LICENSE (Combination ISC and OpenSSL license)
+    * https://boringssl.googlesource.com/boringssl/+/refs/heads/master/LICENSE
+  * HOMEPAGE:
+    * https://boringssl.googlesource.com/boringssl/
+
+--- END NIOSSL NOTICE.txt ---
+
+--- BEGIN CNIOBoringSSL ssl/tls_method.cc header ---
+// Copyright 1995-2016 The OpenSSL Project Authors. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+--- END CNIOBoringSSL ssl/tls_method.cc header ---
+
+--- BEGIN CNIOBoringSSL include/CNIOBoringSSL_base.h header ---
+// Copyright 2001-2016 The OpenSSL Project Authors. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+--- END CNIOBoringSSL include/CNIOBoringSSL_base.h header ---
+
+--- BEGIN CNIOBoringSSL crypto/fipsmodule/ec/p256-nistz.cc.inc header ---
+// Copyright 2014-2016 The OpenSSL Project Authors. All Rights Reserved.
+// Copyright (c) 2014, Intel Corporation. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+// Originally written by Shay Gueron (1, 2), and Vlad Krasnov (1)
+// (1) Intel Corporation, Israel Development Center, Haifa, Israel
+// (2) University of Haifa, Israel
+//
+// Reference:
+// S.Gueron and V.Krasnov, "Fast Prime Field Elliptic Curve Cryptography with
+//                          256 Bit Primes"
+--- END CNIOBoringSSL crypto/fipsmodule/ec/p256-nistz.cc.inc header ---
+
+--- BEGIN CNIOBoringSSL crypto/fipsmodule/ec/p256-nistz-table.h header ---
+// Copyright 2014-2016 The OpenSSL Project Authors. All Rights Reserved.
+// Copyright (c) 2015, Intel Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+--- END CNIOBoringSSL crypto/fipsmodule/ec/p256-nistz-table.h header ---
+
+--- BEGIN CNIOBoringSSL ssl/d1_srtp.cc header ---
+// Copyright 2011-2016 The OpenSSL Project Authors. All Rights Reserved.
+// Copyright (C) 2006, Network Resonance, Inc.
+// Copyright (C) 2011, RTFM, Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+// DTLS code by Eric Rescorla <ekr@rtfm.com>
+--- END CNIOBoringSSL ssl/d1_srtp.cc header ---
+
+--- BEGIN CNIOBoringSSL crypto/fipsmodule/service_indicator/service_indicator.cc.inc header ---
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+--- END CNIOBoringSSL crypto/fipsmodule/service_indicator/service_indicator.cc.inc header ---
+
+--- BEGIN CNIOBoringSSL gen/bcm/sha256-armv8-apple.S header ---
+// Copyright 2014-2020 The OpenSSL Project Authors. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+// ====================================================================
+// Written by Andy Polyakov <appro@openssl.org> for the OpenSSL
+// project.
+// ====================================================================
+--- END CNIOBoringSSL gen/bcm/sha256-armv8-apple.S header ---
+
+--- BEGIN CNIOBoringSSL gen/bcm/sha512-armv8-apple.S header ---
+// Copyright 2014-2020 The OpenSSL Project Authors. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+// ====================================================================
+// Written by Andy Polyakov <appro@openssl.org> for the OpenSSL
+// project.
+// ====================================================================
+--- END CNIOBoringSSL gen/bcm/sha512-armv8-apple.S header ---
+
+--- BEGIN CNIOBoringSSL crypto/chacha/chacha.cc header ---
+// Copyright 2014 The BoringSSL Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+// Adapted from the public domain, estream code by D. Bernstein.
+--- END CNIOBoringSSL crypto/chacha/chacha.cc header ---
+
+--- BEGIN CNIOBoringSSL crypto/curve25519/curve25519.cc header ---
+// Copyright 2020 The BoringSSL Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+// Some of this code is taken from the ref10 version of Ed25519 in SUPERCOP
+// 20141124 (http://bench.cr.yp.to/supercop.html). That code is released as
+// public domain. Other parts have been replaced to call into code generated by
+// Fiat (https://github.com/mit-plv/fiat-crypto) in //third_party/fiat.
+//
+// The field functions are shared by Ed25519 and X25519 where possible.
+--- END CNIOBoringSSL crypto/curve25519/curve25519.cc header ---
+
+Recovered Fiat licence and authors
+----------------------------------
+
+The NIOSSL vendored directory contains Fiat code but omits its standalone
+licence and authors files. The original texts below were recovered from
+third_party/fiat at the same immutable BoringSSL revision:
+
+  https://boringssl.googlesource.com/boringssl/+/8eb25be6fa18d475291122887a7bccd3762ff236/third_party/fiat/
+  LICENSE Git blob 3bc4b882eb49636a5d0a154867a8325becbff0ab
+  LICENSE SHA-256 9eacbcb81be660840c714a560a9d65ba07913db98dd4baf969f78dd499fdd60f
+  AUTHORS Git blob b67f8f97c1585893b44d009ee717b341f79d4ead
+
+This recovers pinned source evidence. It does not establish complete legal
+clearance for BoringSSL, Fiat or public distribution.
+
+--- BEGIN Fiat LICENSE ---
+The Apache License, Version 2.0 (Apache-2.0)
+
+Copyright 2015-2020 the fiat-crypto authors (see the AUTHORS file)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--- END Fiat LICENSE ---
+
+--- BEGIN Fiat AUTHORS ---
+# This is the official list of fiat-crypto authors for copyright purposes.
+# This file is distinct from the CONTRIBUTORS files.
+# See the latter for an explanation.
+
+# Names should be added to this file as one of
+#     Organization's name
+#     Individual's name <submission email address>
+#     Individual's name <submission email address> <email2> <emailN>
+# See CONTRIBUTORS for the meaning of multiple email addresses.
+
+# Please keep the list sorted.
+
+Andres Erbsen <andreser@mit.edu>
+Google Inc.
+Jade Philipoom <jadep@mit.edu> <jade.philipoom@gmail.com>
+Massachusetts Institute of Technology
+Zoe Paraskevopoulou <zoe.paraskevopoulou@gmail.com>
+--- END Fiat AUTHORS ---
+
+
+Swift Atomics, Collections and System Runtime Library Exception
+-------------------------------------------------------------
+
+The Apache License 2.0 text is provided in LICENSE. Each of these three resolved
+packages' LICENSE.txt files appends the following exact exception; it is not
+part of SwiftNIO's LICENSE.txt:
+
+## Runtime Library Exception to the Apache 2.0 License: ##
+
+
+    As an exception, if you use this Software to compile your source code and
+    portions of this Software are embedded into the binary product as a result,
+    you may redistribute such product without providing attribution as would
+    otherwise be required by Sections 4(a), 4(b) and 4(d) of the License.
+
+Representative upstream source-header copyright notices (individual files
+retain their own year ranges):
+
+  swift-atomics/Sources/Atomics/Conformances/autogenerated/AtomicBool.swift:
+  Copyright (c) 2020 - 2025 Apple Inc. and the Swift project authors
+
+  swift-collections/Sources/DequeModule/Deque/Deque.swift:
+  Copyright (c) 2021 - 2026 Apple Inc. and the Swift project authors
+
+  swift-system/Sources/System/FilePath/FilePath.swift:
+  Copyright (c) 2020 Apple Inc. and the Swift System project authors
+
+
+Native MLS development dependency
+---------------------------------
+
+Packages/MemoshiMLS consumes awslabs/mls-rs 0.57.0 at revision
+a1436f4a5433214ed62349e77835b57a0accdc42 (Apache-2.0 OR MIT), with the
+CryptoKit provider 0.11.0 from the same immutable source. The retained provider
+has the explicitly listed packaging and failure-handling modifications in
+Packages/MemoshiMLS/Native/PROVENANCE.json; it is not an unmodified vendor copy.
+Memoshi's wrapper is original source. The upstream OpenSSL UniFFI wrapper is
+not used, and no alternative cryptographic provider is substituted.
+
+UniFFI 0.32.2's unmodified runtime retains MPL-2.0. Its precise normal/codegen
+dependency distinction, source revision and source-availability link are in
+Native/PROVENANCE.json; runtime object membership is not inferred from the
+Cargo dependency graph. Generated Swift attribution is in
+Packages/MemoshiMLS/Sources/MemoshiMLSNativeBindings/NOTICE.
+
+Packages/MemoshiMLS/Native/Licenses/manifest.json records the locked dependency
+inventory and hashes of its retained original licence/copyright/notice files.
+Those files, the MPL source link and the generated-binding notice must accompany
+any redistributed native payload; this repository notice is not a substitute
+for them. The r-efi MIT selection and debug_tree 0.4.0's upstream missing
+standalone licence-file boundary are recorded explicitly rather than inventing
+an upstream grant. No independent cryptographic audit or release clearance is
+asserted by this development packaging.
+
+
+Offline scientific-stack development payload
+-------------------------------------------
+
+Packages/MemoshiApp/Sources/PyodideSpike/Resources/Runtime contains selected,
+unmodified Pyodide 314.0.7 runtime files and their scientific wheel dependency
+closure. Pyodide source revision:
+b1e4fcc2488962f6360a97f19b9982d6fdb5d16f
+
+Pyodide retains MPL-2.0; CPython, Emscripten, NumPy, pandas, SciPy, Matplotlib
+and the remaining wheels retain their own terms. Runtime/SOURCE-NOTICE.txt
+supplies the exact upstream source and core-archive links. Runtime/manifest.json
+records individual source URLs, hashes, versions and notice locations;
+Runtime/Licences retains the corresponding metadata and licence files.
+No scientific package is relicensed by Memoshi's Apache licence.
+
+These resources are an explicit private S6 spike. Their inclusion is not
+physical-device qualification, public redistribution clearance, a decision to
+enable runtime package downloads, or a substitute for signing/release gates.
+
+
+Native accent contrast derivation
+--------------------------------
+
+Packages/MemoshiApp/Sources/DesignSystem/NativeAccentColor.swift is original
+Swift implementing the published OKLab/linear-sRGB transformations described by
+Björn Ottosson at https://bottosson.github.io/posts/oklab/ (coefficients updated
+2021-01-25). The article explicitly offers its code under the public domain
+or the MIT licence. This implementation uses the public-domain option for
+the published mathematical coefficients; no third-party artwork is imported.
+Quantized contrast derivation does not establish native material, physical
+device, accessibility or reference-hardware qualification.
+
+
+Public Suffix List
+------------------
+
+Packages/MemoshiApp/Sources/AppCore/Resources/public_suffix_list.dat is the
+unmodified Public Suffix List as published at
+https://publicsuffix.org/list/public_suffix_list.dat (VERSION
+2026-11-13_14-44-35_UTC, publicsuffix/list commit
+71c235dd3f888dd4ecd066817050a7482da710e5, fetched 2026-11-14, SHA-256
+8576b335b871dea99dc0fccd04138311bd43f7a8da256c31bf964f11e2f7c179). It retains
+the Mozilla Public License, Version 2.0, stated in its own header; the licence
+text is at https://mozilla.org/MPL/2.0/ and the list's source at
+https://github.com/publicsuffix/list. It is shipped unmodified as a separate
+data file and is not relicensed by Memoshi's Apache licence. Memoshi reads it
+only to group hosts into sites when choosing a bot's browser profile (D136).
+The test vectors in Packages/MemoshiApp/Tests/MemoshiAppTests/
+PublicSuffixListTests.swift are tests/test_psl.txt of the same commit, which
+its header dedicates to the public domain (CC0 1.0). PublicSuffixList.swift
+records the bundled digest and version, and says how to update them.

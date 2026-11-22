@@ -1,0 +1,23 @@
+{
+  "actor": {
+    "kind": "user"
+  },
+  "cseq": 1,
+  "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+  "payload": {
+    "botId": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E"
+  },
+  "scope": {
+    "botId": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+    "conversationId": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P"
+  },
+  "seq": 103,
+  "subject": {
+    "id": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P",
+    "kind": "chat"
+  },
+  "ts": 1792488700020,
+  "type": "chat.created",
+  "typeVersion": 1,
+  "v": 1
+}

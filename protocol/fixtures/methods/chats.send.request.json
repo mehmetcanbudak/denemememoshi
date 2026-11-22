@@ -1,0 +1,15 @@
+{
+  "id": "c:7",
+  "jsonrpc": "2.0",
+  "method": "chats.send",
+  "params": {
+    "chatId": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P",
+    "content": [
+      {
+        "text": "Why is CI red?",
+        "type": "text"
+      }
+    ],
+    "requestId": "01JB8ZB2C3D4E5F6G7H8J9K0M1"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32025,
+    "data": {
+      "kind": "device_revoked",
+      "retryable": false
+    },
+    "message": "This device was removed from your devices."
+  },
+  "id": "c:50",
+  "jsonrpc": "2.0"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "c:1",
+  "jsonrpc": "2.0",
+  "method": "system.hello",
+  "params": {
+    "capabilities": [
+      "events.focus.v1",
+      "host.browser.v1",
+      "host.fm.v1",
+      "host.notify.v1",
+      "host.keychain.v1"
+    ],
+    "client": {
+      "build": "412",
+      "name": "Memoshi",
+      "role": "app",
+      "version": "1.0.0"
+    },
+    "locale": "en-US",
+    "protocol": {
+      "max": 1,
+      "min": 1
+    },
+    "timeZone": "Europe/Istanbul",
+    "token": "5f2c8e1a9b7d4c3e6f0a2b8d1c9e7f4a3b6d0e2c8a1f5b9d7e3c0a4f6b2d8e1c"
+  }
+}

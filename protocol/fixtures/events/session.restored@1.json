@@ -1,0 +1,21 @@
+{
+  "actor": {
+    "kind": "user"
+  },
+  "cseq": 3,
+  "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+  "payload": {},
+  "scope": {
+    "botId": "bot_00000000000000000000000002",
+    "conversationId": "ses_00000000000000000000000001"
+  },
+  "seq": 106,
+  "subject": {
+    "id": "ses_00000000000000000000000001",
+    "kind": "session"
+  },
+  "ts": 500,
+  "type": "session.restored",
+  "typeVersion": 1,
+  "v": 1
+}

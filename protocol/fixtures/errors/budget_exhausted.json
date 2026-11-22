@@ -1,0 +1,18 @@
+{
+  "error": {
+    "code": -32010,
+    "data": {
+      "budgetId": "bud_01JB8Z9K2M3N4P5Q6R7S8T9V0W",
+      "kind": "budget_exhausted",
+      "resetsAt": 1793664000000,
+      "retryable": false,
+      "scope": {
+        "id": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+        "kind": "bot"
+      }
+    },
+    "message": "Atlas has reached its monthly budget."
+  },
+  "id": "c:35",
+  "jsonrpc": "2.0"
+}

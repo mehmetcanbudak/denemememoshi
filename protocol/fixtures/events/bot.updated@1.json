@@ -1,0 +1,25 @@
+{
+  "actor": {
+    "kind": "user"
+  },
+  "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+  "payload": {
+    "changed": [
+      "job",
+      "model"
+    ],
+    "revision": 2
+  },
+  "scope": {
+    "botId": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E"
+  },
+  "seq": 102,
+  "subject": {
+    "id": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+    "kind": "bot"
+  },
+  "ts": 1792488700010,
+  "type": "bot.updated",
+  "typeVersion": 1,
+  "v": 1
+}

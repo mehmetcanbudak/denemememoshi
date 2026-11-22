@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "sdk": {
+    "consumerRevision": "56d6fc89ebb039ad1b5e9128c8b12131d92d0cbe",
+    "upstreamFreeze": "22dc6c26f3c530e11b8cc40443ecdce2b3c84116",
+    "qualification": "accepted",
+    "qualifyingTag": "slice-2.2",
+    "acceptedBy": "mehmetcanbudak (D140)",
+    "evidenceSHA256": "2181a64011e9d7b894210804ef05aa8c8218e9e45fb3c5faa9b5fcf310a2176b"
+  },
+  "holds": {
+    "releaseBlocked": false,
+    "broaderQualificationBlocked": false
+  }
+}

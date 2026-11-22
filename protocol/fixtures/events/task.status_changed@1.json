@@ -1,0 +1,32 @@
+{
+  "actor": {
+    "kind": "system"
+  },
+  "cseq": 916,
+  "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+  "origin": {
+    "hops": 0,
+    "kind": "user",
+    "rootKind": "user"
+  },
+  "payload": {
+    "previous": "running",
+    "status": "waiting",
+    "taskId": "tsk_01JB8Z6A1B2C3D4E5F6G7H8J9K",
+    "waitingOn": "approval"
+  },
+  "scope": {
+    "botId": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+    "conversationId": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P",
+    "taskId": "tsk_01JB8Z6A1B2C3D4E5F6G7H8J9K"
+  },
+  "seq": 184234,
+  "subject": {
+    "id": "tsk_01JB8Z6A1B2C3D4E5F6G7H8J9K",
+    "kind": "task"
+  },
+  "ts": 1792497602011,
+  "type": "task.status_changed",
+  "typeVersion": 1,
+  "v": 1
+}

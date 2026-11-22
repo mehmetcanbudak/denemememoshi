@@ -1,0 +1,203 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@, %@" : {
+      "comment" : "A reply's spoken state, then its note that a restart interrupted it and it continued, as in \"Stopped, Interrupted, then continued after a restart\".",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$@"
+          }
+        }
+      }
+    },
+    "A forecast at a glance" : {
+
+    },
+    "Activity" : {
+
+    },
+    "An assistant, not another dashboard" : {
+
+    },
+    "An assistant, not another dashboard\nOriginal Memoshi example note. No research or model call was performed.\n\nConversations give work a home. Native cards make resources tangible.\nActivity makes the process inspectable without getting in the way.\n\n• Keep a continuous conversation for each bot.\n• Represent real objects with native controls.\n• Show state honestly, including when work is blocked." : {
+
+    },
+    "Approval state could not be synchronized. No decision is enabled until authoritative approvals and cards have loaded." : {
+
+    },
+    "Chat" : {
+
+    },
+    "Cupertino forecast" : {
+
+    },
+    "Delivery is unconfirmed. Reconnect and retry the same decision to recover its receipt; a different answer will not be sent." : {
+
+    },
+    "Details" : {
+
+    },
+    "Enter a nonempty label without control characters or the model key." : {
+
+    },
+    "Enter a nonempty model key no larger than 16 KiB." : {
+
+    },
+    "Illustrative weather · not a live report" : {
+
+    },
+    "Interrupted · continued after a restart" : {
+      "comment" : "A small note below a reply, or after its turn's approval Cards, that a restart cut off and that then continued by itself."
+    },
+    "Interrupted, then continued after a restart" : {
+      "comment" : "What VoiceOver reads for the note on a reply that a restart cut off and that then continued by itself."
+    },
+    "Library" : {
+
+    },
+    "Memoshi" : {
+      "comment" : "The product's name, also the example assistant's name."
+    },
+    "Memoshi — illustrative Cupertino forecast\nExample data only. No weather service was contacted.\n19°C, partly cloudy. Feels like 18°C. High 23°C, low 14°C.\nToday: 14–23°C · Tomorrow: 15–22°C · Monday: 13–20°C\nTuesday: 14–24°C · Wednesday: 15–25°C\nHours: 8 AM 16°C · 11 AM 19°C · 2 PM 23°C · 5 PM 21°C" : {
+
+    },
+    "Model Keychain access requires the app's authorized access-group entitlement and provisioning profile." : {
+
+    },
+    "Not connected to the runner. Decisions are disabled until review state has reloaded." : {
+
+    },
+    "Original design note · local example" : {
+
+    },
+    "Pages" : {
+
+    },
+    "Research and reading" : {
+
+    },
+    "Review is not synchronized. Decisions are disabled." : {
+
+    },
+    "Review state is reloading. Decisions are disabled until it has loaded." : {
+
+    },
+    "Scout" : {
+
+    },
+    "The authenticated app is not authorized to answer this card. No permission was granted." : {
+
+    },
+    "The call was canceled. This answer did not authorize it." : {
+
+    },
+    "The configured endpoint did not answer model discovery. Check that the local server is running; no other model is used." : {
+
+    },
+    "The connected runtime does not support this decision. No permission was granted." : {
+
+    },
+    "The data protection Keychain is unavailable in this user session." : {
+
+    },
+    "The decision could not be recorded locally. No answer was sent." : {
+
+    },
+    "The decision receipt was received, but current review state could not be refreshed." : {
+
+    },
+    "The decision receipt was received, but the saved delivery record could not be cleared. Any retry keeps its original identity." : {
+
+    },
+    "The model Keychain access group is not configured for the validated signing team." : {
+
+    },
+    "The model Keychain operation failed." : {
+
+    },
+    "The model Keychain requires an unlock or system authentication before it is available." : {
+
+    },
+    "The model key is not authorized for the requested provider." : {
+
+    },
+    "The model key reference already exists." : {
+
+    },
+    "The model key reference is invalid." : {
+
+    },
+    "The model key was not found in the configured Keychain access group." : {
+
+    },
+    "The model provider identifier is invalid." : {
+
+    },
+    "The operation could not be completed. No substitute model or reply was used." : {
+
+    },
+    "The original decision receipt was recovered. No second answer was created." : {
+
+    },
+    "The owning runner is unavailable. The decision is not confirmed; any retry keeps the original identity." : {
+
+    },
+    "The runner could not confirm delivery. Retry only the same saved decision to recover its receipt." : {
+
+    },
+    "The runner has not received this answer. It is queued only until the card expires; permission and execution are not confirmed." : {
+
+    },
+    "The runner recorded this decision. It does not confirm tool execution." : {
+
+    },
+    "The runner refused this answer, but its local delivery record could not be cleared. Retry keeps the original request identity." : {
+
+    },
+    "The runner refused this decision. No substitute action or broader permission was requested." : {
+
+    },
+    "The saved approval delivery record could not be read. Decisions are blocked to avoid sending a different answer to an uncertain request." : {
+
+    },
+    "The saved delivery record could not be read. Sending is blocked to avoid duplicating an uncertain message." : {
+
+    },
+    "The saved request identity conflicts with another request. A new identity will not be substituted." : {
+
+    },
+    "The stored model key or its authorization metadata is invalid." : {
+
+    },
+    "The system denied access to the model Keychain." : {
+
+    },
+    "This Keychain store only releases keys for model providers." : {
+
+    },
+    "This approval expired. The answer was not accepted." : {
+
+    },
+    "This card is no longer available. No answer was accepted." : {
+
+    },
+    "This card was already decided. The first valid answer wins; current state is being reloaded." : {
+
+    },
+    "This tier requires device-owner authentication, which this development profile does not provide." : {
+
+    },
+    "Waiting for You" : {
+
+    },
+    "Weather" : {
+
+    },
+    "Your personal assistant" : {
+
+    }
+  },
+  "version" : "1.0"
+}

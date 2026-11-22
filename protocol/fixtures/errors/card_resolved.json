@@ -1,0 +1,14 @@
+{
+  "error": {
+    "code": -32007,
+    "data": {
+      "cardId": "crd_01JB8Z7N3P4Q5R6S7T8V9W0X1Z",
+      "kind": "card_resolved",
+      "resolution": "allow_once",
+      "retryable": false
+    },
+    "message": "This card was already answered."
+  },
+  "id": "c:10",
+  "jsonrpc": "2.0"
+}

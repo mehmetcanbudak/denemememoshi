@@ -1,0 +1,13 @@
+{
+  "error": {
+    "code": -32603,
+    "data": {
+      "incidentId": "7f3a9c2e",
+      "kind": "internal_error",
+      "retryable": true
+    },
+    "message": "Something went wrong in memoshid."
+  },
+  "id": "c:24",
+  "jsonrpc": "2.0"
+}

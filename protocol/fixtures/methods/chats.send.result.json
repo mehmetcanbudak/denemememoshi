@@ -1,0 +1,9 @@
+{
+  "id": "c:7",
+  "jsonrpc": "2.0",
+  "result": {
+    "messageId": "msg_01JB8Z6A1B2C3D4E5F6G7H8J9H",
+    "taskId": "tsk_01JB8Z6A1B2C3D4E5F6G7H8J9K",
+    "writtenSeq": 184230
+  }
+}

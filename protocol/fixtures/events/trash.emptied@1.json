@@ -1,0 +1,23 @@
+{
+  "actor": {
+    "kind": "user"
+  },
+  "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+  "payload": {
+    "by": "user",
+    "count": 1,
+    "kinds": [
+      "session"
+    ]
+  },
+  "scope": {},
+  "seq": 108,
+  "subject": {
+    "id": "trash",
+    "kind": "system"
+  },
+  "ts": 600,
+  "type": "trash.emptied",
+  "typeVersion": 1,
+  "v": 1
+}

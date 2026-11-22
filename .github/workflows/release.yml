@@ -1,0 +1,153 @@
+name: Signed release
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: Platform to build from this protected version tag
+        type: choice
+        options: [macos, ios]
+        required: true
+      version:
+        description: Exact version matching the selected vX.Y.Z tag
+        type: string
+        required: true
+      build_number:
+        description: Increasing build number (iOS must exceed every ASC build)
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+# Serialize all uploads, not just one tag: iOS build numbers are app-wide.
+concurrency:
+  group: memoshi-signed-distribution
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Qualified protected-tag release
+    runs-on: [self-hosted, macOS, ARM64, memoshi]
+    environment: release
+    # Allow CI's 180-minute budget plus signing, packaging and the bounded 45-minute wait for
+    # App Store Connect to process an uploaded build.
+    timeout-minutes: 285
+    env:
+      MEMOSHI_PI_SWIFT_SOURCE: ${{ vars.MEMOSHI_PI_SWIFT_SOURCE }}
+      MEMOSHI_BUILD_ROOT: ${{ vars.MEMOSHI_BUILD_ROOT }}
+      INPUT_PLATFORM: ${{ inputs.platform }}
+      INPUT_VERSION: ${{ inputs.version }}
+      INPUT_BUILD_NUMBER: ${{ inputs.build_number }}
+      TEAM_ID: ${{ vars.MEMOSHI_TEAM_ID }}
+      MAC_IDENTITY: ${{ vars.MEMOSHI_DEVELOPER_ID_SHA1 }}
+      APP_PROFILE: ${{ vars.MEMOSHI_MAC_APP_PROFILE_PATH }}
+      HELPER_PROFILE: ${{ vars.MEMOSHI_MAC_HELPER_PROFILE_PATH }}
+      IOS_IDENTITY: ${{ vars.MEMOSHI_APPLE_DISTRIBUTION_SHA1 }}
+      IOS_PROFILE: ${{ vars.MEMOSHI_IOS_PROFILE_PATH }}
+      ASC_KEY: ${{ vars.MEMOSHI_ASC_PRIVATE_KEY_PATH }}
+      ASC_KEY_ID: ${{ vars.MEMOSHI_ASC_KEY_ID }}
+      ASC_ISSUER: ${{ vars.MEMOSHI_ASC_ISSUER_ID }}
+      ASC_APP_ID: ${{ vars.MEMOSHI_ASC_APP_ID }}
+      SIZE_BASELINE: ${{ vars.MEMOSHI_SIZE_BASELINE_PATH }}
+    steps:
+      - name: Require the dispatched protected version tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "$GITHUB_REF_TYPE" != tag ] || [ "$GITHUB_REF_PROTECTED" != true ] || [ "$GITHUB_REF_NAME" != "v$INPUT_VERSION" ]; then
+            echo 'error: dispatch this workflow from the protected exact vX.Y.Z release tag' >&2
+            exit 1
+          fi
+
+      - name: Check out exact protected source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      # The gate resolves the accepted slice-N tag in the Pi_Swift checkout that
+      # scripts/lib/pi-swift-pin.sh names, so the pinned commit and its slice tags are first
+      # copied from the runner-owned local source into ../Pi_Swift and the checkout is created
+      # from it. As a release run, this refuses a slice tag that the source has re-pointed.
+      - name: Copy the pinned SDK candidate and its slice tags
+        env:
+          MEMOSHI_REQUIRE_RELEASE_DISK: "true"
+        run: scripts/check-prerequisites.sh
+
+      # No signing, API request, credential read or release output precedes this gate; the
+      # step above only copies the pinned commit and its slice tags and checks out the pin.
+      # The current checked-in development-only record deliberately refuses release.
+      - name: Enforce explicit release and SDK acceptance holds
+        run: python3 scripts/release.py check-release-gates
+
+      - name: Exact SDK, disk, toolchain and integrated checks
+        run: scripts/ci.sh
+
+      - name: Select a fresh private output root
+        shell: bash
+        run: |
+          set -euo pipefail
+          root="${MEMOSHI_BUILD_ROOT:-$RUNNER_TEMP}/Releases/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          if [ -e "$root" ]; then
+            echo 'error: release output already exists; no artifact will be overwritten' >&2
+            exit 1
+          fi
+          echo "RELEASE_ROOT=$root" >> "$GITHUB_ENV"
+
+      - name: Archive Mac source
+        if: inputs.platform == 'macos'
+        run: |
+          python3 scripts/release.py archive --platform macos --version "$INPUT_VERSION" \
+            --source-tag "$GITHUB_REF_NAME" --build-number "$INPUT_BUILD_NUMBER" --team-id "$TEAM_ID" --output "$RELEASE_ROOT/archive"
+
+      - name: Sign Mac code inside out with distinct profiles
+        if: inputs.platform == 'macos'
+        run: |
+          python3 scripts/release.py sign --app "$RELEASE_ROOT/archive/Memoshi.xcarchive/Products/Applications/Memoshi.app" \
+            --team-id "$TEAM_ID" --identity "$MAC_IDENTITY" --app-profile "$APP_PROFILE" \
+            --helper-profile "$HELPER_PROFILE" --output "$RELEASE_ROOT/signed"
+
+      - name: Notarize staple build DMG and enforce actual reviewed budgets
+        if: inputs.platform == 'macos'
+        run: |
+          python3 scripts/release.py package --app "$RELEASE_ROOT/signed/Memoshi.app" \
+            --team-id "$TEAM_ID" --identity "$MAC_IDENTITY" --api-key "$ASC_KEY" \
+            --key-id "$ASC_KEY_ID" --issuer-id "$ASC_ISSUER" --baseline "$SIZE_BASELINE" \
+            --output "$RELEASE_ROOT/distribution"
+
+      - name: Fetch fresh complete internal build inventory
+        if: inputs.platform == 'ios'
+        run: |
+          python3 scripts/release.py fetch-testflight --api-key "$ASC_KEY" --key-id "$ASC_KEY_ID" \
+            --issuer-id "$ASC_ISSUER" --app-id "$ASC_APP_ID" --output "$RUNNER_TEMP/memoshi-builds-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT.json"
+
+      - name: Archive provisioned physical-device iOS build
+        if: inputs.platform == 'ios'
+        run: |
+          python3 scripts/release.py archive --platform ios --version "$INPUT_VERSION" --source-tag "$GITHUB_REF_NAME" \
+            --build-number "$INPUT_BUILD_NUMBER" --output "$RELEASE_ROOT/archive" --identity "$IOS_IDENTITY" \
+            --team-id "$TEAM_ID" --profile "$IOS_PROFILE" --app-id "$ASC_APP_ID" \
+            --builds-json "$RUNNER_TEMP/memoshi-builds-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT.json"
+
+      - name: Upload internal TestFlight only
+        if: inputs.platform == 'ios'
+        run: |
+          python3 scripts/release.py upload-testflight --archive "$RELEASE_ROOT/archive/MemoshiMobile.xcarchive" \
+            --team-id "$TEAM_ID" --identity "$IOS_IDENTITY" --profile "$IOS_PROFILE" --app-id "$ASC_APP_ID" \
+            --builds-json "$RUNNER_TEMP/memoshi-builds-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT.json" \
+            --api-key "$ASC_KEY" --key-id "$ASC_KEY_ID" --issuer-id "$ASC_ISSUER" --output "$RELEASE_ROOT/upload"
+
+      # Actual internal availability is separate from xcodebuild's upload success. Fresh
+      # snapshots are polled until this exact build number is processed and available to
+      # internal testers; an older usable build never satisfies the step.
+      - name: Require the uploaded build itself to become usable by internal testers
+        if: inputs.platform == 'ios'
+        run: |
+          python3 scripts/release.py confirm-testflight-upload --api-key "$ASC_KEY" --key-id "$ASC_KEY_ID" \
+            --issuer-id "$ASC_ISSUER" --app-id "$ASC_APP_ID" --build-number "$INPUT_BUILD_NUMBER" \
+            --timeout-minutes 45 --output "$RELEASE_ROOT/processing"
+
+      # No artifact-quota workaround, public release upload or App Review submission.
+      # Artifacts remain in the protected runner's explicit private output root.

@@ -1,0 +1,10 @@
+{
+  "id": "c:1",
+  "jsonrpc": "2.0",
+  "method": "models.providers.configure",
+  "params": {
+    "baseUrl": "http://127.0.0.1:11434/v1",
+    "providerId": "local",
+    "requestId": "00000000000000000000000001"
+  }
+}

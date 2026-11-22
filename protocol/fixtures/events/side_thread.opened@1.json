@@ -1,0 +1,25 @@
+{
+  "actor": {
+    "kind": "user"
+  },
+  "cseq": 1,
+  "deviceId": "dev_01JB8Z1F2G3H4J5K6M7N8P9Q0R",
+  "payload": {
+    "baseCseq": 918,
+    "parentConversationId": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P",
+    "sideThreadId": "sth_01JB8ZF6G7H8J9K0M1N2P3Q4R5"
+  },
+  "scope": {
+    "botId": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+    "conversationId": "sth_01JB8ZF6G7H8J9K0M1N2P3Q4R5"
+  },
+  "seq": 52011,
+  "subject": {
+    "id": "sth_01JB8ZF6G7H8J9K0M1N2P3Q4R5",
+    "kind": "side_thread"
+  },
+  "ts": 1792497700100,
+  "type": "side_thread.opened",
+  "typeVersion": 1,
+  "v": 1
+}

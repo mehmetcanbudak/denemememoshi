@@ -1,0 +1,9 @@
+{
+  "id": "d:1",
+  "jsonrpc": "2.0",
+  "method": "host.keychain.get",
+  "params": {
+    "purpose": "model:openai",
+    "secretRef": "kc_00000000-0000-0000-0000-000000000001"
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "id": "c:50",
+  "jsonrpc": "2.0",
+  "result": {
+    "asOf": {
+      "cseq": 918,
+      "seq": 184238
+    },
+    "nodes": [
+      {
+        "botId": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+        "budgetIds": [
+          "bud_01JB8Z9K2M3N4P5Q6R7S8T9V0W"
+        ],
+        "conversationId": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P",
+        "createdAt": 1792497599012,
+        "endedAt": 1792497603400,
+        "id": "tsk_01JB8Z6A1B2C3D4E5F6G7H8J9K",
+        "kind": "turn",
+        "origin": {
+          "hops": 0,
+          "kind": "user",
+          "rootKind": "user"
+        },
+        "outcome": "answered",
+        "regime": "attended",
+        "requestId": "01JB8ZB2C3D4E5F6G7H8J9K0M1",
+        "resumeMode": "auto",
+        "startedAt": 1792497599012,
+        "status": "done",
+        "summary": "auth.spec.ts times out after the token change.",
+        "title": "Why is CI red?",
+        "usage": {
+          "cacheReadTokens": 1536,
+          "cacheWriteTokens": 0,
+          "costKnown": true,
+          "costMicroUsd": 4120,
+          "inputTokens": 1840,
+          "outputTokens": 212
+        }
+      },
+      {
+        "botId": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+        "budgetIds": [
+          "bud_01JB8Z9K2M3N4P5Q6R7S8T9V0W"
+        ],
+        "conversationId": "cht_01JB8Z5Q2W9R4T7Y6E3K1M0N8P",
+        "createdAt": 1792497599790,
+        "endedAt": 1792497601900,
+        "id": "tsk_01JB8Z6B2C3D4E5F6G7H8J9K0M",
+        "kind": "subagent",
+        "origin": {
+          "hops": 0,
+          "id": "bot_01JB8Z3M4X7K2Q9V0W5T6R1Y8E",
+          "kind": "bot",
+          "rootKind": "user"
+        },
+        "outcome": "answered",
+        "parentTaskId": "tsk_01JB8Z6A1B2C3D4E5F6G7H8J9K",
+        "regime": "attended",
+        "requestId": "sub:tsk_01JB8Z6A1B2C3D4E5F6G7H8J9K:1",
+        "resumeMode": "auto",
+        "startedAt": 1792497599800,
+        "status": "done",
+        "title": "Read the CI log",
+        "usage": {
+          "cacheReadTokens": 512,
+          "cacheWriteTokens": 0,
+          "costKnown": true,
+          "costMicroUsd": 1410,
+          "inputTokens": 960,
+          "outputTokens": 88
+        }
+      }
+    ]
+  }
+}

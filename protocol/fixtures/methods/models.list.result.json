@@ -1,0 +1,16 @@
+{
+  "id": "c:1",
+  "jsonrpc": "2.0",
+  "result": {
+    "items": [
+      {
+        "contextWindow": 32768,
+        "maxTokens": 4096,
+        "name": "qwen3:0.6b",
+        "ref": {
+          "ref": "local/qwen3:0.6b"
+        }
+      }
+    ]
+  }
+}

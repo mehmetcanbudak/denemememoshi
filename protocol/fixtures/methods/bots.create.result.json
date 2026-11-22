@@ -1,0 +1,22 @@
+{
+  "id": "c:1",
+  "jsonrpc": "2.0",
+  "result": {
+    "bot": {
+      "chatId": "cht_00000000000000000000000002",
+      "createdAt": 100,
+      "id": "bot_00000000000000000000000002",
+      "job": "",
+      "model": {
+        "ref": "default"
+      },
+      "name": "Researcher",
+      "persona": "",
+      "revision": 1,
+      "role": "bot",
+      "updatedAt": 100
+    },
+    "chatId": "cht_00000000000000000000000002",
+    "replayed": false
+  }
+}

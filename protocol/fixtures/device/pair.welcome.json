@@ -1,0 +1,45 @@
+{
+  "from": {
+    "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+    "kind": "device"
+  },
+  "msgId": "01JB9A0B1C2D3E4F5G6H7J8K03",
+  "payload": {
+    "devices": {
+      "devices": [
+        {
+          "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+          "leafIndex": 0,
+          "name": "Mac mini",
+          "platform": "mac",
+          "publicKeys": {
+            "agreement": "MCowBQYDK2VuAyEA7hT2pQ9xL4cVb1nM6zR8sK3wJ5yG0dF2aE9uH4iO7kU=",
+            "signing": "MCowBQYDK2VwAyEAq3Z9mU4kM1sPj0R7c8bWQx5nYtLh2vGd6eFa1oKiS0E="
+          }
+        },
+        {
+          "deviceId": "dev_01JB8Z1F2G3H4J5K6M7N8P9Q0R",
+          "leafIndex": 1,
+          "name": "iPhone",
+          "platform": "iphone",
+          "publicKeys": {
+            "agreement": "MCowBQYDK2VuAyEAb4Nv7Wq2Ys9Pk1Lm5Xz3Ct8Rd0Hf6Jg2Ae4Ui7Oo9Ki=",
+            "signing": "MCowBQYDK2VwAyEAy8Lm3Qp5Rz1Tk7Vb9Xc2Nw4Hd6Jf0Gs8Ae1Ui3Oo5Ke="
+          }
+        }
+      ],
+      "epoch": 4,
+      "signature": "c2lnbmVkIGRldmljZSBsaXN0IGF0IGVwb2NoIDQ=",
+      "signerDeviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P"
+    },
+    "epoch": 4,
+    "groupId": "bWVtb3NoaS1kZXZpY2UtZ3JvdXA",
+    "welcome": "AAEAAgAEd2VsY29tZSB0byB0aGUgZGV2aWNlIGdyb3Vw"
+  },
+  "sentAt": 1792497701000,
+  "to": {
+    "deviceId": "dev_01JB8Z1F2G3H4J5K6M7N8P9Q0R",
+    "kind": "device"
+  },
+  "type": "pair.welcome"
+}

@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32022,
+    "data": {
+      "kind": "typed_confirmation_mismatch",
+      "retryable": false
+    },
+    "message": "The confirmation text does not match."
+  },
+  "id": "c:47",
+  "jsonrpc": "2.0"
+}

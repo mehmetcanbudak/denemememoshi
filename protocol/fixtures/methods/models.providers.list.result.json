@@ -1,0 +1,16 @@
+{
+  "id": "c:1",
+  "jsonrpc": "2.0",
+  "result": {
+    "asOf": {
+      "seq": 1
+    },
+    "items": [
+      {
+        "baseUrl": "http://127.0.0.1:11434/v1",
+        "id": "local",
+        "name": "Local"
+      }
+    ]
+  }
+}

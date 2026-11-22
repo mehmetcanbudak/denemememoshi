@@ -1,0 +1,42 @@
+{
+  "actor": {
+    "id": "rtn_01JC2B3C4D5E6F7G8H9J0K1M2N",
+    "kind": "trigger"
+  },
+  "cseq": 903,
+  "deviceId": "dev_01JC0D4E5F6G7H8J9K0M1N2P3Q",
+  "origin": {
+    "hops": 0,
+    "id": "rtn_01JC2B3C4D5E6F7G8H9J0K1M2N",
+    "kind": "routine",
+    "rootKind": "routine"
+  },
+  "payload": {
+    "kind": "run",
+    "origin": {
+      "hops": 0,
+      "id": "rtn_01JC2B3C4D5E6F7G8H9J0K1M2N",
+      "kind": "routine",
+      "rootKind": "routine"
+    },
+    "regime": "unattended",
+    "routineId": "rtn_01JC2B3C4D5E6F7G8H9J0K1M2N",
+    "scheduledFor": 1792483200000,
+    "taskId": "tsk_01JC3H0A1B2C3D4E5F6G7H8J9K",
+    "title": "Morning CI check"
+  },
+  "scope": {
+    "botId": "bot_01JC3F7Q9R2M8K4T6V5W0X1Y2Z",
+    "conversationId": "cht_01JC1Z2Y3X4W5V6T7S8R9Q0P1N",
+    "taskId": "tsk_01JC3H0A1B2C3D4E5F6G7H8J9K"
+  },
+  "seq": 50102,
+  "subject": {
+    "id": "tsk_01JC3H0A1B2C3D4E5F6G7H8J9K",
+    "kind": "task"
+  },
+  "ts": 1792483200410,
+  "type": "task.created",
+  "typeVersion": 1,
+  "v": 1
+}

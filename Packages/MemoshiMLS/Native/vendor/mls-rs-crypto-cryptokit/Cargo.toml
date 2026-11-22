@@ -1,0 +1,25 @@
+# CryptoKit provider source from awslabs/mls-rs 0.57.0, immutable revision
+# a1436f4a5433214ed62349e77835b57a0accdc42. See ../../PROVENANCE.json.
+[package]
+name = "mls-rs-crypto-cryptokit"
+version = "0.11.0"
+edition = "2021"
+license = "Apache-2.0 OR MIT"
+publish = false
+
+[features]
+default = ["std"]
+std = ["dep:thiserror", "mls-rs-core/std", "mls-rs-crypto-traits/std"]
+
+[build-dependencies]
+serde_json = "=1.0.145"
+
+[dependencies]
+maybe-async = "=0.2.10"
+mls-rs-core = { git = "https://github.com/awslabs/mls-rs", rev = "a1436f4a5433214ed62349e77835b57a0accdc42", default-features = false }
+mls-rs-crypto-traits = { git = "https://github.com/awslabs/mls-rs", rev = "a1436f4a5433214ed62349e77835b57a0accdc42", default-features = false }
+thiserror = { version = "=2.0.17", optional = true }
+zeroize = { version = "=1.8.2", default-features = false, features = ["alloc", "zeroize_derive"] }
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(mls_build_async)'] }

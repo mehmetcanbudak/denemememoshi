@@ -1,0 +1,9 @@
+{
+  "id": "c:1",
+  "jsonrpc": "2.0",
+  "method": "bots.create",
+  "params": {
+    "name": "Researcher",
+    "requestId": "00000000000000000000000004"
+  }
+}

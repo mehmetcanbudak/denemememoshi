@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": -32011,
+    "data": {
+      "kind": "host_unavailable",
+      "retryable": true
+    },
+    "message": "Memoshi.app is not connected."
+  },
+  "id": "c:36",
+  "jsonrpc": "2.0"
+}

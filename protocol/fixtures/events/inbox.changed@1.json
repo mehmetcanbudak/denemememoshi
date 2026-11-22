@@ -1,0 +1,22 @@
+{
+  "actor": {
+    "kind": "system"
+  },
+  "after": 184234,
+  "deviceId": "dev_01JB8Z0D1E2F3G4H5J6K7M8N9P",
+  "payload": {
+    "needsYouCount": 1,
+    "pendingCount": 2,
+    "unreadCount": 3
+  },
+  "scope": {},
+  "seq": null,
+  "subject": {
+    "id": "inbox",
+    "kind": "system"
+  },
+  "ts": 1792497602020,
+  "type": "inbox.changed",
+  "typeVersion": 1,
+  "v": 1
+}

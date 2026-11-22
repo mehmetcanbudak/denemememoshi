@@ -1,0 +1,13 @@
+{
+  "error": {
+    "code": -32023,
+    "data": {
+      "currentEpoch": 8,
+      "kind": "lease_fenced",
+      "retryable": false
+    },
+    "message": "Another device now runs this conversation."
+  },
+  "id": "c:48",
+  "jsonrpc": "2.0"
+}

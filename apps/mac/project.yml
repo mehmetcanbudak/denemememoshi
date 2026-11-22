@@ -1,0 +1,346 @@
+# XcodeGen 2.48.0 spec for every app target (phase-0.md §2.1). The Xcode project is generated
+# by scripts/generate-project.sh and never committed. Features live in the local SwiftPM
+# packages under Packages/, so this file only wires targets, signing and embedded payloads.
+#
+# Signing: there is no team or provisioning profile until P0-16, so the macOS targets are
+# signed ad hoc and the iPhone and iPad app builds for the simulator.
+
+name: Memoshi
+
+options:
+  minimumXcodeGenVersion: 2.48.0
+  xcodeVersion: "27.2"
+  developmentLanguage: en
+  deploymentTarget:
+    macOS: "27.0"
+    iOS: "27.0"
+
+packages:
+  MemoshiProtocol:
+    path: ../../Packages/MemoshiProtocol
+  MemoshiApp:
+    path: ../../Packages/MemoshiApp
+  MemoshiCore:
+    path: ../../Packages/MemoshiCore
+  MemoshiIPC:
+    path: ../../Packages/MemoshiIPC
+  MemoshiDaemon:
+    path: ../../Packages/MemoshiDaemon
+  MemoshiClient:
+    path: ../../Packages/MemoshiClient
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    MARKETING_VERSION: 0.1.0
+    CURRENT_PROJECT_VERSION: "1"
+    GENERATE_INFOPLIST_FILE: NO
+
+settingGroups:
+  # Both macOS targets: arm64 only and hardened runtime on (09-platform-macos.md §2.1 and
+  # §9.2). Until P0-16 adds the Developer ID team they are signed ad hoc. Observed with Xcode
+  # 27.1: ad-hoc Release builds carry the runtime flag, but Xcode signs ad-hoc Debug builds
+  # without it.
+  macOS:
+    ARCHS: arm64
+    ENABLE_HARDENED_RUNTIME: YES
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGN_IDENTITY: "-"
+
+targets:
+  Memoshi:
+    type: application
+    platform: macOS
+    sources:
+      - path: Memoshi
+        excludes:
+          - Resources/LaunchAgents
+      - path: ../shared
+      # SMAppService.agent(plistName:) reads the agent plist from here (09 §8.1).
+      - path: Memoshi/Resources/LaunchAgents
+        buildPhase:
+          copyFiles:
+            destination: wrapper
+            subpath: Contents/Library/LaunchAgents
+      - path: ../../LICENSE
+        buildPhase: resources
+      - path: ../../NOTICE
+        buildPhase: resources
+      - path: ../../Packages/MemoshiMLS/Native/Licenses
+        type: folder
+        buildPhase:
+          copyFiles:
+            destination: wrapper
+            subpath: Contents/Resources/MemoshiMLS
+      - path: ../../Packages/MemoshiMLS/Native/PROVENANCE.json
+        buildPhase:
+          copyFiles:
+            destination: wrapper
+            subpath: Contents/Resources/MemoshiMLS
+      - path: ../../Packages/MemoshiMLS/Sources/MemoshiMLSNativeBindings/NOTICE
+        buildPhase:
+          copyFiles:
+            destination: wrapper
+            subpath: Contents/Resources/MemoshiMLS
+    dependencies:
+      - package: MemoshiProtocol
+        product: MemoshiProtocol
+      - package: MemoshiClient
+        product: MemoshiClient
+      - package: MemoshiIPC
+        product: MemoshiTransport
+      - package: MemoshiIPC
+        product: MemoshiDevice
+      - package: MemoshiIPC
+        product: MemoshiDeviceApple
+      # App-owned PiAI OAuth/Keychain host; the durable engine still runs only in memoshid.
+      - package: MemoshiCore
+        product: MemoshiRuntime
+      - package: MemoshiCore
+        product: MemoshiEgress
+      - package: MemoshiApp
+        product: AppCore
+      - package: MemoshiApp
+        product: DesignSystem
+      - package: MemoshiApp
+        product: ConversationFeature
+      - package: MemoshiApp
+        product: ShellFeature
+      - package: MemoshiApp
+        product: PyodideSpike
+      - package: MemoshiApp
+        product: DevicePairingFeature
+      # memoshid's app-shaped helper (D58). It is signed by its own target, inside out, so it
+      # is copied without re-signing (09 §7.3).
+      - target: memoshid
+        embed: true
+        codeSign: false
+        copy:
+          destination: wrapper
+          subpath: Contents/Helpers
+    settings:
+      groups:
+        - macOS
+      base:
+        PRODUCT_NAME: Memoshi
+        # The English String Catalog (Memoshi/Localizable.xcstrings) receives the literals the
+        # compiler extracts from this target's Swift sources, including ../shared.
+        SWIFT_EMIT_LOC_STRINGS: YES
+        LOCALIZATION_PREFERS_STRING_CATALOGS: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.mehmetcanbudak.memoshi.mac
+        INFOPLIST_FILE: Memoshi/Info.plist
+        # Explicit signed-build inputs. Empty defaults preserve the fail-closed ad-hoc shell.
+        # Only the app receives secret/device access groups; never propagate them to memoshid.
+        CODE_SIGN_ENTITLEMENTS: "$(MEMOSHI_KEYCHAIN_ENTITLEMENTS_FILE)"
+        PROVISIONING_PROFILE_SPECIFIER: "$(MEMOSHI_APP_PROVISIONING_PROFILE_SPECIFIER)"
+    scheme: {}
+
+  memoshid:
+    type: application
+    platform: macOS
+    sources:
+      - path: ../../memoshid
+      - path: ../../protocol/protocol.schema.json
+        buildPhase: resources
+      - path: ../../LICENSE
+        buildPhase: resources
+      - path: ../../NOTICE
+        buildPhase: resources
+    dependencies:
+      - package: MemoshiProtocol
+        product: MemoshiProtocol
+      - package: MemoshiDaemon
+        product: MemoshiDaemon
+      - package: MemoshiCore
+        product: MemoshiStore
+      # RuntimeToolDefinition, for the Debug-only development tool composition in main.swift.
+      - package: MemoshiCore
+        product: MemoshiRuntime
+    settings:
+      groups:
+        - macOS
+      base:
+        PRODUCT_NAME: memoshid
+        PRODUCT_BUNDLE_IDENTIFIER: com.mehmetcanbudak.memoshi.memoshid
+        INFOPLIST_FILE: ../../memoshid/Info.plist
+        # Installed only inside Memoshi.app, never on its own.
+        SKIP_INSTALL: YES
+
+  MemoshiMobile:
+    type: application
+    platform: iOS
+    sources:
+      - path: ../ios/MemoshiMobile
+      - path: ../shared
+      - path: ../../LICENSE
+        buildPhase: resources
+      - path: ../../NOTICE
+        buildPhase: resources
+      - path: ../../Packages/MemoshiMLS/Native/Licenses
+        type: folder
+        buildPhase:
+          copyFiles:
+            destination: wrapper
+            subpath: MemoshiMLS
+      - path: ../../Packages/MemoshiMLS/Native/PROVENANCE.json
+        buildPhase:
+          copyFiles:
+            destination: wrapper
+            subpath: MemoshiMLS
+      - path: ../../Packages/MemoshiMLS/Sources/MemoshiMLSNativeBindings/NOTICE
+        buildPhase:
+          copyFiles:
+            destination: wrapper
+            subpath: MemoshiMLS
+    dependencies:
+      - package: MemoshiProtocol
+        product: MemoshiProtocol
+      - package: MemoshiIPC
+        product: MemoshiDevice
+      - package: MemoshiIPC
+        product: MemoshiDeviceApple
+      - package: MemoshiApp
+        product: AppCore
+      - package: MemoshiApp
+        product: DesignSystem
+      - package: MemoshiApp
+        product: ConversationFeature
+      - package: MemoshiApp
+        product: ShellFeature
+      - package: MemoshiApp
+        product: PyodideSpike
+      - package: MemoshiApp
+        product: DevicePairingFeature
+      # The engine runs in this app (D46, 04 §2.7): the same Store and RuntimeAdapter memoshid
+      # composes, opened in the app's own container, with no socket or helper.
+      - package: MemoshiCore
+        product: MemoshiStore
+      - package: MemoshiCore
+        product: MemoshiRuntime
+      - package: MemoshiCore
+        product: MemoshiEgress
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mehmetcanbudak.memoshi
+        # The English String Catalog (MemoshiMobile/Localizable.xcstrings) receives the literals
+        # the compiler extracts from this target's Swift sources, including ../shared.
+        SWIFT_EMIT_LOC_STRINGS: YES
+        LOCALIZATION_PREFERS_STRING_CATALOGS: YES
+        INFOPLIST_FILE: ../ios/MemoshiMobile/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        TARGETED_DEVICE_FAMILY: "1,2"
+        # Apple silicon only, like the Mac targets; the simulator build skips x86_64.
+        ARCHS: arm64
+      configs:
+        Release:
+          # Scope manual Release signing to the app target so SwiftPM resource bundles are not
+          # handed a provisioning profile by xcodebuild command-line overrides.
+          CODE_SIGN_STYLE: $(MEMOSHI_MOBILE_CODE_SIGN_STYLE)
+          CODE_SIGN_IDENTITY: $(MEMOSHI_MOBILE_CODE_SIGN_IDENTITY)
+          PROVISIONING_PROFILE_SPECIFIER: $(MEMOSHI_MOBILE_PROVISIONING_PROFILE_SPECIFIER)
+          CODE_SIGN_ENTITLEMENTS: $(MEMOSHI_MOBILE_CODE_SIGN_ENTITLEMENTS)
+    scheme: {}
+
+  # Unit tests of the app sources (Swift Testing), run by scripts/test-apps.sh. Neither bundle is
+  # hosted: a host would launch the app, and the Mac app would start memoshid, on the machine
+  # that runs the tests. Each bundle compiles its app's sources itself, without the @main entry
+  # point, so the tests reach the app's internal types directly.
+  MemoshiTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: MemoshiTests
+      - path: ../shared-tests
+      - path: Memoshi
+        excludes:
+          - MemoshiApp.swift
+          - Info.plist
+          - Localizable.xcstrings
+          - "*.entitlements"
+          - Resources
+      - path: ../shared
+    dependencies:
+      - package: MemoshiProtocol
+        product: MemoshiProtocol
+      - package: MemoshiClient
+        product: MemoshiClient
+      - package: MemoshiIPC
+        product: MemoshiTransport
+      - package: MemoshiIPC
+        product: MemoshiDevice
+      - package: MemoshiIPC
+        product: MemoshiDeviceApple
+      - package: MemoshiCore
+        product: MemoshiRuntime
+      - package: MemoshiCore
+        product: MemoshiEgress
+      - package: MemoshiApp
+        product: AppCore
+      - package: MemoshiApp
+        product: DesignSystem
+      - package: MemoshiApp
+        product: ConversationFeature
+      - package: MemoshiApp
+        product: ShellFeature
+      - package: MemoshiApp
+        product: PyodideSpike
+      - package: MemoshiApp
+        product: DevicePairingFeature
+    settings:
+      groups:
+        - macOS
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mehmetcanbudak.memoshi.mac.tests
+        GENERATE_INFOPLIST_FILE: YES
+    scheme:
+      testTargets:
+        - MemoshiTests
+
+  MemoshiMobileTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: ../ios/MemoshiMobileTests
+      - path: ../shared-tests
+      - path: ../ios/MemoshiMobile
+        excludes:
+          - MemoshiMobileApp.swift
+          - Info.plist
+          - Localizable.xcstrings
+          - Assets.xcassets
+      - path: ../shared
+    dependencies:
+      - package: MemoshiProtocol
+        product: MemoshiProtocol
+      - package: MemoshiIPC
+        product: MemoshiDevice
+      - package: MemoshiIPC
+        product: MemoshiDeviceApple
+      - package: MemoshiApp
+        product: AppCore
+      - package: MemoshiApp
+        product: DesignSystem
+      - package: MemoshiApp
+        product: ConversationFeature
+      - package: MemoshiApp
+        product: ShellFeature
+      - package: MemoshiApp
+        product: PyodideSpike
+      - package: MemoshiApp
+        product: DevicePairingFeature
+      - package: MemoshiCore
+        product: MemoshiStore
+      - package: MemoshiCore
+        product: MemoshiRuntime
+      - package: MemoshiCore
+        product: MemoshiEgress
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mehmetcanbudak.memoshi.tests
+        GENERATE_INFOPLIST_FILE: YES
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ARCHS: arm64
+    scheme:
+      testTargets:
+        - MemoshiMobileTests

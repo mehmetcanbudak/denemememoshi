@@ -1,0 +1,73 @@
+{
+  "id": "c:1",
+  "jsonrpc": "2.0",
+  "result": {
+    "asOf": {
+      "cseq": 0,
+      "seq": 0
+    },
+    "items": [
+      {
+        "content": [
+          {
+            "text": "Name two oceans.",
+            "type": "text"
+          }
+        ],
+        "conversationId": "cht_00000000000000000000000001",
+        "createdAt": 100,
+        "id": "msg_00000000000000000000000001",
+        "requestId": "00000000000000000000000001",
+        "role": "user",
+        "taskId": "tsk_00000000000000000000000001"
+      },
+      {
+        "content": [
+          {
+            "text": "The Atlantic and the Pacific.",
+            "type": "text"
+          }
+        ],
+        "conversationId": "cht_00000000000000000000000001",
+        "createdAt": 120,
+        "id": "msg_00000000000000000000000002",
+        "resumedAfterInterruption": true,
+        "role": "bot",
+        "stopReason": "stop",
+        "taskId": "tsk_00000000000000000000000001"
+      },
+      {
+        "content": [
+          {
+            "text": "And two seas?",
+            "type": "text"
+          }
+        ],
+        "conversationId": "cht_00000000000000000000000001",
+        "createdAt": 200,
+        "id": "msg_00000000000000000000000003",
+        "requestId": "00000000000000000000000002",
+        "role": "user",
+        "taskId": "tsk_00000000000000000000000002"
+      }
+    ],
+    "live": {
+      "message": {
+        "content": [
+          {
+            "text": "The Red",
+            "type": "text"
+          }
+        ],
+        "conversationId": "cht_00000000000000000000000001",
+        "createdAt": 210,
+        "id": "msg_00000000000000000000000004",
+        "resumedAfterInterruption": true,
+        "role": "bot",
+        "taskId": "tsk_00000000000000000000000002"
+      },
+      "resumedAfterInterruption": true,
+      "taskId": "tsk_00000000000000000000000002"
+    }
+  }
+}

@@ -1,0 +1,4 @@
+# UniFFI 0.32 global configuration; resolves the per-crate uniffi.toml without
+# invoking cargo metadata or depending on the caller's working directory.
+[crate-roots]
+memoshi_mls_native = "."
