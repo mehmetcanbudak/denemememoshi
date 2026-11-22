@@ -122,13 +122,26 @@ public actor DaemonServer {
         } else {
           environments = .none
         }
+        var activeTools = toolDefinitions
+        if !activeTools.isEmpty {
+          activeTools.append(
+            contentsOf: BotHandoffTools.definitions(
+              dataDirectory: configuration.dataDirectory,
+              store: store,
+              deliver: { [weak self] params in
+                guard let self else { throw DaemonError.notRunning }
+                return try await self.deliverBotHandoff(params)
+              }
+            )
+          )
+        }
         let runtime = RuntimeAdapter(
           store: store,
           resolveCredential: { [weak self] params in
             guard let self else { throw DaemonError.notRunning }
             return try await self.requestCredential(params)
           },
-          tools: toolDefinitions, extensions: runtimeExtensions, environments: environments,
+          tools: activeTools, extensions: runtimeExtensions, environments: environments,
           sourceContext: sourceContext,
           publishLive: { [weak self] event in
             guard let self else { throw DaemonError.notRunning }
@@ -330,6 +343,14 @@ public actor DaemonServer {
     isStopped = true
     for waiter in stoppedWaiters { waiter.resume() }
     stoppedWaiters.removeAll()
+  }
+
+  /// Delivers a bot-to-bot handoff prompt into the target bot's conversation via `RuntimeAdapter`.
+  private func deliverBotHandoff(_ params: ChatsSendParams) async throws -> ChatsSendResult {
+    guard let runtime, state != .quiescing, !isStopped else {
+      throw DaemonError.notRunning
+    }
+    return try await runtime.send(params)
   }
 
   /// protocol.md §3.6: a stop closes its clients with 4503, and one a failure caused with 4500.

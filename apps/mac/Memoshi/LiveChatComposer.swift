@@ -1,4 +1,5 @@
 import DesignSystem
+import MemoshiProtocol
 import MemoshiRuntime
 import SwiftUI
 
@@ -13,10 +14,19 @@ struct LiveChatComposer: View {
   var focus: FocusState<LiveWorkspaceFocus?>.Binding
   @State private var isDiscardingRecord = false
   @State private var isDiscardingRefused = false
-  @AppStorage("composer.thinkingLevel") private var thinkingLevel = "High"
-  @AppStorage("composer.speedMode") private var speedMode = "Standard"
 
   private var isComposerFocused: Bool { focus.wrappedValue == .composer }
+
+  private var thinkingPillLabel: String {
+    if isLiveBot && model.isSelectedModelLocal {
+      return String(localized: "Default")
+    }
+    let effective = model.effectiveThinkingEffort
+    if model.composerSpeedMode == .fast && effective != model.composerThinkingEffort {
+      return "Fast · \(effective.composerDisplayName)"
+    }
+    return effective.composerDisplayName
+  }
 
   private var displayedModelName: String {
     guard isLiveBot else { return exampleModelName }
@@ -84,11 +94,21 @@ struct LiveChatComposer: View {
       .disabled(model.isSending || model.hasUnconfirmedSend || model.chat == nil)
       .focused(focus, equals: .composer)
       .onKeyPress(.return, phases: .down) { press in
-        guard isComposerFocused, press.modifiers == .command, model.canSend else {
-          return .ignored
+        guard isComposerFocused else { return .ignored }
+        if press.modifiers == .command {
+          if model.canSend {
+            model.send()
+            return .handled
+          }
+          if model.canQueueWhileWorking {
+            model.send(whenBusy: .followUp)
+            return .handled
+          }
+        } else if press.modifiers == [.command, .shift], model.canQueueWhileWorking {
+          model.send(whenBusy: .steer)
+          return .handled
         }
-        model.send()
-        return .handled
+        return .ignored
       }
       .accessibilityLabel("Message \(activeBotName)")
       .accessibilityHint(
@@ -165,14 +185,14 @@ struct LiveChatComposer: View {
         }
 
         Menu {
-          ForEach(["Low", "Medium", "High", "Extra High"], id: \.self) { level in
+          ForEach(ThinkingEffort.composerChoices, id: \.rawValue) { level in
             Button {
-              thinkingLevel = level
+              model.composerThinkingEffort = level
             } label: {
-              if thinkingLevel == level {
-                Label(level, systemImage: "checkmark")
+              if model.composerThinkingEffort == level {
+                Label(level.composerDisplayName, systemImage: "checkmark")
               } else {
-                Text(level)
+                Text(verbatim: level.composerDisplayName)
               }
             }
           }
@@ -180,10 +200,14 @@ struct LiveChatComposer: View {
           HStack(spacing: 6) {
             Image(systemName: "gauge.with.dots.needle.67percent")
               .font(.system(size: 14, weight: .semibold))
-              .foregroundStyle(WarmShellColors.badgeText)
-            Text(thinkingLevel)
+              .foregroundStyle(
+                model.isSelectedModelLocal
+                  ? WarmShellColors.mutedText : WarmShellColors.badgeText)
+            Text(verbatim: thinkingPillLabel)
               .font(.system(size: 13.5, weight: .medium))
-              .foregroundStyle(WarmShellColors.primaryText)
+              .foregroundStyle(
+                model.isSelectedModelLocal
+                  ? WarmShellColors.mutedText : WarmShellColors.primaryText)
           }
           .padding(.horizontal, 14)
           .frame(height: 34)
@@ -193,39 +217,46 @@ struct LiveChatComposer: View {
         .menuStyle(.button)
         .buttonStyle(.plain)
         .menuIndicator(.hidden)
-        .help("Thinking level")
+        .disabled(
+          model.isWorking || model.hasUnconfirmedSend || (isLiveBot && model.isSelectedModelLocal))
+        .help(
+          model.isSelectedModelLocal
+            ? "Local server models use the server's default reasoning configuration."
+            : "Reasoning effort sent to the selected model."
+        )
         .accessibilityIdentifier("chat.thinkingPicker")
 
         Menu {
-          ForEach(["Standard", "Fast"], id: \.self) { mode in
+          ForEach(ComposerSpeedMode.allCases) { mode in
             Button {
-              speedMode = mode
+              model.composerSpeedMode = mode
             } label: {
-              if speedMode == mode {
-                Label(mode, systemImage: "checkmark")
+              if model.composerSpeedMode == mode {
+                Label(mode.rawValue, systemImage: "checkmark")
               } else {
-                Text(mode)
+                Text(verbatim: mode.rawValue)
               }
             }
           }
         } label: {
           HStack(spacing: 5) {
-            Image(systemName: speedMode == "Fast" ? "bolt.fill" : "bolt")
+            Image(systemName: model.composerSpeedMode == .fast ? "bolt.fill" : "bolt")
               .font(.system(size: 13, weight: .medium))
               .foregroundStyle(
-                speedMode == "Fast" ? WarmShellColors.badgeText : WarmShellColors.primaryText)
-            Text(speedMode)
+                model.composerSpeedMode == .fast
+                  ? WarmShellColors.badgeText : WarmShellColors.primaryText)
+            Text(verbatim: model.composerSpeedMode.rawValue)
               .font(.system(size: 13.5, weight: .medium))
               .foregroundStyle(WarmShellColors.primaryText)
           }
           .padding(.horizontal, 14)
           .frame(height: 34)
           .background(
-            speedMode == "Fast"
+            model.composerSpeedMode == .fast
               ? WarmShellColors.composerPill.opacity(0.85) : WarmShellColors.composerPill,
             in: Capsule())
           .overlay {
-            if speedMode == "Fast" {
+            if model.composerSpeedMode == .fast {
               Capsule().fill(Color.black.opacity(0.06))
             }
           }
@@ -234,12 +265,55 @@ struct LiveChatComposer: View {
         .menuStyle(.button)
         .buttonStyle(.plain)
         .menuIndicator(.hidden)
-        .help("Response speed mode")
+        .disabled(model.isWorking || model.hasUnconfirmedSend)
+        .help(
+          model.composerSpeedMode == .fast
+            ? "Fast mode: caps reasoning effort to Low for quicker replies."
+            : "Standard mode: uses your chosen thinking level."
+        )
         .accessibilityIdentifier("chat.speedPicker")
 
         Spacer(minLength: 6)
 
         if model.isWorking {
+          if model.canQueueWhileWorking {
+            Button {
+              model.send(whenBusy: .followUp)
+            } label: {
+              HStack(spacing: 4) {
+                Image(systemName: "text.badge.plus")
+                  .font(.system(size: 11.5, weight: .semibold))
+                Text("Queue")
+                  .font(.system(size: 12, weight: .semibold))
+              }
+              .foregroundStyle(WarmShellColors.primaryText)
+              .padding(.horizontal, 11)
+              .frame(height: 32)
+              .background(WarmShellColors.composerPill, in: Capsule())
+            }
+            .buttonStyle(.plain)
+            .help("Queue follow-up after this turn finishes (⌘Return)")
+            .accessibilityIdentifier("chat.queueFollowUp")
+
+            Button {
+              model.send(whenBusy: .steer)
+            } label: {
+              HStack(spacing: 4) {
+                Image(systemName: "arrow.triangle.turn.up.right.circle.fill")
+                  .font(.system(size: 12, weight: .semibold))
+                Text("Steer")
+                  .font(.system(size: 12, weight: .semibold))
+              }
+              .foregroundStyle(WarmShellColors.badgeText)
+              .padding(.horizontal, 11)
+              .frame(height: 32)
+              .background(WarmShellColors.badgeFill, in: Capsule())
+            }
+            .buttonStyle(.plain)
+            .help("Stop this turn and redirect with your message (⇧⌘Return)")
+            .accessibilityIdentifier("chat.steerTurn")
+          }
+
           Button {
             model.stopGeneration()
           } label: {
@@ -255,28 +329,26 @@ struct LiveChatComposer: View {
           .accessibilityLabel(model.isStopping ? "Stopping…" : "Stop")
           .accessibilityIdentifier("chat.stop")
         } else {
-          Button {
-            // Voice mode wired in Phase 2 (D111).
-          } label: {
+          Button {} label: {
             Image(systemName: "waveform")
               .font(.system(size: 16, weight: .regular))
-              .foregroundStyle(WarmShellColors.primaryText)
+              .foregroundStyle(WarmShellColors.mutedText.opacity(0.65))
               .frame(width: 32, height: 34)
           }
           .buttonStyle(.plain)
-          .help("Voice Mode")
+          .disabled(true)
+          .help("Voice Mode (available in Phase 2)")
           .accessibilityIdentifier("chat.voiceMode")
 
-          Button {
-            // Dictation wired in Phase 2 (D111).
-          } label: {
+          Button {} label: {
             Image(systemName: "mic")
               .font(.system(size: 16, weight: .regular))
-              .foregroundStyle(WarmShellColors.primaryText)
+              .foregroundStyle(WarmShellColors.mutedText.opacity(0.65))
               .frame(width: 32, height: 34)
           }
           .buttonStyle(.plain)
-          .help("Dictation")
+          .disabled(true)
+          .help("On-device Dictation (available in Phase 2)")
           .accessibilityIdentifier("chat.dictation")
 
           if model.canSend {

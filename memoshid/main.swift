@@ -111,17 +111,22 @@ func report(_ text: String) {
   FileHandle.standardError.write(Data(("memoshid: " + text + "\n").utf8))
 }
 
-/// The development tools of this launch: none, except `DevelopmentApprovalProbe` in a Debug build
-/// started with its flag. Its notes file sits beside the data directory, as on the iPhone.
-func developmentTools(directory: URL, approvalTool: Bool) -> [RuntimeToolDefinition] {
+/// Host tools of this launch: Phase 1 personal, productivity, search, and connector tools
+/// (Apple Calendar/Reminders/Contacts, Notes, draft-safe Mail, web_search/x_search, and
+/// connector catalog — D112, D116, D118, AP-14), plus `DevelopmentApprovalProbe` in Debug builds
+/// started with its flag.
+func composedTools(directory: URL, textChat: Bool, approvalTool: Bool) -> [RuntimeToolDefinition] {
+  guard textChat else { return [] }
+  var tools = PersonalHostTools.all(dataDirectory: directory)
+  tools.append(contentsOf: SearchAndConnectorTools.all(dataDirectory: directory))
   #if DEBUG
-    guard approvalTool else { return [] }
-    let notes = directory.deletingLastPathComponent()
-      .appendingPathComponent("development-notes.txt")
-    return [DevelopmentApprovalProbe.definition(notes: notes)]
-  #else
-    return []
+    if approvalTool {
+      let notes = directory.deletingLastPathComponent()
+        .appendingPathComponent("development-notes.txt")
+      tools.append(DevelopmentApprovalProbe.definition(notes: notes))
+    }
   #endif
+  return tools
 }
 
 func runDaemon(
@@ -184,13 +189,11 @@ func runDaemon(
       if !textChat {
         report("ready: authenticated local service; engine unavailable")
       } else if tools.isEmpty {
-        report(
-          "ready: authenticated text chat with app Keychain broker; tools and Apple connectors disabled"
-        )
+        report("ready: authenticated text chat with app Keychain broker; no host tools enabled")
       } else {
         report(
-          "ready: authenticated text chat with app Keychain broker; \(tools.count) development "
-            + "tool(s); Apple connectors disabled")
+          "ready: authenticated text chat with app Keychain broker; \(tools.count) host tool(s) active"
+        )
       }
       try await server.waitUntilStopped()
       return EX_OK
@@ -229,7 +232,7 @@ case .sandboxEnvDaemon:
   }
   dispatchMain()
 case .serve(let directory, let foreground, let textChat, let approvalTool):
-  let tools = developmentTools(directory: directory, approvalTool: approvalTool)
+  let tools = composedTools(directory: directory, textChat: textChat, approvalTool: approvalTool)
   Task {
     let code = await runDaemon(
       directory: directory, foreground: foreground, textChat: textChat, tools: tools)

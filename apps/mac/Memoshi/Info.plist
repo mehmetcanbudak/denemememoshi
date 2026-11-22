@@ -30,6 +30,12 @@
 	<string>Read and update your Apple Reminders in Memoshi when you choose to connect them.</string>
 	<key>NSRemindersUsageDescription</key>
 	<string>Read and update your Apple Reminders in Memoshi when you choose to connect them.</string>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>Read your Apple Calendar events in Memoshi when you choose to connect them.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Read your Apple Calendar events in Memoshi when you choose to connect them.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Read your Apple Contacts in Memoshi when you choose to connect them.</string>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>Find and connect to the Memoshi device you explicitly choose to pair.</string>
 	<key>NSBonjourServices</key>

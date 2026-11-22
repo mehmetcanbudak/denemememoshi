@@ -26,6 +26,12 @@ public enum ToolPolicyOperation: String, Codable, Hashable, Sendable {
   case money = "spend.pay"
   case appleRead = "apple.read"
   case appleWrite = "apple.write"
+  case mailRead = "mail.read"
+  case mailStage = "mail.stage"
+  case mailOrganize = "mail.organize"
+  case mailSend = "mail.send"
+  case mailDestroy = "mail.destroy"
+  case searchWeb = "search.web"
   case unknown
 
   /// The ungranted base class; exact current host grants refine network classification.
@@ -34,15 +40,21 @@ public enum ToolPolicyOperation: String, Codable, Hashable, Sendable {
     case .selfState, .selfPropose, .modelCall, .codeRun, .fileRead, .gitRead: 0
     case .fileWrite, .gitLocal: 1
     case .shellExecute, .pythonRun: 2
-    case .networkFetch, .connectorRead, .connectorStage, .secretUse, .appleRead, .unknown: 3
-    case .networkSend, .connectorWrite, .connectorSend, .appleWrite: 4
-    case .connectorDestroy, .connectorMoney, .connectorPermission, .secretReveal, .money: 5
+    case .networkFetch, .connectorRead, .connectorStage, .secretUse, .appleRead,
+      .mailRead, .mailStage, .mailOrganize, .searchWeb, .unknown:
+      3
+    case .networkSend, .connectorWrite, .connectorSend, .appleWrite, .mailSend: 4
+    case .connectorDestroy, .connectorMoney, .connectorPermission, .secretReveal, .money,
+      .mailDestroy:
+      5
     }
   }
 
   var keepsCard: Bool {
     switch self {
-    case .connectorMoney, .connectorPermission, .secretUse, .secretReveal, .money, .unknown: true
+    case .connectorMoney, .connectorPermission, .secretUse, .secretReveal, .money,
+      .mailDestroy, .unknown:
+      true
     default: false
     }
   }

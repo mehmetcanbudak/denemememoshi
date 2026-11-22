@@ -5,6 +5,7 @@ import SwiftUI
 struct BotProfileEditor: View {
   let directory: LiveConversationDirectory
   let models: [AvailableModel]
+  let appearances: BotAppearanceStore?
   @Environment(\.dismiss) private var dismiss
   @State private var editingBot: Bot?
   @State private var name: String
@@ -12,17 +13,26 @@ struct BotProfileEditor: View {
   @State private var persona: String
   @State private var model: String
   @State private var effort: String
+  @State private var avatarSymbol: String
+  @State private var avatarPaletteID: String
   @State private var reloadProblem: String?
 
-  init(directory: LiveConversationDirectory, models: [AvailableModel], bot: Bot?) {
+  init(
+    directory: LiveConversationDirectory, models: [AvailableModel], bot: Bot?,
+    appearances: BotAppearanceStore? = nil
+  ) {
     self.directory = directory
     self.models = models
+    self.appearances = appearances
     _editingBot = State(initialValue: bot)
     _name = State(initialValue: bot?.name ?? "")
     _job = State(initialValue: bot?.job ?? "")
     _persona = State(initialValue: bot?.persona ?? "")
     _model = State(initialValue: bot?.model.ref.rawValue ?? "default")
     _effort = State(initialValue: bot?.model.effort?.rawValue ?? "")
+    let saved = bot.flatMap { appearances?.savedAppearance(for: $0.id) }
+    _avatarSymbol = State(initialValue: saved?.symbol ?? "sparkles")
+    _avatarPaletteID = State(initialValue: saved?.paletteID ?? BotColorPalette.all[0].id)
   }
 
   var body: some View {
@@ -58,6 +68,65 @@ struct BotProfileEditor: View {
             "Effort applies only to models that advertise reasoning support. Local discovery uses the server's model default."
           )
           .font(DS.Typography.callout).foregroundStyle(DS.Colors.Text.secondary)
+          if appearances != nil {
+            Section("Appearance") {
+              HStack(spacing: 14) {
+                ShellBotAvatar(
+                  symbol: avatarSymbol,
+                  gradient: (BotColorPalette.named(avatarPaletteID) ?? BotColorPalette.all[0])
+                    .gradient,
+                  size: 46)
+                VStack(alignment: .leading, spacing: 8) {
+                  HStack(spacing: 7) {
+                    ForEach(BotColorPalette.all) { palette in
+                      Button {
+                        avatarPaletteID = palette.id
+                      } label: {
+                        Circle()
+                          .fill(
+                            LinearGradient(
+                              colors: palette.gradient, startPoint: .topLeading,
+                              endPoint: .bottomTrailing)
+                          )
+                          .frame(width: 20, height: 20)
+                          .overlay {
+                            if avatarPaletteID == palette.id {
+                              Circle().stroke(WarmShellColors.primaryText, lineWidth: 2)
+                                .padding(-2)
+                            }
+                          }
+                      }
+                      .buttonStyle(.plain)
+                      .help(palette.name)
+                    }
+                  }
+                  LazyVGrid(
+                    columns: Array(repeating: GridItem(.fixed(28), spacing: 6), count: 7),
+                    spacing: 6
+                  ) {
+                    ForEach(BotAppearanceStore.symbolOptions, id: \.self) { symbol in
+                      Button {
+                        avatarSymbol = symbol
+                      } label: {
+                        Image(systemName: symbol)
+                          .font(.system(size: 13, weight: .medium))
+                          .foregroundStyle(
+                            avatarSymbol == symbol
+                              ? WarmShellColors.badgeText : WarmShellColors.primaryText
+                          )
+                          .frame(width: 28, height: 28)
+                          .background(
+                            avatarSymbol == symbol ? WarmShellColors.badgeFill : WarmShellColors.pill,
+                            in: RoundedRectangle(cornerRadius: 7))
+                      }
+                      .buttonStyle(.plain)
+                    }
+                  }
+                }
+              }
+              .padding(.vertical, 4)
+            }
+          }
         } else {
           Text(
             "Creates one Chat in Ask first. Configure its profile after creation. Production tools stay disabled."
@@ -98,6 +167,8 @@ struct BotProfileEditor: View {
   private func save() {
     guard let reference = try? ModelName(model) else { return }
     if let bot = editingBot {
+      appearances?.setAppearance(
+        BotAppearance(symbol: avatarSymbol, paletteID: avatarPaletteID), for: bot.id)
       directory.updateBot(
         bot, name: name, job: job, persona: persona,
         model: ModelRef(

@@ -169,6 +169,9 @@ final class DaemonSupervisor {
           : "Library/Application Support/Memoshi", isDirectory: true)
   }
 
+  /// Active Memoshi data root shared with `memoshid`'s personal host tools (Notes, Mail drafts).
+  var activeDataDirectory: URL { dataDirectory }
+
   private var helperExecutable: URL {
     Bundle.main.bundleURL.appendingPathComponent(
       "Contents/Helpers/memoshid.app/Contents/MacOS/memoshid")

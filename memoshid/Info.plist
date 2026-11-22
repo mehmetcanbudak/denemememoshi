@@ -22,5 +22,15 @@
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>LSUIElement</key>
 	<true/>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>Memoshi shows your calendar in its Calendar pane. Bots you allow can read your events and add or change them.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Memoshi shows your calendar in its Calendar pane. Bots you allow can read your events and add or change them.</string>
+	<key>NSRemindersFullAccessUsageDescription</key>
+	<string>Memoshi shows your reminders with its tasks. Bots you allow can read your reminders and add or change them.</string>
+	<key>NSRemindersUsageDescription</key>
+	<string>Memoshi shows your reminders with its tasks. Bots you allow can read your reminders and add or change them.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Memoshi shows your contacts in its Contacts pane. Bots you allow can look people up.</string>
 </dict>
 </plist>

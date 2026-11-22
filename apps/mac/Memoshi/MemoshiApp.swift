@@ -1,25 +1,37 @@
 import AppCore
+import AppKit
 import ConversationFeature
 import DesignSystem
 import ShellFeature
 import SwiftUI
 
-/// Real development chat/review in the unified native shell (D144).
+/// Unified native Mac workspace (D144) backed by the production SMAppService LaunchAgent supervisor (D143).
 @main
 struct MemoshiApp: App {
   @NSApplicationDelegateAdaptor(MemoshiAppDelegate.self) private var appDelegate
-  @State private var daemon = DaemonSupervisor(developmentChat: true)
+  @State private var daemon = MemoshiApp.makeDefaultDaemonSupervisor()
   @State private var isSidebarPresented = true
   @State private var chat = LiveChatModel()
+
+  static func makeDefaultDaemonSupervisor() -> DaemonSupervisor {
+    #if DEBUG
+      let isolated = CommandLine.arguments.contains("--isolated-development-chat")
+      return DaemonSupervisor(developmentChat: isolated)
+    #else
+      return DaemonSupervisor(developmentChat: false)
+    #endif
+  }
   @State private var browserLab = BrowserReviewLab()
   @State private var isHUDVisible = false
   @State private var navigation = LiveWorkspaceNavigation()
+  @State private var appearances = BotAppearanceStore()
+  @State private var quickEntryHotKey = QuickEntryHotKeyManager()
 
   var body: some Scene {
     Window("Memoshi", id: "main") {
       LiveWorkspaceView(
         model: chat, supervisor: daemon, isSidebarPresented: $isSidebarPresented,
-        navigation: navigation)
+        navigation: navigation, appearances: appearances, hotKeyManager: quickEntryHotKey)
       .task {
         appDelegate.supervisor = daemon
         appDelegate.chat = chat
@@ -57,12 +69,18 @@ struct MemoshiApp: App {
         // The same confirmation as the row's context menu and the Delete key.
         Button("Move Session to Trash…") { navigation.requestTrash() }
           .disabled(
-            navigation.showsWaiting || chat.chat?.kind != .session
+            navigation.destination != .conversation || chat.chat?.kind != .session
               || chat.directory.isChanging || chat.directory.hasPendingChange)
       }
 
       CommandMenu("Bots") {
+        Button("Command Palette…") { navigation.toggleCommandPalette() }
+          .keyboardShortcut("k", modifiers: .command)
+        Divider()
+        Button("Today") { navigation.showToday() }
         Button("Waiting for You") { navigation.showWaiting() }
+        Button("My Apps") { navigation.showMyApps() }
+        Button("Bookmarks") { navigation.showBookmarks() }
         // ⌘J moves to the next card that needs you, then Return/Esc on it (02 §13.1).
         Button("Next Card Needing You") { navigation.focusNextCard() }
           .keyboardShortcut("j", modifiers: .command)
@@ -70,11 +88,12 @@ struct MemoshiApp: App {
         Divider()
         ForEach(chat.directory.conversations, id: \.id) { conversation in
           Button(conversation.title) {
-            navigation.showsWaiting = false
+            navigation.showConversation()
             Task { await chat.selectConversation(conversation.id) }
           }
         }
       }
+      WorkspaceQuickCommands()
       DevelopmentReviewCommands(daemon: daemon, isHUDVisible: $isHUDVisible)
     }
 
@@ -149,11 +168,48 @@ struct MemoshiApp: App {
     .defaultLaunchBehavior(.suppressed)
     .restorationBehavior(.disabled)
 
+    Window("Quick Entry", id: "quick-entry") {
+      QuickEntryWindowView(
+        model: chat,
+        supervisor: daemon,
+        navigation: navigation,
+        appearances: appearances,
+        hotKeyManager: quickEntryHotKey
+      )
+      .previewAppearance()
+    }
+    .windowStyle(.hiddenTitleBar)
+    .windowLevel(.floating)
+    .windowResizability(.contentSize)
+    .defaultPosition(.center)
+    .defaultLaunchBehavior(.suppressed)
+    .restorationBehavior(.disabled)
+
     MenuBarExtra("Memoshi", systemImage: "bubble.left.and.bubble.right") {
-      MemoshiMenuBarView()
+      MemoshiMenuBarView(
+        chat: chat,
+        supervisor: daemon,
+        navigation: navigation,
+        hotKeyManager: quickEntryHotKey
+      )
     }
   }
 
   /// F6 as a menu key equivalent: AppKit's function-key code point (NSF6FunctionKey, U+F709).
   private static let functionKey6 = KeyEquivalent("\u{F709}")
+}
+
+/// App-level Quick Entry menu command wired to SwiftUI's `openWindow` environment.
+private struct WorkspaceQuickCommands: Commands {
+  @Environment(\.openWindow) private var openWindow
+
+  var body: some Commands {
+    CommandGroup(after: .newItem) {
+      Button("Quick Entry…") {
+        openWindow(id: "quick-entry")
+        NSApplication.shared.activate(ignoringOtherApps: true)
+      }
+      .keyboardShortcut(.space, modifiers: [.option, .command])
+    }
+  }
 }

@@ -114,6 +114,8 @@ struct DaemonSupervisorTests {
   func defaultSupervisorUsesProductionMode() {
     let supervisor = DaemonSupervisor()
     #expect(supervisor.isDevelopmentChat == false)
+    let appSupervisor = MemoshiApp.makeDefaultDaemonSupervisor()
+    #expect(appSupervisor.isDevelopmentChat == false)
   }
 
   private func info(pid: Int, startedAt: Int64) -> DaemonInfo {

@@ -39,6 +39,8 @@ public struct ModelProviderDefinition: Sendable, Identifiable {
     case loopback
     /// The provider's fixed HTTPS API; PiAI's catalog lists its models once a key is released.
     case fixed(String)
+    /// An unmodified local CLI binary owned and authenticated by the user on this Mac (`D108`).
+    case localCLI(String)
   }
 
   /// Provider identity and the prefix of every model reference.
@@ -60,13 +62,19 @@ public struct ModelProviderDefinition: Sendable, Identifiable {
   let makeProvider:
     @Sendable (ModelProviderConfiguration, @escaping PiAI.FetchFunction) throws -> PiAI.Provider
 
-  /// The fixed HTTPS base URL, or nil for the user's loopback server.
+  /// The fixed HTTPS base URL, or nil for loopback or local CLI providers.
   public var fixedBaseURL: String? {
     if case .fixed(let url) = endpoint { url } else { nil }
   }
 
-  /// A fixed cloud API always needs an app-Keychain reference; a loopback server may be keyless.
+  /// A fixed cloud API always needs an app-Keychain reference; loopback and local CLI providers do not.
   public var requiresCredential: Bool { fixedBaseURL != nil }
+
+  /// Whether this provider accepts a Memoshi-stored API key in Model Settings.
+  /// Local CLI providers (such as Claude Code, D108) authenticate exclusively through their own binary.
+  public var acceptsAPIKey: Bool {
+    if case .localCLI = endpoint { false } else { true }
+  }
 
   /// The disclosure for one configured credential reference.
   public func usage(secretRef: String?) -> ModelUsageDisclosure {
@@ -81,7 +89,9 @@ public struct ModelProviderDefinition: Sendable, Identifiable {
   }
 
   /// Every provider this build can configure, in presentation order: cloud APIs, then this Mac.
-  public static let all: [ModelProviderDefinition] = [openAI, anthropic, openRouter, local]
+  public static let all: [ModelProviderDefinition] = [
+    openAI, anthropic, openRouter, claudeCode, local,
+  ]
 
   /// Ollama, LM Studio or another OpenAI-compatible server on this Mac, optionally keyed.
   public static let local = ModelProviderDefinition(
@@ -91,6 +101,22 @@ public struct ModelProviderDefinition: Sendable, Identifiable {
     try PiAI.openAICompatibleProvider(
       baseUrl: configuration.baseUrl, id: PiCore.JSONString(configuration.id),
       name: PiCore.JSONString(configuration.name), fetch: fetch)
+  }
+
+  /// Unmodified Claude Code CLI installed and authenticated by the user on this Mac (`D108`).
+  /// Memoshi never starts an Anthropic sign-in or touches Claude credentials; usage reports as
+  /// `.subscription` (price unknown, never free).
+  public static let claudeCode = ModelProviderDefinition(
+    id: "claude-code", name: "Claude Code",
+    endpoint: .localCLI(ClaudeCodeLocator.defaultEndpoint),
+    credentialHeader: .bearer,
+    acceptsChatGPT: false, keyUsage: .subscription, api: "openai-completions"
+  ) { configuration, _ in
+    try PiAI.openAICompatibleProvider(
+      baseUrl: "http://127.0.0.1/claude-code/v1",
+      id: PiCore.JSONString(configuration.id),
+      name: PiCore.JSONString(configuration.name),
+      fetch: ClaudeCodeTransport.makeFetch(endpoint: configuration.baseUrl))
   }
 
   /// OpenAI's Responses API, with an API key or Sign in with ChatGPT.

@@ -79,47 +79,74 @@ struct QueuedChatInputsView: View {
   let model: LiveChatModel
 
   var body: some View {
-    VStack(alignment: .leading, spacing: DS.Space.s4) {
-      Label("Queued messages", systemImage: "tray.full")
-        .font(.headline)
+    VStack(alignment: .leading, spacing: DS.Space.s3) {
+      HStack(spacing: 6) {
+        Image(systemName: "tray.full")
+          .font(.system(size: 12, weight: .semibold))
+          .foregroundStyle(WarmShellColors.badgeText)
+        Text(
+          model.queued.count == 1
+            ? "Queued follow-up"
+            : "Queued follow-ups (\(model.queued.count))"
+        )
+        .font(.system(size: 13, weight: .semibold))
+        .foregroundStyle(WarmShellColors.primaryText)
+      }
       Text(
-        "Saved on this Mac, not added to the model's conversation. They wait for recovery to settle."
+        model.recovery != nil
+          ? "Saved on this Mac, not added to the model's conversation. They wait for recovery to settle."
+          : "Queued to run automatically in order once the current turn finishes."
       )
-      .font(DS.Typography.callout)
-      .foregroundStyle(DS.Colors.Text.secondary)
+      .font(.system(size: 12))
+      .foregroundStyle(WarmShellColors.mutedText)
       ForEach(model.queued, id: \.requestId) { input in
-        VStack(alignment: .leading, spacing: DS.Space.s3) {
+        VStack(alignment: .leading, spacing: DS.Space.s2) {
           Text(
             verbatim: input.content.reduce(into: "") { result, part in
               if case .text(let text) = part { result.append(text.text) }
             }
           )
-          .font(.body)
+          .font(.system(size: 13))
+          .foregroundStyle(WarmShellColors.primaryText)
           .textSelection(.enabled)
           HStack {
             Text(verbatim: input.model.ref.rawValue)
-              .font(DS.Typography.callout.monospaced())
-              .foregroundStyle(DS.Colors.Text.secondary)
+              .font(.system(size: 11, design: .monospaced))
+              .foregroundStyle(WarmShellColors.mutedText)
             Spacer(minLength: DS.Space.s3)
             Button(
               model.cancelingQueued.contains(input.requestId) ? "Canceling…" : "Cancel Message"
             ) {
               model.cancelQueued(input)
             }
+            .buttonStyle(.plain)
+            .font(.system(size: 11.5, weight: .medium))
+            .foregroundStyle(WarmShellColors.badgeText)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 4)
+            .background(WarmShellColors.badgeFill, in: Capsule())
             .disabled(
               model.connection != .connected || model.cancelingQueued.contains(input.requestId)
             )
             .accessibilityIdentifier("chat.cancelQueued.\(input.requestId.rawValue)")
           }
         }
-        .padding(DS.Space.s4)
-        .background(DS.Colors.Surface.content, in: RoundedRectangle(cornerRadius: DS.Radius.bubble))
+        .padding(12)
+        .background(WarmShellColors.canvas, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .overlay(
+          RoundedRectangle(cornerRadius: 12, style: .continuous)
+            .stroke(WarmShellColors.cardBorder, lineWidth: 1)
+        )
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier("chat.queued.\(input.requestId.rawValue)")
       }
     }
-    .padding(DS.Space.s5)
-    .background(DS.Colors.Surface.raised, in: RoundedRectangle(cornerRadius: DS.Radius.bubble))
+    .padding(14)
+    .background(WarmShellColors.card, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+    .overlay(
+      RoundedRectangle(cornerRadius: 16, style: .continuous)
+        .stroke(WarmShellColors.cardBorder, lineWidth: 1)
+    )
     .accessibilityIdentifier("chat.queuedMessages")
   }
 }

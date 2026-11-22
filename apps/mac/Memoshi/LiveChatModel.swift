@@ -6,6 +6,48 @@ import MemoshiRuntime
 import MemoshiTransport
 import Observation
 
+/// Composer response speed mode: Fast caps reasoning effort to `.low` for quicker replies.
+enum ComposerSpeedMode: String, CaseIterable, Identifiable, Sendable {
+  case standard = "Standard"
+  case fast = "Fast"
+
+  var id: String { rawValue }
+}
+
+extension ThinkingEffort {
+  static let composerChoices: [ThinkingEffort] = [
+    .off, .minimal, .low, .medium, .high, .xhigh, .max,
+  ]
+
+  var composerDisplayName: String {
+    switch self {
+    case .off: "Off"
+    case .minimal: "Minimal"
+    case .low: "Low"
+    case .medium: "Medium"
+    case .high: "High"
+    case .xhigh: "Extra High"
+    case .max: "Max"
+    case .unknown(let raw): raw
+    }
+  }
+
+  /// Parses persisted wire values (`"high"`, `"xhigh"`) and legacy display labels (`"Extra High"`).
+  static func parseComposerPreference(_ raw: String?) -> ThinkingEffort {
+    guard let raw else { return .high }
+    switch raw.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
+    case "off": return .off
+    case "minimal": return .minimal
+    case "low": return .low
+    case "medium": return .medium
+    case "high": return .high
+    case "xhigh", "extra high": return .xhigh
+    case "max": return .max
+    default: return .high
+    }
+  }
+}
+
 /// App-owned drafts plus in-memory projections of actual daemon snapshots/events.
 /// Finished transcript text is never persisted in UI preferences.
 @MainActor
@@ -91,6 +133,16 @@ final class LiveChatModel {
       if let chat { defaults.set(draft, forKey: "text-chat.draft." + chat.id.rawValue) }
     }
   }
+  var composerThinkingEffort: ThinkingEffort = .high {
+    didSet {
+      defaults.set(composerThinkingEffort.rawValue, forKey: "composer.thinkingLevel")
+    }
+  }
+  var composerSpeedMode: ComposerSpeedMode = .standard {
+    didSet {
+      defaults.set(composerSpeedMode.rawValue, forKey: "composer.speedMode")
+    }
+  }
 
   @ObservationIgnored private let defaults: UserDefaults
   @ObservationIgnored private let savedSend: SavedSend
@@ -139,6 +191,11 @@ final class LiveChatModel {
     self.directory = LiveConversationDirectory(defaults: defaults)
     self.taskInspector = LiveTaskInspector(defaults: defaults)
     self.draft = defaults.string(forKey: "text-chat.draft") ?? ""
+    self.composerThinkingEffort = ThinkingEffort.parseComposerPreference(
+      defaults.string(forKey: "composer.thinkingLevel"))
+    self.composerSpeedMode =
+      defaults.string(forKey: "composer.speedMode").flatMap(ComposerSpeedMode.init(rawValue:))
+      ?? .standard
     self.savedSend = SavedSend(defaults: defaults)
     switch savedSend.load() {
     case .readable(let request, let refusal):
@@ -166,6 +223,15 @@ final class LiveChatModel {
       && !draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
       && !isWorking && !isSending && !providerSetup.isConfiguring
       && !providerSetup.hasUnconfirmedConfiguration && !hasUnreadableSend && !hasUnconfirmedSend
+  }
+
+  /// Whether the composer can queue a follow-up or steer the active turn while the bot is working (CH-07).
+  var canQueueWhileWorking: Bool {
+    connection == .connected && chat != nil && selectedSendModel != nil && !isLoading
+      && !draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+      && isWorking && recovery == nil && !isSending && !isStopping
+      && !providerSetup.isConfiguring && !providerSetup.hasUnconfirmedConfiguration
+      && !hasUnreadableSend && !hasUnconfirmedSend
   }
 
   var canRetrySend: Bool {
@@ -221,14 +287,48 @@ final class LiveChatModel {
     }
   }
 
+  /// The reasoning effort sent to `memoshid` for non-local models (`MOD-04`).
+  /// Fast mode caps reasoning effort to `.low` while preserving `.off` and `.minimal`.
+  var effectiveThinkingEffort: ThinkingEffort {
+    let base = botModel?.effort ?? composerThinkingEffort
+    switch composerSpeedMode {
+    case .standard:
+      return base
+    case .fast:
+      switch base {
+      case .off, .minimal, .low:
+        return base
+      default:
+        return .low
+      }
+    }
+  }
+
+  /// Whether the active target model is a local server model (effort is left to the server default).
+  var isSelectedModelLocal: Bool {
+    let ref = botModel?.ref.rawValue ?? providerSetup.selectedModel
+    return ref.hasPrefix("local/")
+  }
+
+  /// Exposed internally for unit tests verifying effort and speed mode resolution.
+  var resolvedSendModel: ModelRef? { selectedSendModel }
+
   private var selectedSendModel: ModelRef? {
+    func withComposerEffort(_ base: ModelRef) -> ModelRef {
+      if base.ref.rawValue.hasPrefix("local/") {
+        return ModelRef(ref: base.ref, effort: nil)
+      }
+      return ModelRef(ref: base.ref, effort: effectiveThinkingEffort)
+    }
+
     if let botModel {
-      return providerSetup.models.contains(where: { $0.ref.ref == botModel.ref }) ? botModel : nil
+      return providerSetup.models.contains(where: { $0.ref.ref == botModel.ref })
+        ? withComposerEffort(botModel) : nil
     }
     if let selected = providerSetup.models.first(where: {
       $0.ref.ref.rawValue == providerSetup.selectedModel
     }) {
-      return selected.ref
+      return withComposerEffort(selected.ref)
     }
     // Queuing cannot dispatch or discover a model. Preserve an earlier explicit selection
     // even when the held, inspection-only runtime has not loaded its catalog.
@@ -237,7 +337,7 @@ final class LiveChatModel {
     guard parts.count == 2,
       providerSetup.providers.contains(where: { $0.id == parts[0] })
     else { return nil }
-    return ModelRef(ref: ref)
+    return withComposerEffort(ModelRef(ref: ref))
   }
 
   /// Attach one event consumer to the authenticated app-lifetime client, not one per chat pane.
@@ -401,15 +501,64 @@ final class LiveChatModel {
     taskListGeneration += 1
   }
 
-  func send() {
-    guard canSend, let chat, let model = selectedSendModel else { return }
+  func send(whenBusy: WhenBusy = .reject) {
+    let allowed = whenBusy == .reject ? canSend : (canSend || canQueueWhileWorking)
+    guard allowed, let chat, let model = selectedSendModel else { return }
     do {
       let params = ChatsSendParams(
         requestId: try MemoshiClient.requestID(), chatId: chat.id,
-        content: [.text(TextPart(text: draft))], whenBusy: .reject, model: model, surface: .ui)
+        content: [.text(TextPart(text: draft))], whenBusy: whenBusy, model: model, surface: .ui)
       try persistPending(params)
       performSend(params)
     } catch { problem = Self.message(error) }
+  }
+
+  /// Re-sends an earlier prompt cleanly without overwriting an unrelated composer draft.
+  func retryPrompt(_ prompt: String) {
+    let trimmed = prompt.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !trimmed.isEmpty, connection == .connected, let chat, let model = selectedSendModel,
+      !isLoading, !isWorking, !isSending, !providerSetup.isConfiguring,
+      !providerSetup.hasUnconfirmedConfiguration, !hasUnreadableSend, !hasUnconfirmedSend
+    else { return }
+    do {
+      let params = ChatsSendParams(
+        requestId: try MemoshiClient.requestID(), chatId: chat.id,
+        content: [.text(TextPart(text: trimmed))], whenBusy: .reject, model: model, surface: .ui)
+      try persistPending(params)
+      performSend(params)
+    } catch { problem = Self.message(error) }
+  }
+
+  /// Sends a prompt from Quick Entry or Command Palette, optionally switching conversations first,
+  /// without clobbering any unrelated composer draft. Defaults to `.followUp` so prompts sent
+  /// while a bot is busy queue cleanly instead of failing.
+  @discardableResult
+  func sendQuickPrompt(
+    _ prompt: String, to conversationID: ConversationID? = nil, whenBusy: WhenBusy = .followUp
+  ) async -> Bool {
+    let trimmed = prompt.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !trimmed.isEmpty, connection == .connected else { return false }
+    if let target = conversationID, target != chat?.id {
+      await selectConversation(target)
+      guard chat?.id == target else { return false }
+    }
+    let busyAllowed = whenBusy == .followUp || whenBusy == .steer
+    guard let chat, let model = selectedSendModel,
+      !isLoading, (!isWorking || (busyAllowed && recovery == nil)), !isSending,
+      !providerSetup.isConfiguring, !providerSetup.hasUnconfirmedConfiguration,
+      !hasUnreadableSend, !hasUnconfirmedSend
+    else { return false }
+    do {
+      let params = ChatsSendParams(
+        requestId: try MemoshiClient.requestID(), chatId: chat.id,
+        content: [.text(TextPart(text: trimmed))], whenBusy: whenBusy, model: model, surface: .ui)
+      try persistPending(params)
+      performSend(params)
+      return true
+    } catch {
+      problem = Self.message(error)
+      return false
+    }
   }
 
   func retrySend() {
@@ -595,6 +744,12 @@ final class LiveChatModel {
       snapshot.task.conversationId == chat?.id, snapshot.task.kind == .turn,
       taskAsOf.admits(snapshot.asOf.seq)
     else { return false }
+    // A newly queued follow-up turn must not clobber the actively running root turn.
+    if snapshot.task.status == .queued, let current = task, current.id != snapshot.task.id,
+      [.queued, .running, .waiting].contains(current.status)
+    {
+      return false
+    }
     task = snapshot.task
     taskAsOf.advance(to: snapshot.asOf.seq)
     return true

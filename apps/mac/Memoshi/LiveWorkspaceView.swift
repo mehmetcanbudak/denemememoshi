@@ -1,7 +1,6 @@
 import AppKit
 import AppCore
 import DesignSystem
-import EventKit
 import MemoshiProtocol
 import SwiftUI
 
@@ -10,19 +9,53 @@ import SwiftUI
 @MainActor
 @Observable
 final class LiveWorkspaceNavigation {
+  enum ContentDestination: Hashable {
+    case conversation
+    case today
+    case waiting
+    case bookmarks
+    case myApps
+  }
+
+  var destination: ContentDestination = .conversation
+  var selectedAppTab: BuiltInAppTab = .calendar
+  var isCommandPalettePresented = false
+
   /// Whether the content pane shows Waiting for You instead of the selected conversation.
-  var showsWaiting = false
+  var showsWaiting: Bool {
+    get { destination == .waiting }
+    set { destination = newValue ? .waiting : .conversation }
+  }
+
   private(set) var nextCardRequest = 0
   private(set) var paneRequest = 0
   private(set) var paneRequestIsForward = true
   private(set) var trashRequest = 0
 
+  /// Shows the active conversation pane.
+  func showConversation() { destination = .conversation }
+
+  /// Shows the live Today workspace pane.
+  func showToday() { destination = .today }
+
   /// Shows Waiting for You without moving keyboard focus.
-  func showWaiting() { showsWaiting = true }
+  func showWaiting() { destination = .waiting }
+
+  /// Shows the saved Bookmarks pane.
+  func showBookmarks() { destination = .bookmarks }
+
+  /// Shows the My Apps hub, optionally selecting a specific built-in app tab.
+  func showMyApps(_ tab: BuiltInAppTab? = nil) {
+    if let tab { selectedAppTab = tab }
+    destination = .myApps
+  }
+
+  /// Toggles the ⌘K Command Palette overlay.
+  func toggleCommandPalette() { isCommandPalettePresented.toggle() }
 
   /// ⌘J: shows Waiting for You and focuses the next pending card, wrapping to the first.
   func focusNextCard() {
-    showsWaiting = true
+    destination = .waiting
     nextCardRequest += 1
   }
 
@@ -261,6 +294,8 @@ struct LiveWorkspaceView: View {
   let supervisor: DaemonSupervisor
   @Binding var isSidebarPresented: Bool
   @Bindable var navigation: LiveWorkspaceNavigation
+  let appearances: BotAppearanceStore
+  let hotKeyManager: QuickEntryHotKeyManager
   @State private var sheet: ConversationSheet?
   @State private var lastSheetTrigger: ConversationSheetTrigger?
   @State private var announcedCards: Set<CardID>?
@@ -271,9 +306,17 @@ struct LiveWorkspaceView: View {
   @State private var selectedMockBot: ShellExampleBot? = nil // nil = live Assistant / real Bot / Session
   @State private var rightSidebarMode: RightSidebarMode? = .activity
   @State private var splitBot: ShellExampleBot = ShellExampleBot.pinned[4] // Builder
+  @State private var bookmarks = WorkspaceBookmarksStore()
+  @State private var remindersStore = LiveRemindersStore()
+  @State private var calendarStore = LiveCalendarStore()
+  @State private var contactsStore = LiveContactsStore()
+  @State private var notesStore = NotesDocumentStore()
+  @State private var mailStore = MailWorkspaceStore()
+  @State private var connectorStore = ConnectorWorkspaceStore()
   @FocusState private var focus: LiveWorkspaceFocus?
   @AccessibilityFocusState private var sheetTrigger: ConversationSheetTrigger?
   @Environment(\.designAnnouncer) private var announcer
+  @Environment(\.openWindow) private var openWindow
 
   var body: some View {
     HStack(spacing: 0) {
@@ -282,6 +325,8 @@ struct LiveWorkspaceView: View {
           model: model,
           supervisor: supervisor,
           navigation: navigation,
+          bookmarks: bookmarks,
+          appearances: appearances,
           isSidebarPresented: $isSidebarPresented,
           sheet: $sheet,
           isModelSetupPresented: $isModelSetupPresented,
@@ -298,21 +343,73 @@ struct LiveWorkspaceView: View {
           .frame(width: 1)
           .ignoresSafeArea(.container, edges: .top)
       }
-      if navigation.showsWaiting {
+      switch navigation.destination {
+      case .waiting:
         LiveWaitingList(model: model.reviews, focus: $focus)
           .frame(minWidth: DS.Layout.Conversation.minWidth, maxWidth: .infinity)
           .background(WarmShellColors.canvas)
-      } else {
+      case .today:
+        TodayWorkspaceView(
+          model: model,
+          remindersStore: remindersStore,
+          calendarStore: calendarStore,
+          appearances: appearances,
+          onOpenWaiting: { navigation.showWaiting() },
+          onSelectConversation: { id in
+            navigation.showConversation()
+            selectedMockBot = nil
+            Task { await model.selectConversation(id) }
+          }
+        )
+        .frame(minWidth: DS.Layout.Conversation.minWidth, maxWidth: .infinity)
+      case .bookmarks:
+        BookmarksPaneView(
+          bookmarks: bookmarks,
+          onOpenConversation: { id in
+            navigation.showConversation()
+            selectedMockBot = nil
+            Task { await model.selectConversation(id) }
+          }
+        )
+        .frame(minWidth: DS.Layout.Conversation.minWidth, maxWidth: .infinity)
+      case .myApps:
+        MyAppsWorkspaceView(
+          model: model,
+          remindersStore: remindersStore,
+          calendarStore: calendarStore,
+          contactsStore: contactsStore,
+          notesStore: notesStore,
+          mailStore: mailStore,
+          connectorStore: connectorStore,
+          selectedTab: $navigation.selectedAppTab,
+          onOpenFolders: { isFoldersPresented = true },
+          onSelectConversation: { id in
+            navigation.showConversation()
+            selectedMockBot = nil
+            Task { await model.selectConversation(id) }
+          }
+        )
+        .onAppear {
+          let root = supervisor.activeDataDirectory
+          notesStore.setDirectory(root.appendingPathComponent("Notes", isDirectory: true))
+          mailStore.setDataDirectory(root)
+          connectorStore.setDataDirectory(root)
+        }
+        .frame(minWidth: DS.Layout.Conversation.minWidth, maxWidth: .infinity)
+      case .conversation:
         LiveChatView(
           model: model,
           supervisor: supervisor,
           selectedMockBot: selectedMockBot,
+          bookmarks: bookmarks,
+          appearances: appearances,
           isSidebarPresented: $isSidebarPresented,
           isSetupPresented: $isModelSetupPresented,
           isFoldersPresented: $isFoldersPresented,
           isActivityPresented: $isActivityPresented,
           rightSidebarMode: $rightSidebarMode,
           onEditBot: { bot in sheet = .edit(bot) },
+          onOpenConnectors: { navigation.showMyApps(.connectors) },
           focus: $focus
         )
         .frame(minWidth: DS.Layout.Conversation.minWidth, maxWidth: .infinity)
@@ -326,10 +423,16 @@ struct LiveWorkspaceView: View {
           mode: mode,
           model: model,
           supervisor: supervisor,
+          bookmarks: bookmarks,
+          appearances: appearances,
+          remindersStore: remindersStore,
+          isLiveBot: selectedMockBot == nil,
           activeBotName: selectedMockBot?.name ?? model.chat?.title ?? String(localized: "Assistant"),
           activeBot: selectedMockBot ?? ShellExampleBot.pinned[0],
           splitBot: $splitBot,
           onSelectMode: { rightSidebarMode = $0 },
+          onOpenFolders: { isFoldersPresented = true },
+          onOpenModelSettings: { isModelSetupPresented = true },
           onClose: { withAnimation(.easeInOut(duration: 0.15)) { rightSidebarMode = nil } }
         )
         .frame(width: mode == .splitChat ? 360 : 320)
@@ -338,12 +441,51 @@ struct LiveWorkspaceView: View {
     .background(WarmShellColors.canvas)
     .ignoresSafeArea(.container, edges: .top)
     .frame(minWidth: DS.Layout.Window.minWidth, minHeight: DS.Layout.Window.minHeight)
+    .overlay {
+      if navigation.isCommandPalettePresented {
+        CommandPaletteOverlay(
+          model: model,
+          navigation: navigation,
+          isSidebarPresented: $isSidebarPresented,
+          rightSidebarMode: $rightSidebarMode,
+          selectedMockBot: $selectedMockBot,
+          onNewBot: { sheet = .newBot },
+          onNewSession: { sheet = .session },
+          onOpenModelSettings: { isModelSetupPresented = true },
+          onOpenFolders: { isFoldersPresented = true },
+          onOpenTasks: { openWindow(id: "tasks") },
+          onOpenQuickEntry: {
+            openWindow(id: "quick-entry")
+            NSApplication.shared.activate(ignoringOtherApps: true)
+          },
+          onOpenBackgroundSettings: {
+            supervisor.refreshRegistration()
+            if supervisor.registration == .notRegistered || supervisor.registration == .notFound {
+              supervisor.enableBackgroundService()
+            } else {
+              supervisor.openBackgroundSettings()
+            }
+          },
+          onDismiss: { navigation.isCommandPalettePresented = false }
+        )
+      }
+    }
+    .task {
+      hotKeyManager.start {
+        openWindow(id: "quick-entry")
+        NSApplication.shared.activate(ignoringOtherApps: true)
+      }
+    }
     .sheet(item: $sheet, onDismiss: restoreSheetTrigger) { item in
       switch item {
       case .newBot:
-        BotProfileEditor(directory: model.directory, models: model.providerSetup.models, bot: nil)
+        BotProfileEditor(
+          directory: model.directory, models: model.providerSetup.models, bot: nil,
+          appearances: appearances)
       case .edit(let bot):
-        BotProfileEditor(directory: model.directory, models: model.providerSetup.models, bot: bot)
+        BotProfileEditor(
+          directory: model.directory, models: model.providerSetup.models, bot: bot,
+          appearances: appearances)
       case .session:
         SessionCreationSheet(directory: model.directory, selectedBot: model.chat?.botId)
       case .trash:
@@ -355,12 +497,13 @@ struct LiveWorkspaceView: View {
     }
     .onChange(of: model.directory.requestedSelection) { _, selected in
       guard let selected else { return }
-      navigation.showsWaiting = false
+      navigation.showConversation()
+      selectedMockBot = nil
       Task { await model.selectConversation(selected) }
     }
     .onChange(of: model.chat?.id) { _, _ in
       // Arrow keys in the sidebar keep focus there; other switches start in the composer.
-      if focus != .sidebar && !navigation.showsWaiting { focus = .composer }
+      if focus != .sidebar && navigation.destination == .conversation { focus = .composer }
     }
     .onChange(of: navigation.nextCardRequest) { _, _ in focusNextCard() }
     .onChange(of: navigation.paneRequest) { _, _ in cyclePane() }
@@ -409,10 +552,13 @@ struct LiveWorkspaceView: View {
 
   private func cyclePane() {
     var panes: [LiveWorkspaceFocus] = isSidebarPresented ? [.sidebar] : []
-    if navigation.showsWaiting {
+    switch navigation.destination {
+    case .waiting:
       if let first = pendingEntries.first { panes.append(.card(first.id)) }
-    } else {
+    case .conversation:
       panes.append(.composer)
+    case .today, .bookmarks, .myApps:
+      break
     }
     guard !panes.isEmpty else { return }
     let current: Int? =
@@ -488,16 +634,12 @@ enum ConversationSheetTrigger: Hashable {
   case newBot, editBot, newSession, trash
 }
 
-/// Sidebar selection: Waiting for You is a real row, reachable with arrow keys.
-private enum LiveSidebarItem: Hashable {
-  case waiting
-  case conversation(ConversationID)
-}
-
 private struct LiveConversationSidebar: View {
   let model: LiveChatModel
   let supervisor: DaemonSupervisor
   let navigation: LiveWorkspaceNavigation
+  let bookmarks: WorkspaceBookmarksStore
+  let appearances: BotAppearanceStore
   @Binding var isSidebarPresented: Bool
   @Binding var sheet: ConversationSheet?
   @Binding var isModelSetupPresented: Bool
@@ -534,18 +676,6 @@ private struct LiveConversationSidebar: View {
     let realBots = filteredLive(.bot)
     let byID = Dictionary(uniqueKeysWithValues: realBots.map { ($0.id.rawValue, $0) })
     return pinnedLiveIDs.compactMap { byID[$0] }
-  }
-
-  private func liveBotGradient(for id: String) -> [Color] {
-    let palettes: [[Color]] = [
-      [Color(red: 0.16, green: 0.68, blue: 0.56), Color(red: 0.10, green: 0.44, blue: 0.48)],
-      [Color(red: 0.24, green: 0.52, blue: 0.92), Color(red: 0.16, green: 0.34, blue: 0.72)],
-      [Color(red: 0.52, green: 0.34, blue: 0.88), Color(red: 0.32, green: 0.18, blue: 0.62)],
-      [Color(red: 0.95, green: 0.68, blue: 0.24), Color(red: 0.80, green: 0.48, blue: 0.14)],
-      [Color(red: 0.96, green: 0.27, blue: 0.44), Color(red: 0.82, green: 0.15, blue: 0.34)],
-    ]
-    let hash = abs(id.hashValue)
-    return palettes[hash % palettes.count]
   }
 
   private var filteredExamplePinned: [ShellExampleBot] {
@@ -590,6 +720,16 @@ private struct LiveConversationSidebar: View {
       }
       .disabled(model.isLoading || model.isSending || model.isStopping || model.hasUnconfirmedSend)
       .accessibilityIdentifier("conversation.sidebar")
+
+      Rectangle()
+        .fill(WarmShellColors.divider)
+        .frame(height: 1)
+      HStack {
+        DaemonStatusButton(supervisor: supervisor)
+        Spacer()
+      }
+      .padding(.horizontal, 12)
+      .padding(.vertical, 8)
     }
     .background {
       ZStack {
@@ -744,7 +884,7 @@ private struct LiveConversationSidebar: View {
   private var utilityNavigation: some View {
     let assistantChat = conversations(.assistant).first
     let isAssistantSelected =
-      !navigation.showsWaiting && selectedMockBot == nil && selectedGroupID == nil
+      navigation.destination == .conversation && selectedMockBot == nil && selectedGroupID == nil
       && (model.chat?.kind == .assistant || model.chat == nil)
     return VStack(alignment: .leading, spacing: 1) {
       utilityRow(
@@ -753,7 +893,7 @@ private struct LiveConversationSidebar: View {
         isSelected: isAssistantSelected,
         badgeCount: 0
       ) {
-        navigation.showsWaiting = false
+        navigation.showConversation()
         selectedMockBot = nil
         selectedGroupID = nil
         if let assistantChat {
@@ -762,33 +902,57 @@ private struct LiveConversationSidebar: View {
       }
       .accessibilityIdentifier("conversation.assistant")
 
-      utilityRow(title: "Today", symbol: "sun.max", isSelected: false, badgeCount: 0) {
-        navigation.showsWaiting = false
+      utilityRow(
+        title: "Today",
+        symbol: "sun.max",
+        isSelected: navigation.destination == .today,
+        badgeCount: 0
+      ) {
+        navigation.showToday()
       }
       .accessibilityIdentifier("conversation.today")
 
       utilityRow(
         title: "Waiting for You",
         symbol: "hand.raised",
-        isSelected: navigation.showsWaiting,
+        isSelected: navigation.destination == .waiting,
         badgeCount: model.reviews.pendingCount
       ) {
-        navigation.showsWaiting = true
+        navigation.showWaiting()
       }
       .accessibilityLabel("Waiting for You")
       .accessibilityValue("\(model.reviews.pendingCount) pending")
       .accessibilityIdentifier("conversation.waiting")
 
-      utilityRow(title: "Library", symbol: "books.vertical", isSelected: false, badgeCount: 0) {
-        isFoldersPresented = true
+      utilityRow(
+        title: "Library",
+        symbol: "books.vertical",
+        isSelected: navigation.destination == .myApps && navigation.selectedAppTab == .files,
+        badgeCount: 0
+      ) {
+        navigation.showMyApps(.files)
       }
       .accessibilityIdentifier("conversation.library")
 
-      utilityRow(title: "My Apps", symbol: "square.grid.2x2", isSelected: false, badgeCount: 0) {}
-        .accessibilityIdentifier("conversation.myApps")
+      utilityRow(
+        title: "My Apps",
+        symbol: "square.grid.2x2",
+        isSelected: navigation.destination == .myApps && navigation.selectedAppTab != .files,
+        badgeCount: 0
+      ) {
+        navigation.showMyApps()
+      }
+      .accessibilityIdentifier("conversation.myApps")
 
-      utilityRow(title: "Bookmarks", symbol: "bookmark", isSelected: false, badgeCount: 0) {}
-        .accessibilityIdentifier("conversation.bookmarks")
+      utilityRow(
+        title: "Bookmarks",
+        symbol: "bookmark",
+        isSelected: navigation.destination == .bookmarks,
+        badgeCount: bookmarks.items.count
+      ) {
+        navigation.showBookmarks()
+      }
+      .accessibilityIdentifier("conversation.bookmarks")
 
       utilityRow(
         title: "Activity",
@@ -868,17 +1032,18 @@ private struct LiveConversationSidebar: View {
 
   private func livePinnedTile(_ chat: ChatSummary) -> some View {
     let isSelected =
-      !navigation.showsWaiting && selectedMockBot == nil && selectedGroupID == nil
+      navigation.destination == .conversation && selectedMockBot == nil && selectedGroupID == nil
       && model.chat?.id == chat.id
+    let style = appearances.appearance(for: chat.botId, isAssistant: chat.kind == .assistant)
     return Button {
-      navigation.showsWaiting = false
+      navigation.showConversation()
       selectedMockBot = nil
       selectedGroupID = nil
       Task { await model.selectConversation(chat.id) }
     } label: {
       VStack(spacing: 5) {
         ZStack(alignment: .bottomTrailing) {
-          ShellBotAvatar(symbol: "sparkles", gradient: liveBotGradient(for: chat.id.rawValue), size: 62)
+          ShellBotAvatar(symbol: style.symbol, gradient: style.gradient, size: 62)
           Image(systemName: "desktopcomputer")
             .font(.system(size: 10, weight: .semibold))
             .foregroundStyle(.white)
@@ -914,9 +1079,11 @@ private struct LiveConversationSidebar: View {
   }
 
   private func examplePinnedTile(_ bot: ShellExampleBot) -> some View {
-    let isSelected = !navigation.showsWaiting && selectedGroupID == nil && selectedMockBot?.id == bot.id
+    let isSelected =
+      navigation.destination == .conversation && selectedGroupID == nil
+      && selectedMockBot?.id == bot.id
     return Button {
-      navigation.showsWaiting = false
+      navigation.showConversation()
       selectedGroupID = nil
       selectedMockBot = bot
     } label: {
@@ -956,7 +1123,7 @@ private struct LiveConversationSidebar: View {
   private var pinnedGroupsSection: some View {
     VStack(alignment: .leading, spacing: 6) {
       Button {
-        navigation.showsWaiting = false
+        navigation.showConversation()
         selectedMockBot = ShellExampleBot.pinned[5]
         selectedGroupID = "swe"
       } label: {
@@ -985,7 +1152,7 @@ private struct LiveConversationSidebar: View {
         .padding(.horizontal, 6)
         .padding(.vertical, 6)
         .background {
-          if selectedGroupID == "swe" {
+          if navigation.destination == .conversation && selectedGroupID == "swe" {
             RoundedRectangle(cornerRadius: 10)
               .fill(WarmShellColors.pill)
           }
@@ -1008,19 +1175,17 @@ private struct LiveConversationSidebar: View {
 
       ForEach(realBots, id: \.id) { chat in
         let isSelected =
-          !navigation.showsWaiting && selectedMockBot == nil && selectedGroupID == nil
-          && model.chat?.id == chat.id
+          navigation.destination == .conversation && selectedMockBot == nil
+          && selectedGroupID == nil && model.chat?.id == chat.id
+        let style = appearances.appearance(for: chat.botId, isAssistant: false)
         Button {
-          navigation.showsWaiting = false
+          navigation.showConversation()
           selectedMockBot = nil
           selectedGroupID = nil
           Task { await model.selectConversation(chat.id) }
         } label: {
           HStack(spacing: 10) {
-            ShellBotAvatar(
-              symbol: "person.crop.circle",
-              gradient: [Color(red: 0.24, green: 0.52, blue: 0.92), Color(red: 0.16, green: 0.34, blue: 0.72)],
-              size: 34)
+            ShellBotAvatar(symbol: style.symbol, gradient: style.gradient, size: 34)
             VStack(alignment: .leading, spacing: 2) {
               HStack {
                 Text(verbatim: chat.title)
@@ -1066,9 +1231,10 @@ private struct LiveConversationSidebar: View {
 
       ForEach(filteredExampleBottom) { bot in
         let isSelected =
-          !navigation.showsWaiting && selectedGroupID == nil && selectedMockBot?.id == bot.id
+          navigation.destination == .conversation && selectedGroupID == nil
+          && selectedMockBot?.id == bot.id
         Button {
-          navigation.showsWaiting = false
+          navigation.showConversation()
           selectedGroupID = nil
           selectedMockBot = bot
         } label: {
@@ -1119,10 +1285,10 @@ private struct LiveConversationSidebar: View {
 
           ForEach(realSessions, id: \.id) { chat in
             let isSelected =
-              !navigation.showsWaiting && selectedMockBot == nil && selectedGroupID == nil
-              && model.chat?.id == chat.id
+              navigation.destination == .conversation && selectedMockBot == nil
+              && selectedGroupID == nil && model.chat?.id == chat.id
             Button {
-              navigation.showsWaiting = false
+              navigation.showConversation()
               selectedMockBot = nil
               selectedGroupID = nil
               Task { await model.selectConversation(chat.id) }
@@ -1172,30 +1338,13 @@ private struct LiveConversationSidebar: View {
     }
   }
 
-  private var selection: Binding<LiveSidebarItem?> {
-    Binding(
-      get: {
-        navigation.showsWaiting ? .waiting : model.chat.map { .conversation($0.id) }
-      },
-      set: { selected in
-        switch selected {
-        case .waiting:
-          navigation.showsWaiting = true
-        case .conversation(let id):
-          navigation.showsWaiting = false
-          Task { await model.selectConversation(id) }
-        case nil:
-          break
-        }
-      })
-  }
-
   private func conversations(_ kind: ConversationKind) -> [ChatSummary] {
     model.directory.conversations.filter { $0.kind == kind }
   }
 
   private var selectedSession: ChatSummary? {
-    guard !navigation.showsWaiting, let chat = model.chat, chat.kind == .session else { return nil }
+    guard navigation.destination == .conversation, let chat = model.chat, chat.kind == .session
+    else { return nil }
     return chat
   }
 
@@ -1205,43 +1354,6 @@ private struct LiveConversationSidebar: View {
 
   private func trashSelectedSession() {
     if let selectedSession { sessionToTrash = selectedSession }
-  }
-}
-
-private struct LiveConversationRow: View {
-  let chat: ChatSummary
-  let model: LiveChatModel
-
-  var body: some View {
-    Label(
-      chat.title,
-      systemImage: chat.kind == .assistant
-        ? "sparkles"
-        : chat.kind == .session ? "text.bubble" : "person.crop.circle"
-    )
-    .tag(LiveSidebarItem.conversation(chat.id))
-    .accessibilityValue(summary)
-    .accessibilityIdentifier("conversation.row." + chat.id.rawValue)
-  }
-
-  /// "needs you, Session, Scout, 4 minutes ago" from fields the protocol carries (02 §13.2).
-  private var summary: String {
-    var parts: [String] = []
-    if model.reviews.pendingGroups.contains(where: {
-      $0.id.conversationId.rawValue == chat.id.rawValue && $0.entries.contains(where: \.isPending)
-    }) {
-      parts.append(String(localized: "needs you"))
-    }
-    if chat.kind == .session {
-      parts.append(String(localized: "Session"))
-      if let lead = model.directory.bots.first(where: { $0.id == chat.botId }) {
-        parts.append(lead.name)
-      }
-      parts.append(
-        Date(timeIntervalSince1970: Double(chat.createdAt) / 1_000)
-          .formatted(.relative(presentation: .named)))
-    }
-    return parts.joined(separator: ", ")
   }
 }
 
@@ -1281,102 +1393,29 @@ struct ConversationDirectoryStatus: View {
   }
 }
 
-/// Lightweight live EventKit Reminders bridge for the native Reminders card (D116).
-@MainActor
-@Observable
-final class LiveRemindersStore {
-  struct Item: Identifiable, Sendable {
-    let id: String
-    let title: String
-    let listName: String
-    let dueLabel: String
-    let isOverdue: Bool
-    let isCompleted: Bool
-  }
-
-  private let store = EKEventStore()
-  private(set) var isAuthorized = false
-  private(set) var items: [Item] = []
-
-  init() {
-    let status = EKEventStore.authorizationStatus(for: .reminder)
-    if status == .fullAccess || status == .authorized {
-      isAuthorized = true
-      Task { await refresh() }
-    }
-  }
-
-  func requestAccess() {
-    let status = EKEventStore.authorizationStatus(for: .reminder)
-    if status == .denied || status == .restricted {
-      if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Reminders") {
-        NSWorkspace.shared.open(url)
-      }
-      return
-    }
-    Task {
-      let granted = (try? await store.requestFullAccessToReminders()) ?? false
-      isAuthorized = granted
-      if granted { await refresh() }
-    }
-  }
-
-  func refresh() async {
-    items = await Self.fetchItems()
-  }
-
-  private nonisolated static func fetchItems() async -> [Item] {
-    let localStore = EKEventStore()
-    let predicate = localStore.predicateForIncompleteReminders(
-      withDueDateStarting: nil, ending: nil, calendars: nil)
-    let now = Date()
-    return await withCheckedContinuation { continuation in
-      localStore.fetchReminders(matching: predicate) { list in
-        let result = (list ?? []).prefix(12).map { r in
-          let dueDate = r.dueDateComponents.flatMap { Calendar.current.date(from: $0) }
-          let dueStr =
-            dueDate.map { $0.formatted(.dateTime.month(.abbreviated).day().hour().minute()) }
-            ?? "No due date"
-          let overdue = dueDate.map { $0 < now } ?? false
-          return Item(
-            id: r.calendarItemIdentifier,
-            title: r.title ?? "Untitled",
-            listName: r.calendar.title.uppercased(),
-            dueLabel: dueStr,
-            isOverdue: overdue,
-            isCompleted: r.isCompleted)
-        }
-        continuation.resume(returning: result)
-      }
-    }
-  }
-
-  func toggle(id: String) {
-    guard let reminder = store.calendarItem(withIdentifier: id) as? EKReminder else { return }
-    reminder.isCompleted.toggle()
-    try? store.save(reminder, commit: true)
-    Task { await refresh() }
-  }
-}
-
 /// Right contextual sidebar matching Viticci's Oct 20 macOS captures (`2112555465313853810`):
 /// Activity timeline, Links + preview popover, and Split second-bot chat with native resource cards.
 private struct RightSidebarView: View {
   let mode: RightSidebarMode
   let model: LiveChatModel
   let supervisor: DaemonSupervisor
+  let bookmarks: WorkspaceBookmarksStore
+  let appearances: BotAppearanceStore
+  let remindersStore: LiveRemindersStore
+  let isLiveBot: Bool
   let activeBotName: String
   let activeBot: ShellExampleBot
   @Binding var splitBot: ShellExampleBot
   let onSelectMode: (RightSidebarMode) -> Void
+  let onOpenFolders: () -> Void
+  let onOpenModelSettings: () -> Void
   let onClose: () -> Void
-  @State private var isLinkPopoverPresented = false
+  @State private var selectedLinkPopoverID: String?
   @State private var splitDraft = ""
   @State private var completedReminders: Set<String> = ["done-1"]
   @State private var splitLiveConversationID: ConversationID? = nil
   @State private var splitChat = LiveChatModel()
   @State private var splitOwner = UUID()
-  @State private var remindersStore = LiveRemindersStore()
 
   var body: some View {
     VStack(spacing: 0) {
@@ -1392,6 +1431,12 @@ private struct RightSidebarView: View {
     }
     .background(WarmShellColors.canvas)
     .ignoresSafeArea(.container, edges: .top)
+    .onDisappear {
+      Task {
+        await splitChat.hide(owner: splitOwner)
+        splitChat.stop()
+      }
+    }
   }
 
   private var topBar: some View {
@@ -1442,8 +1487,35 @@ private struct RightSidebarView: View {
 
   // MARK: - Mode 1: Activity (oct20_1.jpg)
 
+  private var activeAvatarStyle: (symbol: String, gradient: [Color]) {
+    if isLiveBot, let chat = model.chat {
+      let style = appearances.appearance(for: chat.botId, isAssistant: chat.kind == .assistant)
+      return chat.kind == .session ? ("text.bubble", style.gradient) : style
+    }
+    return (activeBot.symbol, activeBot.gradient)
+  }
+
+  private var liveActivitySummaryText: String {
+    let eventCount = model.activityEvents.count
+    var parts: [String] = []
+    if let duration = model.lastTurn?.duration {
+      let seconds =
+        Double(duration.components.seconds)
+        + Double(duration.components.attoseconds) / 1_000_000_000_000_000_000.0
+      parts.append(String(format: "Last turn %.1fs", seconds))
+    }
+    if eventCount > 0 {
+      parts.append("\(eventCount) recorded event\(eventCount == 1 ? "" : "s")")
+    }
+    if parts.isEmpty {
+      return model.isWorking ? "Working…" : "No activity recorded yet"
+    }
+    return parts.joined(separator: " · ")
+  }
+
   private var activityContent: some View {
-    ScrollView {
+    let avatar = activeAvatarStyle
+    return ScrollView {
       VStack(alignment: .leading, spacing: 16) {
         HStack {
           Text("Activity")
@@ -1462,35 +1534,61 @@ private struct RightSidebarView: View {
         }
 
         HStack(spacing: 10) {
-          ShellBotAvatar(symbol: activeBot.symbol, gradient: activeBot.gradient, size: 38)
+          ShellBotAvatar(symbol: avatar.symbol, gradient: avatar.gradient, size: 38)
           VStack(alignment: .leading, spacing: 2) {
             Text(verbatim: activeBotName)
               .font(.system(size: 13.5, weight: .semibold))
               .foregroundStyle(WarmShellColors.primaryText)
             Text(
-              model.activityEvents.isEmpty
-                ? "Worked 11s · 2 steps"
-                : "\(model.activityEvents.count) recorded events"
+              verbatim: isLiveBot
+                ? liveActivitySummaryText
+                : "Worked 11s · 2 steps"
             )
             .font(.system(size: 11.5))
             .foregroundStyle(WarmShellColors.mutedText)
-            Text("Today · Live")
-              .font(.system(size: 11))
-              .foregroundStyle(WarmShellColors.mutedText.opacity(0.8))
+            Text(
+              isLiveBot
+                ? (model.connection == .connected ? "Connected · Live" : "Offline")
+                : "Example transcript"
+            )
+            .font(.system(size: 11))
+            .foregroundStyle(WarmShellColors.mutedText.opacity(0.8))
           }
         }
 
         VStack(alignment: .leading, spacing: 0) {
-          if !model.activityEvents.isEmpty {
-            ForEach(Array(model.activityEvents.reversed().prefix(12).enumerated()), id: \.offset) { idx, ev in
-              activityStepRow(
-                symbol: "bolt.horizontal.circle",
-                title: ev.type,
-                detail: ev.scope.taskId.map { "Task \($0.rawValue)" } ?? "Committed runtime event",
-                subtitle: ev.seq.map { "Seq \($0)" },
-                duration: Date(timeIntervalSince1970: Double(ev.ts) / 1_000)
-                  .formatted(.dateTime.hour().minute()),
-                isLast: idx == min(model.activityEvents.count, 12) - 1
+          if isLiveBot {
+            if !model.activityEvents.isEmpty {
+              let recent = Array(model.activityEvents.reversed().prefix(20))
+              ForEach(Array(recent.enumerated()), id: \.offset) { idx, ev in
+                let formatted = formatActivityEvent(ev)
+                activityStepRow(
+                  symbol: formatted.symbol,
+                  title: formatted.title,
+                  detail: formatted.detail,
+                  subtitle: formatted.subtitle,
+                  duration: formatted.duration,
+                  isLast: idx == recent.count - 1
+                )
+              }
+            } else {
+              VStack(alignment: .leading, spacing: 6) {
+                Text("No tool, policy, or gateway events yet.")
+                  .font(.system(size: 12.5, weight: .medium))
+                  .foregroundStyle(WarmShellColors.primaryText)
+                Text(
+                  "Committed runtime events appear here automatically as \(activeBotName) works."
+                )
+                .font(.system(size: 12))
+                .foregroundStyle(WarmShellColors.mutedText)
+              }
+              .padding(14)
+              .frame(maxWidth: .infinity, alignment: .leading)
+              .background(
+                WarmShellColors.card, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+              .overlay(
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                  .stroke(WarmShellColors.cardBorder, lineWidth: 1)
               )
             }
           } else {
@@ -1538,6 +1636,77 @@ private struct RightSidebarView: View {
     .scrollIndicators(.hidden)
   }
 
+  private func formatActivityEvent(_ envelope: EventEnvelope) -> (
+    symbol: String, title: String, detail: String, subtitle: String?, duration: String
+  ) {
+    let timeLabel = Date(timeIntervalSince1970: Double(envelope.ts) / 1_000)
+      .formatted(.dateTime.hour().minute())
+    switch envelope.event {
+    case .toolCompleted(let value):
+      let dur = value.durationMs > 0 ? "\(value.durationMs) ms" : timeLabel
+      let sub =
+        value.ok
+        ? "\(value.outputBytes) bytes"
+          + (value.redactions > 0 ? " · \(value.redactions) redacted" : "")
+        : (value.errorCode ?? "Failed")
+      return (
+        symbol: value.ok ? "wrench.and.screwdriver" : "exclamationmark.triangle",
+        title: value.ok ? "Ran \(value.tool)" : "Failed \(value.tool)",
+        detail: value.ok ? "Committed tool result" : "Tool reported an error",
+        subtitle: sub,
+        duration: dur
+      )
+    case .policyDecided(let value):
+      return (
+        symbol: "checkmark.shield",
+        title: "Policy · \(value.tool)",
+        detail: "Decision: \(value.decision.rawValue) · Rule \(value.ruleId)",
+        subtitle: value.via.map { "Via \($0.rawValue)" },
+        duration: timeLabel
+      )
+    case .policyRedacted(let value):
+      return (
+        symbol: "eye.slash",
+        title: "Output redacted",
+        detail: "\(value.count) item(s) withheld",
+        subtitle: value.kinds.isEmpty ? nil : value.kinds.joined(separator: ", "),
+        duration: timeLabel
+      )
+    case .egressAllowed(let value):
+      return (
+        symbol: "network",
+        title: "Connection admitted",
+        detail: value.host,
+        subtitle: "Computer \(value.computerId)",
+        duration: timeLabel
+      )
+    case .egressBlocked(let value):
+      return (
+        symbol: "network.slash",
+        title: "Connection refused",
+        detail: value.host,
+        subtitle: "Refusals: \(value.count)",
+        duration: timeLabel
+      )
+    case .secretUsed(let value):
+      return (
+        symbol: "key",
+        title: "Credential prepared",
+        detail: value.host,
+        subtitle: "\(value.secretRef) · \(value.purpose.rawValue)",
+        duration: timeLabel
+      )
+    default:
+      return (
+        symbol: "bolt.horizontal.circle",
+        title: envelope.type,
+        detail: envelope.scope.taskId.map { "Task \($0.rawValue)" } ?? "Committed runtime event",
+        subtitle: envelope.seq.map { "Seq \($0)" },
+        duration: timeLabel
+      )
+    }
+  }
+
   private func activityStepRow(
     symbol: String,
     title: String,
@@ -1569,13 +1738,9 @@ private struct RightSidebarView: View {
             .lineLimit(2)
           Spacer()
           if !duration.isEmpty {
-            HStack(spacing: 3) {
-              Text(verbatim: duration)
-              Image(systemName: "chevron.right")
-                .font(.system(size: 9, weight: .semibold))
-            }
-            .font(.system(size: 11))
-            .foregroundStyle(WarmShellColors.mutedText)
+            Text(verbatim: duration)
+              .font(.system(size: 11))
+              .foregroundStyle(WarmShellColors.mutedText)
           }
         }
         Text(verbatim: detail)
@@ -1592,17 +1757,37 @@ private struct RightSidebarView: View {
     }
   }
 
-  // MARK: - Mode 2: Links + Hover/Click Preview Popover (oct20_2.jpg)
+  // MARK: - Mode 2: Live Extracted Links + Action Popover (oct20_2.jpg)
+
+  private var displayedLinks: [ExtractedConversationLink] {
+    if isLiveBot {
+      return ExtractedConversationLink.extract(from: model.messages, senderName: activeBotName)
+    }
+    guard let exampleURL = URL(string: "https://memoshi.app/docs/building-native-apps-with-agents-and-simulators/")
+    else { return [] }
+    return [
+      ExtractedConversationLink(
+        id: "example-memoshi-docs",
+        url: exampleURL,
+        host: "memoshi.app",
+        displayPath: "Building Native Apps with Multiple Agents & Simulators",
+        contextSnippet: "Native SwiftUI shell, durable Pi runtime, and local model orchestration.",
+        senderLabel: "Example message",
+        timestamp: nil
+      )
+    ]
+  }
 
   private var linksContent: some View {
-    ScrollView {
+    let links = displayedLinks
+    return ScrollView {
       VStack(alignment: .leading, spacing: 14) {
         HStack {
           VStack(alignment: .leading, spacing: 2) {
-            Text("1 Link")
+            Text("\(links.count) Link\(links.count == 1 ? "" : "s")")
               .font(.system(size: 15, weight: .semibold))
               .foregroundStyle(WarmShellColors.primaryText)
-            Text("Your message · 4:31 PM")
+            Text(isLiveBot ? "Extracted from \(activeBotName)" : "Example preview")
               .font(.system(size: 11.5))
               .foregroundStyle(WarmShellColors.mutedText)
           }
@@ -1618,103 +1803,173 @@ private struct RightSidebarView: View {
           .glassEffect(.regular.interactive(), in: Circle())
         }
 
-        Button {
-          isLinkPopoverPresented.toggle()
-        } label: {
-          HStack(alignment: .top, spacing: 10) {
-            VStack(alignment: .leading, spacing: 4) {
-              HStack(spacing: 5) {
-                Image(systemName: "globe")
-                  .font(.system(size: 10, weight: .semibold))
-                  .foregroundStyle(Color(red: 0.16, green: 0.56, blue: 0.34))
-                Text("memoshi.app")
-                  .font(.system(size: 11))
-                  .foregroundStyle(WarmShellColors.mutedText)
-              }
-              Text("Building Native Apps with Multiple Agents & Simulators")
-                .font(.system(size: 12.5, weight: .semibold))
-                .foregroundStyle(WarmShellColors.primaryText)
-                .lineLimit(2)
-              Text("Native SwiftUI shell, durable Pi runtime, and local model orchestration.")
-                .font(.system(size: 11.5))
-                .foregroundStyle(WarmShellColors.mutedText)
-                .lineLimit(2)
-            }
-            RoundedRectangle(cornerRadius: 10, style: .continuous)
-              .fill(
-                LinearGradient(
-                  colors: [Color(red: 0.22, green: 0.52, blue: 0.88), Color(red: 0.14, green: 0.32, blue: 0.65)],
-                  startPoint: .topLeading,
-                  endPoint: .bottomTrailing
-                )
-              )
-              .frame(width: 56, height: 56)
-              .overlay {
-                Image(systemName: "sparkles")
-                  .font(.system(size: 20, weight: .semibold))
-                  .foregroundStyle(.white)
-              }
+        if links.isEmpty {
+          VStack(alignment: .leading, spacing: 6) {
+            Text("No links in this conversation yet.")
+              .font(.system(size: 12.5, weight: .medium))
+              .foregroundStyle(WarmShellColors.primaryText)
+            Text("HTTP and HTTPS URLs shared by you or \(activeBotName) appear here automatically.")
+              .font(.system(size: 12))
+              .foregroundStyle(WarmShellColors.mutedText)
           }
-          .padding(12)
-          .background(WarmShellColors.card, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+          .padding(14)
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .background(
+            WarmShellColors.card, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
           .overlay(
             RoundedRectangle(cornerRadius: 14, style: .continuous)
               .stroke(WarmShellColors.cardBorder, lineWidth: 1)
           )
-        }
-        .buttonStyle(.plain)
-        .popover(isPresented: $isLinkPopoverPresented, arrowEdge: .leading) {
-          VStack(alignment: .leading, spacing: 12) {
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
-              .fill(
-                LinearGradient(
-                  colors: [Color(red: 0.22, green: 0.52, blue: 0.88), Color(red: 0.12, green: 0.26, blue: 0.54)],
-                  startPoint: .topLeading,
-                  endPoint: .bottomTrailing
-                )
-              )
-              .frame(height: 120)
-              .overlay {
-                Image(systemName: "macwindow.on.rectangle")
-                  .font(.system(size: 36, weight: .medium))
-                  .foregroundStyle(.white.opacity(0.9))
-              }
-            VStack(alignment: .leading, spacing: 6) {
-              HStack(spacing: 5) {
-                Image(systemName: "globe")
-                  .font(.system(size: 10))
-                  .foregroundStyle(Color(red: 0.16, green: 0.56, blue: 0.34))
-                Text("memoshi.app")
-                  .font(.system(size: 11.5))
-                  .foregroundStyle(WarmShellColors.mutedText)
-              }
-              Text("Building Native Apps with Multiple Agents & Simulators")
-                .font(.system(size: 14, weight: .semibold))
-                .foregroundStyle(WarmShellColors.primaryText)
-              Text(
-                "A native Apple assistant built on Pi Durable with local models, warm Liquid Glass chrome, and contextual side panels."
-              )
-              .font(.system(size: 12))
-              .foregroundStyle(WarmShellColors.mutedText)
-            }
-            HStack(spacing: 8) {
-              linkActionPill(title: "Open", symbol: "safari") {}
-              linkActionPill(title: "Copy", symbol: "doc.on.doc") {
-                NSPasteboard.general.clearContents()
-                NSPasteboard.general.setString("https://memoshi.app", forType: .string)
-              }
-              linkActionPill(title: "Share", symbol: "square.and.arrow.up") {}
-            }
+        } else {
+          ForEach(links) { link in
+            extractedLinkCard(link)
           }
-          .padding(14)
-          .frame(width: 280)
-          .background(WarmShellColors.canvas)
         }
       }
       .padding(.horizontal, 16)
       .padding(.bottom, 20)
     }
     .scrollIndicators(.hidden)
+  }
+
+  private func extractedLinkCard(_ link: ExtractedConversationLink) -> some View {
+    let isBookmarked = bookmarks.isLinkBookmarked(link.url)
+    let isPresented = Binding<Bool>(
+      get: { selectedLinkPopoverID == link.id },
+      set: { presented in
+        selectedLinkPopoverID = presented ? link.id : nil
+      }
+    )
+    return Button {
+      selectedLinkPopoverID = selectedLinkPopoverID == link.id ? nil : link.id
+    } label: {
+      HStack(alignment: .top, spacing: 10) {
+        VStack(alignment: .leading, spacing: 4) {
+          HStack(spacing: 5) {
+            Image(systemName: "globe")
+              .font(.system(size: 10, weight: .semibold))
+              .foregroundStyle(Color(red: 0.16, green: 0.56, blue: 0.34))
+            Text(verbatim: link.host)
+              .font(.system(size: 11))
+              .foregroundStyle(WarmShellColors.mutedText)
+              .lineLimit(1)
+            if isBookmarked {
+              Image(systemName: "bookmark.fill")
+                .font(.system(size: 9.5))
+                .foregroundStyle(WarmShellColors.badgeText)
+            }
+          }
+          Text(verbatim: link.displayPath)
+            .font(.system(size: 12.5, weight: .semibold))
+            .foregroundStyle(WarmShellColors.primaryText)
+            .lineLimit(2)
+            .multilineTextAlignment(.leading)
+          if !link.contextSnippet.isEmpty {
+            Text(verbatim: link.contextSnippet)
+              .font(.system(size: 11.5))
+              .foregroundStyle(WarmShellColors.mutedText)
+              .lineLimit(2)
+              .multilineTextAlignment(.leading)
+          }
+          HStack(spacing: 4) {
+            Text(verbatim: link.senderLabel)
+            if let timestamp = link.timestamp {
+              Text("·")
+              Text(timestamp, format: .dateTime.hour().minute())
+            }
+          }
+          .font(.system(size: 10.5))
+          .foregroundStyle(WarmShellColors.mutedText.opacity(0.85))
+          .padding(.top, 2)
+        }
+        Spacer(minLength: 4)
+        RoundedRectangle(cornerRadius: 10, style: .continuous)
+          .fill(
+            LinearGradient(
+              colors: [
+                Color(red: 0.22, green: 0.52, blue: 0.88),
+                Color(red: 0.14, green: 0.32, blue: 0.65),
+              ],
+              startPoint: .topLeading,
+              endPoint: .bottomTrailing
+            )
+          )
+          .frame(width: 44, height: 44)
+          .overlay {
+            Image(systemName: "link")
+              .font(.system(size: 16, weight: .semibold))
+              .foregroundStyle(.white)
+          }
+      }
+      .padding(12)
+      .background(WarmShellColors.card, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+      .overlay(
+        RoundedRectangle(cornerRadius: 14, style: .continuous)
+          .stroke(WarmShellColors.cardBorder, lineWidth: 1)
+      )
+    }
+    .buttonStyle(.plain)
+    .popover(isPresented: isPresented, arrowEdge: .leading) {
+      VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 6) {
+          HStack(spacing: 5) {
+            Image(systemName: "globe")
+              .font(.system(size: 10))
+              .foregroundStyle(Color(red: 0.16, green: 0.56, blue: 0.34))
+            Text(verbatim: link.host)
+              .font(.system(size: 11.5))
+              .foregroundStyle(WarmShellColors.mutedText)
+          }
+          Text(verbatim: link.displayPath)
+            .font(.system(size: 14, weight: .semibold))
+            .foregroundStyle(WarmShellColors.primaryText)
+          Text(verbatim: link.url.absoluteString)
+            .font(.system(size: 11, design: .monospaced))
+            .foregroundStyle(WarmShellColors.mutedText)
+            .lineLimit(3)
+            .textSelection(.enabled)
+        }
+        HStack(spacing: 8) {
+          linkActionPill(title: "Open", symbol: "safari") {
+            NSWorkspace.shared.open(link.url)
+            selectedLinkPopoverID = nil
+          }
+          linkActionPill(title: "Copy", symbol: "doc.on.doc") {
+            NSPasteboard.general.clearContents()
+            NSPasteboard.general.setString(link.url.absoluteString, forType: .string)
+          }
+        }
+        HStack(spacing: 8) {
+          linkActionPill(
+            title: isBookmarked ? "Saved" : "Bookmark",
+            symbol: isBookmarked ? "bookmark.fill" : "bookmark"
+          ) {
+            bookmarks.toggleLink(
+              url: link.url,
+              title: link.displayPath,
+              subtitle: link.contextSnippet,
+              botName: activeBotName,
+              conversationID: model.chat?.id.rawValue)
+          }
+          ShareLink(item: link.url) {
+            HStack(spacing: 5) {
+              Image(systemName: "square.and.arrow.up")
+                .font(.system(size: 11, weight: .semibold))
+              Text("Share")
+                .font(.system(size: 12, weight: .medium))
+            }
+            .foregroundStyle(WarmShellColors.badgeText)
+            .frame(maxWidth: .infinity)
+            .frame(height: 30)
+            .background(WarmShellColors.badgeFill, in: Capsule())
+          }
+          .buttonStyle(.plain)
+        }
+      }
+      .padding(14)
+      .frame(width: 280)
+      .background(WarmShellColors.canvas)
+    }
   }
 
   private func linkActionPill(title: String, symbol: String, action: @escaping () -> Void) -> some View {
@@ -1736,15 +1991,24 @@ private struct RightSidebarView: View {
   // MARK: - Mode 3: Split Second-Bot Chat + Reminders Card (oct20_3.jpg)
 
   private var splitChatContent: some View {
-    let liveSplitTitle =
+    let liveSplitConv =
       splitLiveConversationID.flatMap { id in
-        model.directory.conversations.first(where: { $0.id == id })?.title
+        model.directory.conversations.first(where: { $0.id == id })
       }
+    let liveSplitTitle = liveSplitConv?.title
     let headerTitle = liveSplitTitle ?? splitBot.name
     let headerModel =
       liveSplitTitle != nil
-      ? (splitChat.providerSetup.selectedModel.isEmpty ? "Local Model" : splitChat.providerSetup.selectedModel)
+      ? (splitChat.botModel?.ref.rawValue
+        ?? (splitChat.providerSetup.selectedModel.isEmpty
+          ? String(localized: "Select Model") : splitChat.providerSetup.selectedModel))
       : splitBot.modelLabel
+    let splitAvatar: (symbol: String, gradient: [Color]) =
+      if let conv = liveSplitConv {
+        appearances.appearance(for: conv.botId, isAssistant: conv.kind == .assistant)
+      } else {
+        (splitBot.symbol, splitBot.gradient)
+      }
     return VStack(spacing: 0) {
       HStack {
         Menu {
@@ -1786,16 +2050,17 @@ private struct RightSidebarView: View {
           }
         } label: {
           HStack(spacing: 8) {
-            ShellBotAvatar(symbol: splitBot.symbol, gradient: splitBot.gradient, size: 28)
+            ShellBotAvatar(symbol: splitAvatar.symbol, gradient: splitAvatar.gradient, size: 28)
             VStack(alignment: .leading, spacing: 1) {
               HStack(spacing: 5) {
                 Text(verbatim: headerTitle)
                   .font(.system(size: 12.5, weight: .semibold))
                   .foregroundStyle(WarmShellColors.primaryText)
-                Text(liveSplitTitle != nil ? "Live" : "Bypass")
+                Text(liveSplitTitle != nil ? "Live" : "Example")
                   .font(.system(size: 10, weight: .semibold))
                   .foregroundStyle(
-                    liveSplitTitle != nil ? Color(red: 0.18, green: 0.68, blue: 0.36) : WarmShellColors.badgeText)
+                    liveSplitTitle != nil
+                      ? Color(red: 0.18, green: 0.68, blue: 0.36) : WarmShellColors.badgeText)
                   .padding(.horizontal, 5)
                   .padding(.vertical, 1)
                   .background(
@@ -1846,9 +2111,7 @@ private struct RightSidebarView: View {
               if !body.isEmpty {
                 HStack {
                   if isUser { Spacer(minLength: 24) }
-                  Text(verbatim: body)
-                    .font(.system(size: 12.5))
-                    .foregroundStyle(isUser ? WarmShellColors.onUserBubble : WarmShellColors.primaryText)
+                  MarkdownMessageView(text: body, isUser: isUser)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 9)
                     .background(
@@ -1861,12 +2124,11 @@ private struct RightSidebarView: View {
             if let live = splitChat.live?.message {
               let body = LiveChatModel.text(live)
               if !body.isEmpty {
-                Text(verbatim: body)
-                  .font(.system(size: 12.5))
-                  .foregroundStyle(WarmShellColors.primaryText)
+                MarkdownMessageView(text: body, isUser: false)
                   .padding(.horizontal, 12)
                   .padding(.vertical, 9)
-                  .background(WarmShellColors.card, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                  .background(
+                    WarmShellColors.card, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
               }
             }
           }
@@ -1983,21 +2245,48 @@ private struct RightSidebarView: View {
         }
 
         HStack(spacing: 6) {
-          Image(systemName: "plus")
-            .font(.system(size: 15))
-            .foregroundStyle(WarmShellColors.primaryText)
-            .frame(width: 26, height: 28)
-          HStack(spacing: 5) {
-            Image(systemName: "sparkles")
-              .font(.system(size: 11, weight: .semibold))
-            Text(verbatim: headerModel)
-              .font(.system(size: 12, weight: .medium))
-              .lineLimit(1)
+          Button(action: onOpenFolders) {
+            Image(systemName: "plus")
+              .font(.system(size: 15))
+              .foregroundStyle(WarmShellColors.primaryText)
+              .frame(width: 26, height: 28)
           }
-          .foregroundStyle(WarmShellColors.primaryText)
-          .padding(.horizontal, 10)
-          .frame(height: 28)
-          .background(WarmShellColors.composerPill, in: Capsule())
+          .buttonStyle(.plain)
+          .help("Folders & Attachments")
+
+          Menu {
+            ForEach(splitChat.providerSetup.models, id: \.ref.ref.rawValue) { entry in
+              Button {
+                splitChat.providerSetup.selectedModel = entry.ref.ref.rawValue
+              } label: {
+                if splitChat.providerSetup.selectedModel == entry.ref.ref.rawValue {
+                  Label(entry.ref.ref.rawValue, systemImage: "checkmark")
+                } else {
+                  Text(verbatim: entry.ref.ref.rawValue)
+                }
+              }
+            }
+            if !splitChat.providerSetup.models.isEmpty { Divider() }
+            Button("Model Settings…", systemImage: "slider.horizontal.3") {
+              onOpenModelSettings()
+            }
+          } label: {
+            HStack(spacing: 5) {
+              Image(systemName: "sparkles")
+                .font(.system(size: 11, weight: .semibold))
+              Text(verbatim: headerModel)
+                .font(.system(size: 12, weight: .medium))
+                .lineLimit(1)
+            }
+            .foregroundStyle(WarmShellColors.primaryText)
+            .padding(.horizontal, 10)
+            .frame(height: 28)
+            .background(WarmShellColors.composerPill, in: Capsule())
+          }
+          .menuStyle(.button)
+          .buttonStyle(.plain)
+          .menuIndicator(.hidden)
+
           Spacer()
           if liveSplitTitle != nil, splitChat.isWorking {
             Button {
@@ -2021,13 +2310,6 @@ private struct RightSidebarView: View {
                 .background(WarmShellColors.userBubble, in: Circle())
             }
             .buttonStyle(.plain)
-          } else {
-            Image(systemName: "waveform")
-              .font(.system(size: 14))
-              .foregroundStyle(WarmShellColors.primaryText)
-            Image(systemName: "mic")
-              .font(.system(size: 14))
-              .foregroundStyle(WarmShellColors.primaryText)
           }
         }
       }

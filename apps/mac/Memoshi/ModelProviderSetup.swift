@@ -73,6 +73,10 @@ final class ModelProviderSetup {
     }
     return ModelCredentialReference(rawValue: reference)?.kind == .chatGPT
   }
+
+  var usesClaudeCode: Bool {
+    providers.contains { $0.id == ModelProviderDefinition.claudeCode.id }
+  }
   var canRetryConfiguration: Bool { request.params != nil && !isConfiguring }
   /// A saved configuration that cannot be decoded, so it can never be retried.
   var hasUnreadableConfiguration: Bool { request.isUnreadable }
@@ -145,6 +149,26 @@ final class ModelProviderSetup {
       let params = ModelsProvidersConfigureParams(
         requestId: try MemoshiClient.requestID(), providerId: local, baseUrl: endpoint,
         secretRef: providers.first(where: { $0.id == local })?.secretRef)
+      try request.save(params)
+      configureRemembered(removing: ModelCredentialRemover(keychain: keychain, host: host))
+    } catch { problem = Self.message(error) }
+  }
+
+  /// Registers the user's unmodified local Claude Code CLI binary as a Mac model runner (`D108`).
+  /// No Anthropic credential or sign-in ever enters Memoshi (`secretRef` is always `nil`).
+  func configureClaudeCode(
+    endpoint: String = ClaudeCodeLocator.defaultEndpoint,
+    keychain: ModelKeychain?,
+    host: ChatGPTSubscription?
+  ) {
+    guard client != nil, !isConfiguring, !hasUnconfirmedConfiguration else { return }
+    do {
+      let params = ModelsProvidersConfigureParams(
+        requestId: try MemoshiClient.requestID(),
+        providerId: ModelProviderDefinition.claudeCode.id,
+        baseUrl: endpoint,
+        secretRef: nil
+      )
       try request.save(params)
       configureRemembered(removing: ModelCredentialRemover(keychain: keychain, host: host))
     } catch { problem = Self.message(error) }

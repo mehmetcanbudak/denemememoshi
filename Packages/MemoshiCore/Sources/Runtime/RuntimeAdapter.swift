@@ -366,6 +366,12 @@ public actor RuntimeAdapter {
       switch definition.endpoint {
       case .loopback:
         models = modelRegistry.getModels(id)
+      case .localCLI:
+        models = modelRegistry.getModels(id)
+        guard !models.isEmpty else {
+          unavailable.append(provider.id)
+          continue
+        }
       case .fixed:
         // A fixed API's catalog is offered only once the app actually releases its key.
         do {
@@ -482,7 +488,9 @@ public actor RuntimeAdapter {
     if page.recovery == nil, let engine = thread.engine,
       let state = try await engine.harness.snapshot(
         PiDurable.liveDoc, owner: ConversationId.root.rawValue), let run = state.run,
-      let turn = try await store.chatTurns(params.chatId, activeOnly: true).value.first,
+      let turn = try await store.chatTurns(params.chatId, activeOnly: true).value.first(where: {
+        $0.queueReason == nil
+      }),
       let submissionID = turn.piSubmissionId, run.inputs.contains(SubmissionId(submissionID))
     {
       let message = try state.generation?.message.map { partial in
@@ -553,6 +561,10 @@ public actor RuntimeAdapter {
       try validateEndpoint(baseURL)
     case .fixed(let fixed):
       guard baseURL == fixed, secretRef != nil else { throw RuntimeError.invalidParams }
+    case .localCLI:
+      guard secretRef == nil, ClaudeCodeLocator.isValidEndpoint(baseURL) else {
+        throw RuntimeError.invalidParams
+      }
     }
     return definition
   }

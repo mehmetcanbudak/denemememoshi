@@ -26,6 +26,9 @@ struct ModelSetupView: View {
         ChatGPTProviderSection(
           setup: setup, host: supervisor.chatGPTSubscription,
           keychain: supervisor.modelKeychain, canConfigure: canConfigure)
+        ClaudeCodeProviderSection(
+          setup: setup, keychain: supervisor.modelKeychain, host: supervisor.chatGPTSubscription,
+          canConfigure: canConfigure)
         LocalProviderSection(
           setup: setup, keychain: supervisor.modelKeychain, host: supervisor.chatGPTSubscription,
           canConfigure: canConfigure)
@@ -34,7 +37,10 @@ struct ModelSetupView: View {
             HStack {
               Text(verbatim: provider.name)
               Spacer()
-              if provider.secretRef == nil {
+              if provider.id == ModelProviderDefinition.claudeCode.id {
+                Label("Local CLI · This Mac", systemImage: "terminal.fill")
+                  .foregroundStyle(DS.Colors.Text.secondary)
+              } else if provider.secretRef == nil {
                 Text("No key").foregroundStyle(DS.Colors.Text.secondary)
               } else if provider.secretRef.flatMap(ModelCredentialReference.init(rawValue:))?.kind
                 == .chatGPT
@@ -66,7 +72,11 @@ struct ModelSetupView: View {
             usage != .onDevice
           {
             Group {
-              if usage == .subscription {
+              if provider.id == ModelProviderDefinition.claudeCode.id {
+                Text(
+                  "Prompts relay through your unmodified Claude Code binary on this Mac. Memoshi never starts an Anthropic sign-in or reads Claude credentials. Subscription usage is shown as price unknown."
+                )
+              } else if usage == .subscription {
                 Text(
                   "Messages leave this Mac and use supported ChatGPT plan access, subject to OpenAI's availability and limits. No API-key fallback is used."
                 )
@@ -126,7 +136,7 @@ struct ModelSetupView: View {
       }
       .formStyle(.grouped)
       Text(
-        "Development conversations and approval review. Production tools, Apple connectors and unattended background runs remain off."
+        "Model keys remain in Apple's data-protection Keychain; Claude Code runs through your own unmodified binary on this Mac."
       )
       .font(DS.Typography.callout)
       .foregroundStyle(DS.Colors.Text.secondary)
@@ -195,6 +205,82 @@ struct ModelSetupView: View {
   }
 }
 
+private struct ClaudeCodeProviderSection: View {
+  @Bindable var setup: ModelProviderSetup
+  let keychain: ModelKeychain?
+  let host: ChatGPTSubscription?
+  let canConfigure: Bool
+  @State private var status = ClaudeCodeStatus(executablePath: nil, version: nil)
+  @State private var isProbing = false
+
+  var body: some View {
+    Section("Claude via Claude Code (This Mac)") {
+      HStack(alignment: .center, spacing: DS.Space.s3) {
+        if let path = status.executablePath {
+          VStack(alignment: .leading, spacing: 2) {
+            Label(
+              status.version.map { "Installed · \($0)" } ?? "Claude Code installed",
+              systemImage: "checkmark.circle.fill"
+            )
+            .foregroundStyle(DS.Colors.Text.primary)
+            Text(verbatim: path)
+              .font(DS.Typography.callout.monospaced())
+              .foregroundStyle(DS.Colors.Text.secondary)
+          }
+        } else {
+          VStack(alignment: .leading, spacing: 2) {
+            Label("Claude Code binary not found", systemImage: "terminal")
+              .foregroundStyle(DS.Colors.Text.secondary)
+            Text("Install Claude Code on this Mac and sign in with `claude auth login` in Terminal.")
+              .font(DS.Typography.callout)
+              .foregroundStyle(DS.Colors.Text.secondary)
+          }
+        }
+        Spacer()
+        if isProbing {
+          ProgressView().controlSize(.small)
+        } else {
+          Button("Check") { probeBinary() }
+            .controlSize(.small)
+            .accessibilityIdentifier("models.claudeCode.check")
+        }
+      }
+
+      HStack(spacing: DS.Space.s3) {
+        Button(setup.usesClaudeCode ? "Refresh Claude Code Models" : "Enable Claude Code") {
+          setup.configureClaudeCode(keychain: keychain, host: host)
+        }
+        .disabled(!canConfigure || setup.hasUnconfirmedConfiguration || !status.isInstalled)
+        .accessibilityIdentifier("models.claudeCode.enable")
+        if setup.usesClaudeCode {
+          Label("Configured", systemImage: "checkmark")
+            .font(DS.Typography.callout)
+            .foregroundStyle(DS.Colors.Text.secondary)
+        }
+      }
+
+      Text(
+        "Runs Claude as a bot model on this Mac by relaying prompts through your unmodified Claude Code binary (D108). Memoshi never starts an Anthropic sign-in or reads Claude credentials; subscription usage shows as price unknown."
+      )
+      .font(DS.Typography.callout)
+      .foregroundStyle(DS.Colors.Text.secondary)
+    }
+    .task { probeBinary() }
+  }
+
+  private func probeBinary() {
+    guard !isProbing else { return }
+    isProbing = true
+    Task.detached {
+      let result = ClaudeCodeLocator.probe()
+      await MainActor.run {
+        status = result
+        isProbing = false
+      }
+    }
+  }
+}
+
 private struct LocalProviderSection: View {
   @Bindable var setup: ModelProviderSetup
   let keychain: ModelKeychain?
@@ -258,7 +344,7 @@ private struct AddModelKeyView: View {
       Form {
         Section {
           Picker("Provider", selection: $providerID) {
-            ForEach(ModelProviderDefinition.all) { provider in
+            ForEach(ModelProviderDefinition.all.filter(\.acceptsAPIKey)) { provider in
               if provider.endpoint == .loopback {
                 Text("Local Server (Bearer Key)").tag(provider.id)
               } else {
